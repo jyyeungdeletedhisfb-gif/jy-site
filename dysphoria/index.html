@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="../" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Dysphoria — Jy Yeüng</title>
+  <meta name="description" content="Dysphoria is a fifteen-image self-portrait series built like an album, where each frame plays as its own track." />
+  <meta name="theme-color" content="#050505" />
+  <link rel="canonical" href="https://thisisjyyeung.com/dysphoria/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="thisisjyyeung.com" />
+  <meta property="og:title" content="Dysphoria — Jy Yeüng" />
+  <meta property="og:description" content="Dysphoria is a fifteen-image self-portrait series built like an album, where each frame plays as its own track." />
+  <meta property="og:image" content="assets/dysphoria/00-cover.jpg" />
+  <meta property="og:url" content="https://thisisjyyeung.com/dysphoria/" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Dysphoria — Jy Yeüng" />
+  <meta name="twitter:description" content="Dysphoria is a fifteen-image self-portrait series built like an album, where each frame plays as its own track." />
+  <meta name="twitter:image" content="assets/dysphoria/00-cover.jpg" />
+
+  <link href="https://fonts.cdnfonts.com/css/clarendon-2" rel="stylesheet" />
+  <link rel="stylesheet" href="css/dysphoria.css" />
+  <link rel="stylesheet" href="css/chrome.css?v=730ff50-burger2" />
+</head>
+<body>
+  <div class="load-gate" id="loadGate" role="status" aria-live="polite" aria-busy="true">
+    <div class="load-gate-inner">
+      <span class="load-gate-mark" aria-hidden="true"></span>
+      <span class="load-gate-label">Dysphoria</span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="./">Jy Yeüng</a>
+    <div class="project-title">Dysphoria</div>
+    <div class="top-right">
+      <nav class="site-nav" data-chrome-nav>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-menu" aria-label="Menu">
+          <span class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+        <div class="nav-scrim" data-nav-close hidden aria-hidden="true"></div>
+        <div class="nav-panel" id="site-menu" role="dialog" aria-modal="true" aria-label="Site menu" hidden aria-hidden="true">
+          <a href="./">Home</a>
+          <a href="work/">Work</a>
+          <a href="contact/">Contact</a>
+          <span class="nav-soon" aria-disabled="true">About<em>soon</em></span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 1. INTRO (white) — no cover-slide motion -->
+  <section class="intro" id="intro">
+    <div class="intro-sticky">
+      <div class="intro-cover" id="introCover" style="background-image:url('assets/dysphoria/00-cover.jpg')"></div>
+      <div class="intro-copy" id="introCopy">
+        <h1>Dysphoria</h1>
+        <p>
+          Dysphoria is a fifteen-image self-portrait series built like an album, where each frame plays as its own track.
+          Shot in stark black and white, the work resists the usual arc toward healing or resolution. It stays inside the
+          reaction itself — documenting an internal state rather than explaining it away. Contortion, light as current,
+          and abrupt endings stand in for feelings that keep living in the body until they are given somewhere else to go.
+          What remains is not a cure, but a record: an audiovisual document paired with a soundtrack, still living where
+          it was found.
+        </p>
+      </div>
+    </div>
+    <div class="intro-scroll-cue" id="introHint" aria-label="Scroll to enter">
+      <span class="chevrons" aria-hidden="true">
+        <svg class="chev-svg" viewBox="0 0 56 30" width="51" height="27" focusable="false">
+          <path d="M4 7 L28 23 L52 7" fill="none" stroke="currentColor" stroke-width="4.8" stroke-linecap="square" stroke-linejoin="miter"/>
+        </svg>
+        <svg class="chev-svg" viewBox="0 0 56 30" width="51" height="27" focusable="false">
+          <path d="M4 7 L28 23 L52 7" fill="none" stroke="currentColor" stroke-width="4.8" stroke-linecap="square" stroke-linejoin="miter"/>
+        </svg>
+      </span>
+    </div>
+  </section>
+
+  <!-- 2. ENTER GATE scrub (~240vh) + soundtrack mid-scrub -->
+  <section class="enter-gate" id="enterGate" data-scrub="enter">
+    <div class="enter-sticky" id="enterSticky">
+      <div class="enter-bg" id="enterBg"></div>
+      <div class="gate-wrap">
+        <div class="gate-img enter" id="enterGateImg" role="img" aria-label="Enter gate"></div>
+      </div>
+      <div class="soundtrack-layer" id="soundtrackLayer">
+        <div class="soundtrack-bg" id="playlistBg" aria-hidden="true"></div>
+        <div class="soundtrack-scrim" aria-hidden="true"></div>
+        <div class="soundtrack-darken" id="soundtrackDarken"></div>
+        <div class="soundtrack-inner" id="soundtrackInner">
+          <h2>Soundtrack</h2>
+          <p class="sub">An accompanying playlist for Dysphoria — listen while you move through the sheets. Apple Music first; Spotify when the mirror is ready.</p>
+          <div class="listen-row">
+            <span>Listen on</span>
+            <a data-listen="apple" href="https://music.apple.com/us/playlist/pl.u-jV890pjsd12y6xr" target="_blank" rel="noopener">Apple Music</a>
+            <span class="soon">Spotify · soon</span>
+          </div>
+          <iframe
+            title="Dysphoria soundtrack on Apple Music"
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+            frameborder="0"
+            height="450"
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+            src="https://embed.music.apple.com/us/playlist/pl.u-jV890pjsd12y6xr"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. SHEETS — live carousel (fixed stage, loupe, flip, replace, title jump) -->
+  <section class="sheets" id="sheets">
+    <div class="sheets-inner">
+      <h2 class="sheets-heading" id="sheetsHeading">The Images</h2>
+      <div class="sheets-reveal" id="sheetsReveal">
+      <div class="title-jump" id="titleJump">
+        <div class="title-viewport">
+          <button class="title-btn" id="titleBtn" type="button" aria-expanded="false" aria-controls="tracklist">
+            <span class="title-line"><span class="num">01 / 15</span> — <span class="name">The Host</span></span><span class="title-caret" aria-hidden="true">▾</span>
+          </button>
+        </div>
+        <div class="tracklist" id="tracklist" role="listbox" aria-label="Track list"></div>
+      </div>
+      <div class="frame-wrap">
+        <div class="plate-stage" id="plateStage">
+          <button class="peek left empty" id="peekLeft" type="button" aria-label="Previous"></button>
+          <button class="peek right empty" id="peekRight" type="button" aria-label="Next"></button>
+          <div class="plate-wrap">
+            <div class="plate" id="plate"></div>
+            <div class="plate-controls" role="toolbar" aria-label="Plate tools">
+              <button type="button" class="icon-btn" id="loupeBtn" title="Loupe" aria-label="Loupe" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.2"/><path d="M15.8 15.8 L20.2 20.2"/></svg>
+              </button>
+              <button type="button" class="icon-btn" id="flipBtn" title="Flip" aria-label="Flip" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18 8 H7"/>
+                  <path d="M10 5.5 L7 8 l3 2.5"/>
+                  <path d="M6 16 H17"/>
+                  <path d="M14 13.5 L17 16 l-3 2.5"/>
+                </svg>
+              </button>
+              <button type="button" class="icon-btn" id="replaceBtn" title="Replace" aria-label="Replace" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20 12 a8 8 0 0 0 -14.2 -5.1"/>
+                  <path d="M4 4 v5 h5"/>
+                  <path d="M4 12 a8 8 0 0 0 14.2 5.1"/>
+                  <path d="M20 20 v-5 h-5"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="loupe" id="loupe"></div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. EXIT GATE scrub (~240vh) -->
+  <section class="exit-gate" id="exitGate" data-scrub="exit">
+    <div class="exit-sticky" id="exitSticky">
+      <div class="exit-gate-wrap">
+        <div class="gate-img exit" id="exitGateImg" role="img" aria-label="Exit gate"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. FOOTER (site-wide chrome) -->
+  <footer class="site-footer" id="footer">
+    <a class="footer-home" href="./">Back home</a>
+    <div class="footer-icons">
+      <a class="footer-icon" href="https://www.instagram.com/thisisjyyeung/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg class="ig-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a class="footer-icon" href="contact/" aria-label="Contact">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/>
+          <path d="M4 7.5 L12 13 L20 7.5"/>
+        </svg>
+      </a>
+    </div>
+    <p class="copy">© 2026 JY YEÜNG. ALL RIGHTS RESERVED</p>
+    <p class="footer-credit">Website by Jy Yeüng</p>
+    <p class="footer-links"><a href="privacy/">Privacy</a></p>
+  </footer>
+
+  <button type="button" class="to-top" id="toTop" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19 V7"/><path d="M6 11 l6 -6 l6 6"/></svg>
+  </button>
+
+  <script src="js/chrome.js?v=730ff50-burger2" defer></script>
+  <script src="js/dysphoria.js" defer></script>
+</body>
+</html>

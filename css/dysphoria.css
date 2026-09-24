@@ -1,0 +1,777 @@
+:root {
+    --bg: #050505;
+    --fg: #f2f2f2;
+    --ink: #111;
+    --muted: #8a8a8a;
+    --line: #2a2a2a;
+    --card-back: #0e0e0e;
+    --grey: #2e2e2e;
+    --top-h: 52px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: auto; }
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--ink);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    height: var(--top-h);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 20px;
+    background: rgba(255,255,255,0.88);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    backdrop-filter: blur(10px);
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  }
+  body.on-dark .topbar {
+    background: rgba(5,5,5,0.9);
+    border-bottom-color: var(--line);
+    color: var(--fg);
+  }
+  .brand {
+    justify-self: start;
+    color: inherit; text-decoration: none;
+    font-family: "Clarendon", "Clarendon Text", Georgia, serif;
+    font-size: 17px; font-weight: 700; letter-spacing: 0.01em;
+  }
+  .project-title {
+    justify-self: center;
+    font-size: 13px; letter-spacing: 0.04em; text-transform: none;
+    font-weight: 500; opacity: 0.85;
+  }
+  .top-right { justify-self: end; min-width: 4em; }
+
+  /* Optical mid-axis on phone: shared line box + metric nudges (Clarendon 17 vs Helvetica 13) */
+  @media (max-width: 800px) {
+    .topbar {
+      align-items: center;
+    }
+    .brand,
+    .project-title {
+      display: flex;
+      align-items: center;
+      align-self: center;
+      height: 22px;
+      line-height: 22px;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    /* Clarendon bold optical mid sits slightly high in the em box — settle it */
+    .brand {
+      transform: translateY(1px);
+    }
+    /* Clarendon optical mid sits low vs Helvetica bbox mid — slight settle (was 5px, still ~1–2px low) */
+    .project-title {
+      transform: translateY(3px);
+    }
+  }
+
+  /* ===== 1. INTRO (white) — static, no cover-slide ===== */
+  .intro {
+    position: relative;
+    min-height: 100vh;
+    background: #fff;
+    padding-top: var(--top-h);
+    display: flex;
+    flex-direction: column;
+  }
+  .intro-sticky {
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: end; /* bottom-align title+body to cover bottom */
+    align-content: start;
+    padding: 16px clamp(20px, 5vw, 64px) 24px; /* topbar→cover gap ~16px */
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .intro-cover {
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 1 / 1;
+    background: #111 center/cover no-repeat;
+    border: 1px solid #ddd;
+    justify-self: end;
+    /* soft drop shadow ~135° / 4 o'clock (light upper-left → shadow lower-right) */
+    box-shadow: 5px 7px 18px rgba(0, 0, 0, 0.16);
+  }
+  .intro-copy { max-width: 420px; justify-self: start; }
+  .intro-copy h1 {
+    /* More air title↔body (~42px): 18px + 1.5rem */
+    margin: 0 0 calc(18px + 1.5rem);
+    font-family: "Clarendon", Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(42px, 6vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .intro-copy p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #333;
+  }
+  .intro-scroll-cue {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* lower cue ~1.5 description lines (half of prior 3-line gap) */
+    padding: calc(1.5 * 16px * 1.55) 0 32px;
+    color: #777;
+  }
+  .intro-scroll-cue .chevrons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    line-height: 0;
+  }
+  .intro-scroll-cue .chev-svg {
+    display: block;
+    width: 51px;
+    height: 27px;
+    opacity: 0.92;
+  }
+  .intro-scroll-cue .chev-svg + .chev-svg {
+    margin-top: -10px;
+  }
+
+  /* ===== 2. ENTER GATE (scroll scrub ~240vh) ===== */
+  .enter-gate {
+    position: relative;
+    height: 240vh;
+    background: #030303; /* edge-sampled enter gate black */
+  }
+  .enter-sticky {
+    position: sticky;
+    top: var(--top-h);
+    height: calc(100vh - var(--top-h));
+    overflow: hidden;
+    background: #030303;
+    isolation: isolate;
+  }
+  .enter-bg {
+    position: absolute; inset: 0;
+    background: #030303;
+    opacity: 1;
+    will-change: opacity;
+  }
+  .gate-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .gate-img {
+    width: min(42vmin, 320px);
+    height: min(42vmin, 320px);
+    background: center/cover no-repeat;
+    border-radius: 50%;
+    transform: scale(0.35);
+    opacity: 0;
+    will-change: transform, opacity, clip-path;
+    /* no outline — circle must blend into backdrop blacks */
+    clip-path: circle(38% at 50% 50%);
+  }
+  .gate-img.enter { background-image: url("../assets/dysphoria/gate-enter.jpg"); }
+  .gate-img.exit { background-image: url("../assets/dysphoria/gate-exit.jpg"); }
+
+  .soundtrack-layer {
+    position: absolute; inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity;
+  }
+  .soundtrack-layer.is-live { pointer-events: auto; }
+  .soundtrack-bg {
+    position: absolute; inset: 0;
+    background: #111 center/cover no-repeat;
+    filter: blur(18px) saturate(0.85) brightness(0.45);
+    transform: scale(1.12);
+  }
+  .soundtrack-scrim {
+    position: absolute; inset: 0;
+    background: rgba(5,5,5,0.62);
+  }
+  .soundtrack-darken {
+    position: absolute; inset: 0;
+    z-index: 2;
+    background: #030303; /* match enter void for brief wipe into sheets */
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity;
+  }
+  .soundtrack-inner {
+    position: relative;
+    z-index: 1;
+    width: min(920px, 92vw);
+    max-height: 100%;
+    overflow: auto;
+    text-align: left;
+    color: var(--fg);
+    padding: 24px 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .soundtrack-inner h2 {
+    margin: 0 0 10px;
+    font-family: "Clarendon", Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 40px);
+  }
+  .soundtrack-inner .sub {
+    margin: 0 0 22px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #c8c8c8;
+  }
+  .soundtrack-inner .listen-row {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .soundtrack-inner .listen-row a { color: #fff; text-decoration: none; border-bottom: 1px solid #777; }
+  .soundtrack-inner .listen-row .soon { color: #999; }
+  .soundtrack-inner iframe {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 450px;
+    border: 1px solid #555;
+    background: transparent;
+  }
+  @media (min-width: 768px) {
+    .soundtrack-inner iframe {
+      border: 0;
+      outline: none;
+    }
+  }
+  @media (min-width: 801px) {
+    .soundtrack-inner iframe { height: 500px; }
+  }
+  /* Phone: hug white embed card — never leave taller bordered chrome than the card */
+  @media (max-width: 800px) {
+    .soundtrack-inner iframe {
+      height: 450px;
+      overflow: hidden;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .soundtrack-bg {
+      filter: blur(8px);
+      transform: none;
+    }
+  }
+
+  /* ===== 4. EXIT GATE (~240vh) ===== */
+  .exit-gate {
+    position: relative;
+    height: 240vh;
+    background: #000000; /* edge-sampled exit gate black */
+  }
+  .exit-sticky {
+    position: sticky;
+    top: var(--top-h);
+    height: calc(100vh - var(--top-h));
+    overflow: hidden;
+    background: #000000;
+    isolation: isolate;
+  }
+  .exit-gate-wrap {
+    position: absolute; inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .exit-gate-wrap .gate-img {
+    width: min(42vmin, 320px);
+    height: min(42vmin, 320px);
+    opacity: 1;
+    transform: scale(4.2);
+    clip-path: circle(70% at 50% 50%);
+    border-radius: 50%;
+  }
+
+  /* ===== SHEETS ===== */
+  .sheets {
+    /* match enter void so soundtrack wipe → sheets has no grey step */
+    background: #030303;
+    color: var(--fg);
+    min-height: 100vh;
+    padding: calc(var(--top-h) + 16px) 16px 48px;
+  }
+  .sheets-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    min-height: calc(100vh - var(--top-h) - 40px);
+    display: flex; flex-direction: column;
+  }
+  /* Section h2 — mirrors soundtrack-inner h2 hierarchy */
+  .sheets-reveal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    width: 100%;
+  }
+  @media (max-width: 800px) {
+    .sheets-reveal { flex: 0 0 auto; }
+  }
+  /* Align with soundtrack-inner content column (left edge match) */
+  .sheets-heading {
+    width: min(920px, 92vw);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 18px;
+    margin-top: 0;
+    padding: 0 16px;
+    box-sizing: border-box;
+    font-family: "Clarendon", Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    text-align: left;
+    flex-shrink: 0;
+  }
+  .frame-wrap {
+    flex: 1;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    min-height: min(70vh, 680px);
+    overflow: hidden;
+  }
+  /* Phone: collapse flex air so title→plate gap equals plate→controls (20px);
+     also drop section min-height + bottom pad so carousel sits closer to footer */
+  @media (max-width: 800px) {
+    .sheets {
+      min-height: 0;
+      padding-bottom: 20px;
+    }
+    .sheets-inner {
+      min-height: 0;
+    }
+    .frame-wrap {
+      flex: 0 0 auto;
+      min-height: 0;
+      align-items: flex-start;
+    }
+    .plate-stage {
+      height: auto;
+      align-items: flex-start;
+      padding-bottom: 4px;
+    }
+  }
+  .peek {
+    position: absolute; top: 50%;
+    --peek-x: 0px;
+    transform: translateY(-50%) translateX(var(--peek-x));
+    z-index: 5;
+    border: 1px solid #3a3a3a;
+    background: #111 center/cover no-repeat;
+    opacity: 0.32; filter: brightness(0.5);
+    cursor: pointer;
+    will-change: transform;
+  }
+  .peek:hover { opacity: 0.55; filter: brightness(0.7); }
+  .peek.left { left: 2%; transform: translateY(-50%) translateX(var(--peek-x)) rotate(-3deg) scale(0.88); }
+  .peek.right { right: 2%; transform: translateY(-50%) translateX(var(--peek-x)) rotate(3deg) scale(0.88); }
+  .peek.empty { opacity: 0.08; pointer-events: none; }
+  @media (max-width: 800px) {
+    .peek { top: var(--peek-cy, 50%); }
+  }
+
+  .plate-stage {
+    position: relative; width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    /* pan-y until x-lock: vertical page scroll works on plates; L/R via JS + preventDefault */
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .plate-stage.is-axis-x,
+  .plate-stage.is-loupe {
+    touch-action: none;
+  }
+  .plate-wrap {
+    position: relative; z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    width: max-content; max-width: 100%;
+    height: var(--plate-reserve-h, auto);
+    /* room for absolutely positioned plate-controls below reserve */
+    margin-bottom: calc(20px + 48px);
+  }
+  .plate {
+    position: relative;
+    border: 1px solid var(--line);
+    background: #000;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    will-change: transform, opacity, filter;
+  }
+  .plate .shot-wrap, .plate .liner {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    transition: transform 0.65s var(--ease);
+  }
+  .plate .shot {
+    width: 100%; height: 100%;
+    background: #000 center/cover no-repeat;
+    transition: filter 0.55s var(--ease);
+  }
+  .plate .liner {
+    background: var(--card-back);
+    padding: 28px 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    transform: rotateY(180deg);
+  }
+  .plate.flipped .shot-wrap { transform: rotateY(180deg); }
+  .plate.flipped .liner { transform: rotateY(0); }
+  .plate .liner h2 { margin: 0 0 12px; font-size: 20px; font-weight: 400; }
+  .plate .liner p { margin: 0; font-size: 14px; line-height: 1.5; color: #d0d0d0; max-width: 28ch; }
+  .plate .liner .hint { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .plate.swapping .shot { filter: blur(14px) brightness(1.08); }
+
+  .plate-controls {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex; justify-content: center; align-items: center; gap: 16px;
+    margin-top: 20px; /* matches title-jump → plate gap */
+    width: max-content;
+  }
+  .icon-btn {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 2px solid #d0d0d0;
+    background-color: rgba(255,255,255,0.06);
+    background-image: none;
+    color: #f0f0f0;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+  }
+  .icon-btn svg {
+    width: 20px; height: 20px;
+    stroke: currentColor; fill: none;
+    stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round;
+    pointer-events: none;
+  }
+  /* Hover only on true pointer devices — avoids sticky :hover after tap on mobile */
+  @media (hover: hover) and (pointer: fine) {
+    .icon-btn:hover:not(:disabled):not(.on) {
+      background-color: rgba(255,255,255,0.14);
+      border-color: #fff;
+      color: #fff;
+    }
+  }
+  /* Force solid white fill + dark stroke so on-state stays visible on mobile Safari/Chrome */
+  .icon-btn.on,
+  .icon-btn.on:hover,
+  .icon-btn.on:active,
+  .icon-btn.on:focus {
+    background-color: #ffffff !important;
+    background-image: none !important;
+    border-color: #ffffff !important;
+    color: #111111 !important;
+    -webkit-filter: none;
+    filter: none;
+    opacity: 1;
+  }
+  .icon-btn.on svg,
+  .icon-btn.on:hover svg,
+  .icon-btn.on:active svg {
+    stroke: #111111 !important;
+    fill: none;
+    color: #111111;
+    -webkit-filter: none;
+    filter: none;
+    opacity: 1;
+  }
+  .icon-btn:disabled { opacity: 0.28; cursor: default; border-color: #555; color: #777; background-color: transparent; }
+
+  .loupe {
+    position: absolute; width: 148px; height: 148px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.7);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.6), 0 12px 28px rgba(0,0,0,0.45);
+    pointer-events: none; z-index: 40; display: none; background-repeat: no-repeat;
+    will-change: left, top, background-position;
+  }
+  .loupe.on { display: block; }
+  @media (pointer: coarse) {
+    .loupe { width: 168px; height: 168px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .loupe { will-change: auto; }
+  }
+
+  /* Title jump sits ABOVE the plate carousel (still in sheets) */
+  .title-jump {
+    position: relative;
+    width: min(92vw, 420px);
+    margin: 8px auto 20px; /* bottom gap = plate → plate-controls */
+    flex-shrink: 0;
+    z-index: 50;
+    overflow: visible;
+  }
+  .title-jump.is-open { z-index: 70; }
+  .title-viewport { position: relative; height: 28px; overflow: hidden; }
+  .title-btn {
+    appearance: none; border: none; background: transparent;
+    color: var(--fg); font: inherit; cursor: pointer;
+    padding: 0; font-size: 15px; width: 100%; text-align: center;
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.28em;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.55s var(--ease), opacity 0.45s var(--ease);
+  }
+  /* Continuous underline via border (text-decoration gaps at span margins / em dash) */
+  .title-btn .title-line {
+    display: inline-block;
+    font-weight: 700;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 3px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .title-btn .title-line .num,
+  .title-btn .title-line .name,
+  .title-btn .title-line > span {
+    font-weight: 700;
+    color: inherit;
+    letter-spacing: inherit;
+    text-decoration: none;
+    border: none;
+  }
+  .title-btn .num { letter-spacing: 0.08em; }
+  /* Spaces live in the text node so the border runs through the em dash */
+  .title-btn .title-caret {
+    display: inline-block;
+    font-weight: 400;
+    font-size: 0.85em;
+    line-height: 1;
+    opacity: 0.75;
+    transform: translateY(0.5px);
+    border: none;
+    text-decoration: none;
+  }
+  .title-btn.exit-left { transform: translateX(-28%); opacity: 0; }
+  .title-btn.exit-right { transform: translateX(28%); opacity: 0; }
+  .title-btn.enter-from-right { animation: titleInRight 0.55s var(--ease) both; }
+  .title-btn.enter-from-left { animation: titleInLeft 0.55s var(--ease) both; }
+  @keyframes titleInRight { from { transform: translateX(32%); opacity: 0; } to { transform: none; opacity: 1; } }
+  @keyframes titleInLeft { from { transform: translateX(-32%); opacity: 0; } to { transform: none; opacity: 1; } }
+  .tracklist {
+    position: absolute; left: 50%; top: calc(100% + 8px); bottom: auto;
+    transform: translateX(-50%);
+    width: min(92vw, 320px); max-height: min(280px, 42vh); overflow: auto;
+    background: #0c0c0c; border: 1px solid #555; padding: 6px 0; display: none; z-index: 60;
+  }
+  .title-jump.is-open .tracklist { display: block; }
+  @media (hover: hover) and (pointer: fine) {
+    .title-jump:hover .tracklist { display: block; }
+  }
+  .tracklist button {
+    display: flex; width: 100%; gap: 10px; appearance: none; border: none; background: transparent;
+    color: var(--fg); font: inherit; font-size: 12px; padding: 8px 14px; cursor: pointer; text-align: left;
+  }
+  .tracklist button:hover, .tracklist button.active { background: #1a1a1a; }
+  .tracklist .n { color: var(--muted); min-width: 1.8em; }
+
+  /* site-footer + .copy live in css/chrome.css (shared chrome) */
+
+
+  .to-top {
+    position: fixed;
+    right: 18px;
+    bottom: 22px;
+    z-index: 90;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(20,20,20,0.55);
+    color: #eee;
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+  .to-top.show {
+    opacity: 0.72;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .to-top:hover {
+    opacity: 1;
+    background: rgba(40,40,40,0.8);
+    border-color: rgba(255,255,255,0.7);
+  }
+  .to-top svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  body:not(.on-dark) .to-top {
+    border-color: rgba(0,0,0,0.18);
+    background: rgba(255,255,255,0.7);
+    color: #222;
+  }
+
+  @media (max-width: 800px) {
+    .intro-sticky {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 16px 20px 24px;
+      align-items: start;
+      align-content: start;
+    }
+    .intro-cover { justify-self: center; max-width: 280px; }
+    .intro-copy { justify-self: center; text-align: left; max-width: 360px; }
+    .intro-scroll-cue { padding-bottom: 20px; }
+  }
+
+
+
+
+  /* ===== Soft float-up reveals (intro + sheets heading) ===== */
+  .float-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1.05s var(--ease), transform 1.05s var(--ease);
+    will-change: opacity, transform;
+  }
+  .float-up.is-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .intro-cover.float-up { transition-delay: 0.05s; }
+  .intro-copy.float-up h1 {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 1.05s var(--ease), transform 1.05s var(--ease);
+    transition-delay: 0.18s;
+  }
+  .intro-copy.float-up p {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 1.05s var(--ease), transform 1.05s var(--ease);
+    transition-delay: 0.32s;
+  }
+  .intro-copy.float-up.is-in h1,
+  .intro-copy.float-up.is-in p {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .sheets-heading.float-up { transition-delay: 0.06s; }
+  .sheets-reveal.float-up { transition-delay: 0.16s; }
+  @media (prefers-reduced-motion: reduce) {
+    .float-up,
+    .intro-copy.float-up h1,
+    .intro-copy.float-up p {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* ===== FIRST-OPEN LOAD GATE ===== */
+  .load-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #050505;
+    color: #f2f2f2;
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.45s;
+  }
+  .load-gate.is-done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .load-gate-inner {
+    text-align: center;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: #bbb;
+  }
+  .load-gate-mark {
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin: 0 auto 18px;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: loadSpin 0.85s linear infinite;
+  }
+  @keyframes loadSpin {
+    to { transform: rotate(360deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .load-gate { transition: opacity 0.15s ease, visibility 0.15s; }
+    .load-gate-mark { animation: none; border-color: #fff; opacity: 0.7; }
+  }
+
+  /* production extras */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+  .home-hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 28px;
+    background: #050505; color: #f2f2f2; text-align: center; padding: 40px 20px;
+  }
+  .home-hero h1 {
+    margin: 0; font-family: "Clarendon", Georgia, serif;
+    font-size: clamp(36px, 8vw, 64px); font-weight: 700;
+  }
+  .home-hero p { margin: 0; color: #999; font-size: 14px; letter-spacing: 0.08em; }
+  .home-hero a.era {
+    display: inline-block; margin-top: 12px; padding: 14px 28px;
+    border: 1px solid #777; color: #eee; text-decoration: none;
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .home-hero a.era:hover { border-color: #fff; color: #fff; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .plate, .title-btn, .intro-cover, .intro-copy,
+    .float-up, .sheets-heading, .sheets-reveal { transition: none !important; animation: none !important; }
+    .gate-img, .enter-bg, .soundtrack-layer, .soundtrack-darken {
+      transition: none !important;
+    }
+  }
