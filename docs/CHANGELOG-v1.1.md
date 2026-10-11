@@ -17,7 +17,7 @@ QA: type audit `/workspace/qa/type-audit/audit.js` (allowed 11/13/16/20 + Dyspho
 
 | Role | Name | Result | Date | Notes |
 |---|---|---|---|---|
-| Build | Rachel | | | |
+| Build | Rachel | PASS | 2026-10-11 | Mirror 91d5dd2, 0c5c2dd, cf6ffe5. Primary staged on local branch `type-scale-v2` (0423b6c), not pushed. Locked chrome untouched. |
 | QA | Steve | PASS | 2026-10-11 | Mirror tip `b282c9b`, box Chrome 1280 / 412 / 390 (not real glass). All pages on 11/13/16/20 plus Dysphoria Clarendon 40/28, 64/42; Geist menu exempt. Work 600 and phone cover pass; cover measured 356 at 412 and 334 at 390. Flip, caption scroll and Apple Music embed regression clean. Gutter swipe not testable on box; Apple playlist art broken (soft park). Evidence `/workspace/qa/v11-mirror-2026-10-11/`. |
 | PM | Dex | PASS | 2026-10-11 | Scope matches Jy's asks (dev feedback: fewer font sizes; bigger cover on phone). Full-width desktop cover banner is still a mock, not in v1.1. Ready for Jy's taste call on the mirror; on yes, Rachel pushes `type-scale-v2` to primary. |
 | Final | Jy | | | |
