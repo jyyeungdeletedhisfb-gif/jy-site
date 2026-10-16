@@ -15,6 +15,6 @@ QA: `/workspace/qa/v1.3-link-embed/` (footer + embed screenshots at 1280 / 412 /
 | Role | Name | Result | Date | Notes |
 |---|---|---|---|---|
 | Build | Rachel | PASS | 2026-10-16 | Mirror `5bd183b`: Back home underlined text link on all 5 footers (12px Helvetica, 0 border/padding, centred) at 1280 / 412 / 390; embed padding 0, bottom gap 0, no inner scroll. Type audit unchanged; image weight 180 / 126 / 146 / 143 KB, ratio 1.43 PASS. Primary not pushed. |
-| QA | Steve | | | |
-| PM | Dex | | | |
+| QA | Steve | PASS | 2026-10-16 | UI `5bd183b` / docs `0c74452` at 1280 / 412 / 390: Back home underlined, no border; embed padding 0, no gap or inner scroll; regression and type/weight gates PASS. Soft note: Soundtrack heading aligns with embed left edge (Jy taste call). Evidence `/workspace/qa/v13-mirror-2026-10-16/`. |
+| PM | Dex | PASS | 2026-10-16 | Scope matches Jy's go (Back home link, embed padding; Apple Music thumb cut). Ready for Jy Final; primary stays v1.2 until then. |
 | Final | Jy | | | |
