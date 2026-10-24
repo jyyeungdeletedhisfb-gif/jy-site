@@ -22,4 +22,4 @@ QA: `/workspace/qa/v1.3-link-embed/` (footer + embed screenshots at 1280 / 412 /
 | Build | Rachel | PASS | 2026-10-23 | Mirror `316d920`: The Images left pad removed; edges match Soundtrack at 1280 / 412 / 390. Shots `/workspace/qa/v1.3-images-align/`. |
 | QA | Steve | PASS | 2026-10-23 | `316d920` at 1280 / 412 / 390 (emulated): AM thumb shows Jy's new photo; alignment under 0.5px; 6 pages 200, swipe after flip, track list, type and weight gates PASS. Soft: Apple's player clips last track row at 1280 (Apple-side). Evidence `/workspace/qa/v13-images-align-2026-10-23/`. |
 | PM | Dex | PASS | 2026-10-23 | Scope matches Jy's 10/23 ask (Images align; AM thumb fixed by Jy). Final goes on `316d920`. |
-| Final | Jy | | | |
+| Final | Jy | PASS | 2026-10-24 | Final given in Dex 1:1 ("Go for it") on mirror `316d920` (`?v=v1.3-images-align`). Rachel to push `316d920` to primary; Steve apex confirm after. |
