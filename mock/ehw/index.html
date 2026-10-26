@@ -26,6 +26,7 @@
   .s1{--r:-7deg;left:6%;top:12%}
   .s2{--r:5deg;left:40%;top:30%}
   .s3{--r:-3deg;left:68%;top:8%}
+  @media (prefers-reduced-motion:reduce){ .spot{transition:none} .spot:hover,.spot:focus-visible{transform:rotate(var(--r))} }
   .note{position:fixed;bottom:10px;left:0;right:0;text-align:center;font-size:11px;color:#777}
   @media (max-width:600px){ .spot{width:31%;border-width:4px} .spot .lbl{font-size:11px;bottom:-24px} .s1{left:3%;top:14%} .s2{left:35%;top:40%} .s3{left:66%;top:6%} }
 </style>
