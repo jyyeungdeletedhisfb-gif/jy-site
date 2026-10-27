@@ -29,20 +29,30 @@
   .s2{--r:5deg;left:40%;top:30%}
   .s3{--r:-3deg;left:68%;top:8%}
   @media (prefers-reduced-motion:reduce){ .spot{transition:none} .spot:hover,.spot:focus-visible{transform:rotate(var(--r))} }
+  .oval{display:none;position:absolute;left:50%;bottom:9%;transform:translateX(-50%);z-index:4;
+      padding:10px 26px;border:2px solid #f4f4f4;border-radius:50%;
+      font-family:"Geist",Helvetica,sans-serif;font-weight:900;text-transform:uppercase;font-size:20px;color:#f4f4f4;white-space:nowrap;pointer-events:none}
+  body.with-oval .oval{display:block}
+  body.with-oval .cover span{visibility:hidden}
+  .variant{position:fixed;bottom:30px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#aaa;z-index:5}
+  .variant a{color:#eee;text-decoration:underline;margin:0 8px}
   .note{position:fixed;bottom:10px;left:0;right:0;text-align:center;font-size:11px;color:#777}
-  @media (max-width:600px){ .spot{width:31%;border-width:4px} .spot .lbl{font-size:11px;bottom:-24px} .s1{left:3%;top:14%} .s2{left:35%;top:40%} .s3{left:66%;top:6%} }
+  @media (max-width:600px){ .spot{width:31%;border-width:4px} .spot .lbl{font-size:11px;bottom:-24px} .s1{left:3%;top:14%} .s2{left:35%;top:33%} .oval{font-size:16px;padding:6px 18px;bottom:4%} .s3{left:66%;top:6%} }
 </style>
 </head>
 <body>
   <header class="bar"><a class="brand" href="../../">JY YEÜNG</a><span class="tag">everything he wanted</span></header>
+  <p class="variant"><a href="?oval=0">No oval</a><a href="?oval=1">With oval</a></p>
   <main>
     <div class="stage">
       <div class="cover"><span>EHW cover (placeholder)</span></div>
+      <div class="oval" aria-hidden="true">JY YEÜNG</div>
       <a class="spot s1" href="#dang" aria-label="Dang"><span class="ph"></span><span class="lbl">Dang</span></a>
       <a class="spot s2" href="#mas" aria-label="Main Antagonist Syndrome"><span class="ph"></span><span class="lbl">Main Antagonist Syndrome</span></a>
       <a class="spot s3" href="#ehw" aria-label="everything he wanted"><span class="ph"></span><span class="lbl">everything he wanted</span></a>
     </div>
   </main>
   <p class="note">v2.0 mock A: placeholders only. Portraits tilt loosely and straighten on hover or tap.</p>
+<script>if(new URLSearchParams(location.search).get("oval")==="1")document.body.classList.add("with-oval");</script>
 </body>
 </html>
