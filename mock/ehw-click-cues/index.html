@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>EHW click cues — pick one</title>
+<style>
+  :root {
+    --ehw-yellow: #E8CA36;
+    --ehw-teal: #356365;
+    --ehw-ink: #1a2e2f;
+    --ehw-muted: #666;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--ehw-yellow);
+    color: var(--ehw-ink);
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  header {
+    padding: 28px 20px 8px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ehw-teal);
+  }
+  .lede {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: var(--ehw-ink);
+    max-width: 42em;
+  }
+  .lede a { color: var(--ehw-teal); }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 980px;
+    margin: 0 auto 40px;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: #fff8dc;
+    border: 2px solid var(--ehw-teal);
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card:hover, .card:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(26,46,47,0.18);
+    outline: none;
+  }
+  .thumb {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: var(--ehw-yellow);
+    overflow: hidden;
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* Mini cue previews over the cover thumb */
+  .mini {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .mini .z {
+    position: absolute;
+  }
+  /* A: brackets */
+  .card[data-opt="a"] .z {
+    border-color: var(--ehw-teal);
+    opacity: 0.7;
+  }
+  .card[data-opt="a"] .z-1 {
+    left: 54%; top: 8%; width: 28%; height: 28%;
+    border-top: 1.5px solid; border-left: 1.5px solid;
+    box-shadow: inset -1.5px -1.5px 0 0 transparent;
+  }
+  .card[data-opt="a"] .z-1::after {
+    content: "";
+    position: absolute; right: 0; bottom: 0;
+    width: 10px; height: 10px;
+    border-bottom: 1.5px solid var(--ehw-teal);
+    border-right: 1.5px solid var(--ehw-teal);
+  }
+  .card[data-opt="a"] .z-2 {
+    left: 12%; top: 34%; width: 30%; height: 30%;
+  }
+  .card[data-opt="a"] .z-2::before,
+  .card[data-opt="a"] .z-2::after {
+    content: ""; position: absolute; width: 10px; height: 10px;
+    border-color: var(--ehw-teal); border-style: solid;
+  }
+  .card[data-opt="a"] .z-2::before { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+  .card[data-opt="a"] .z-2::after { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+  .card[data-opt="a"] .z-3 {
+    left: 58%; top: 64%; width: 32%; height: 26%;
+  }
+  .card[data-opt="a"] .z-3::before,
+  .card[data-opt="a"] .z-3::after {
+    content: ""; position: absolute; width: 10px; height: 10px;
+    border-color: var(--ehw-teal); border-style: solid;
+  }
+  .card[data-opt="a"] .z-3::before { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+  .card[data-opt="a"] .z-3::after { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+
+  /* B: dashed outlines */
+  .card[data-opt="b"] .z {
+    border: 1px dashed rgba(53,99,101,0.45);
+    border-radius: 4px;
+    background: rgba(53,99,101,0.06);
+  }
+  .card[data-opt="b"] .z-1 { left: 54%; top: 8%; width: 28%; height: 28%; }
+  .card[data-opt="b"] .z-2 { left: 12%; top: 34%; width: 30%; height: 30%; }
+  .card[data-opt="b"] .z-3 { left: 58%; top: 64%; width: 32%; height: 26%; }
+
+  /* C: rings */
+  .card[data-opt="c"] .z {
+    border: 1.5px solid rgba(53,99,101,0.55);
+    border-radius: 4px;
+    box-shadow: 0 0 8px 1px rgba(53,99,101,0.22);
+  }
+  .card[data-opt="c"] .z-1 { left: 54%; top: 8%; width: 28%; height: 28%; }
+  .card[data-opt="c"] .z-2 { left: 12%; top: 34%; width: 30%; height: 30%; }
+  .card[data-opt="c"] .z-3 { left: 58%; top: 64%; width: 32%; height: 26%; }
+
+  .body {
+    padding: 14px 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+  .letter {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ehw-teal);
+    opacity: 0.8;
+  }
+  .name {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ehw-teal);
+  }
+  .pro {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.4;
+    color: var(--ehw-ink);
+  }
+  .open {
+    margin-top: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ehw-teal);
+  }
+  footer {
+    text-align: center;
+    padding: 0 20px 32px;
+    font-size: 12px;
+    color: var(--ehw-muted);
+  }
+  footer a { color: var(--ehw-teal); }
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>EHW cover — click cue options</h1>
+    <p class="lede">Three quiet affordances for the portrait hotspots (always visible at rest; stronger on hover / focus). Open a mock, tap the tilted portraits. Research notes in <a href="NOTES.md">NOTES.md</a>.</p>
+  </header>
+  <div class="grid">
+    <a class="card" data-opt="a" href="option-a.html">
+      <div class="thumb">
+        <img src="assets/ehw-cover-4x5.jpg" alt="" width="320" height="400" />
+        <div class="mini" aria-hidden="true"><span class="z z-1"></span><span class="z z-2"></span><span class="z z-3"></span></div>
+      </div>
+      <div class="body">
+        <span class="letter">Option A</span>
+        <h2 class="name">Corner brackets</h2>
+        <p class="pro">Pro: print / crop-mark language — quietest and most editorial.</p>
+        <span class="open">Open mock →</span>
+      </div>
+    </a>
+    <a class="card" data-opt="b" href="option-b.html">
+      <div class="thumb">
+        <img src="assets/ehw-cover-4x5.jpg" alt="" width="320" height="400" />
+        <div class="mini" aria-hidden="true"><span class="z z-1"></span><span class="z z-2"></span><span class="z z-3"></span></div>
+      </div>
+      <div class="body">
+        <span class="letter">Option B</span>
+        <h2 class="name">Soft outline + lift</h2>
+        <p class="pro">Pro: clearest on phones — dashed frame at rest, solid tint on press.</p>
+        <span class="open">Open mock →</span>
+      </div>
+    </a>
+    <a class="card" data-opt="c" href="option-c.html">
+      <div class="thumb">
+        <img src="assets/ehw-cover-4x5.jpg" alt="" width="320" height="400" />
+        <div class="mini" aria-hidden="true"><span class="z z-1"></span><span class="z z-2"></span><span class="z z-3"></span></div>
+      </div>
+      <div class="body">
+        <span class="letter">Option C</span>
+        <h2 class="name">Pulse ring</h2>
+        <p class="pro">Pro: draws the eye without pins — slow ~4s breath; static if reduced-motion.</p>
+        <span class="open">Open mock →</span>
+      </div>
+    </a>
+  </div>
+  <footer>Private mock · does not touch production · <a href="NOTES.md">research notes</a></footer>
+</body>
+</html>

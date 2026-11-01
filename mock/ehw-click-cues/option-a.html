@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Click cue A — Corner brackets</title>
+<link rel="stylesheet" href="base.css" />
+<style>
+  /* Teal L-brackets via box-shadow corners; always on at rest */
+  .hotspot {
+    border-radius: 1px;
+  }
+  .hotspot::before,
+  .hotspot::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    opacity: 0.45;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+  }
+  .hotspot::before {
+    top: 4px; left: 4px;
+    border-top: 1.5px solid var(--ehw-teal);
+    border-left: 1.5px solid var(--ehw-teal);
+  }
+  .hotspot::after {
+    bottom: 4px; right: 4px;
+    border-bottom: 1.5px solid var(--ehw-teal);
+    border-right: 1.5px solid var(--ehw-teal);
+  }
+  /* opposite pair via nested spans for 4 corners */
+  .hotspot .br,
+  .hotspot .tl {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    opacity: 0.45;
+    transition: opacity 0.2s ease;
+  }
+  .hotspot .br {
+    bottom: 4px; left: 4px;
+    border-bottom: 1.5px solid var(--ehw-teal);
+    border-left: 1.5px solid var(--ehw-teal);
+  }
+  .hotspot .tl {
+    top: 4px; right: 4px;
+    border-top: 1.5px solid var(--ehw-teal);
+    border-right: 1.5px solid var(--ehw-teal);
+  }
+  .hotspot:hover::before,
+  .hotspot:hover::after,
+  .hotspot:hover .br,
+  .hotspot:hover .tl,
+  .hotspot:focus-visible::before,
+  .hotspot:focus-visible::after,
+  .hotspot:focus-visible .br,
+  .hotspot:focus-visible .tl {
+    opacity: 0.95;
+  }
+  .hotspot:focus-visible {
+    outline: none;
+  }
+  .hotspot:hover {
+    background: rgba(53, 99, 101, 0.06);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hotspot::before,
+    .hotspot::after,
+    .hotspot .br,
+    .hotspot .tl { transition: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="top">
+    <a class="back" href="index.html">← Chooser</a>
+    <span class="tag">Option A · Corner brackets</span>
+  </div>
+  <main>
+    <div class="stage" id="stage">
+      <picture>
+        <source type="image/webp" srcset="assets/ehw-cover-4x5.webp" />
+        <img class="cover" src="assets/ehw-cover-4x5.jpg" width="1080" height="1350" alt="everything he wanted cover art" decoding="async" />
+      </picture>
+      <div class="oval-mask" aria-hidden="true"></div>
+      <button type="button" class="hotspot hs-dang" data-label="Dang" aria-label="Open Dang"><span class="br" aria-hidden="true"></span><span class="tl" aria-hidden="true"></span></button>
+      <button type="button" class="hotspot hs-mas" data-label="MAS" aria-label="Open Main Antagonist Syndrome"><span class="br" aria-hidden="true"></span><span class="tl" aria-hidden="true"></span></button>
+      <button type="button" class="hotspot hs-ehw" data-label="EHW" aria-label="Open everything he wanted"><span class="br" aria-hidden="true"></span><span class="tl" aria-hidden="true"></span></button>
+      <button type="button" class="hotspot hs-title" data-label="Title" aria-label="Open art description"><span class="br" aria-hidden="true"></span><span class="tl" aria-hidden="true"></span></button>
+    </div>
+  </main>
+  <p class="hint">Idle brackets visible · hover / focus brightens</p>
+  <div class="flash" id="flash" aria-hidden="true"><span id="flash-label">opened</span></div>
+  <script>
+    const flash = document.getElementById('flash');
+    const label = document.getElementById('flash-label');
+    let t;
+    document.querySelectorAll('.hotspot').forEach(btn => {
+      btn.addEventListener('click', () => {
+        label.textContent = btn.dataset.label + ' · stub';
+        flash.classList.add('on');
+        clearTimeout(t);
+        t = setTimeout(() => flash.classList.remove('on'), 700);
+      });
+    });
+  </script>
+</body>
+</html>

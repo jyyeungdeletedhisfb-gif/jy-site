@@ -64,6 +64,8 @@ Jy emphasis: get enter/exit faces right. Wrong face for even one frame is a bloc
 ### Footer credit + Privacy color (locked)
 - `.footer-credit`, `.copy` (© line), and `.footer-links a` (Privacy) stay **muted grey `#666`** (`--footer-muted`) on **every** page and era — including yellow EHW. Do not recolor these to era accents.
 - Era pages may tint footer **background**, Back home, and social icons; credit/Privacy grey is site language.
+- **Short era landings (EHW):** do not `flex-grow` the main stage to fill the viewport — that opens a yellow void above the footer on tall screens. Pack footer under the cover (shared footer padding `56 / 72` stays). Back home→footer-bottom must match Work / Dysphoria (~240px at 1×).
+
 
 ### When shuffle runs
 
