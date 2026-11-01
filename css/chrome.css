@@ -242,8 +242,8 @@ body.ehw-page .topbar a.site-name.brand {
 @media (max-width: 800px) {
   body.ehw-page .topbar .brand.site-name,
   body.ehw-page .topbar a.site-name.brand {
-    /* Same 12.6px as desktop — Druk width must match About ~87px at 390/412 too */
-    font-size: 12.6px;
+    /* Phone: 14px Druk breathes (~96px). Taste > About 87px pixel match (Jy 2026-11-02). */
+    font-size: 14px;
     transform: none;
   }
 }

@@ -66,7 +66,7 @@ body.ehw-page .topbar .brand.site-name {
   color: var(--ehw-teal);
   text-decoration: none;
   font-family: var(--font-druk);
-  font-size: 12.6px; /* match About Geist brand width ~87px */
+  font-size: 12.6px; /* desktop: match About Geist brand width ~87px */
   font-weight: 700;
   letter-spacing: -0.04em;
   text-transform: uppercase;
@@ -130,6 +130,11 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
     margin: 0;
     padding: 0;
   }
+  /* Phone: loosen Druk so brand breathes (taste > About 87px pixel match). */
+  body.ehw-page .topbar .brand,
+  body.ehw-page .topbar .brand.site-name {
+    font-size: 14px;
+  }
 }
 
 /* Landing stage */
@@ -141,17 +146,17 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Top 12px under topbar; bottom 12px above hairline so both gaps match (Jy Z marks). */
-  padding: calc(var(--top-h) + 12px) 12px 12px;
+  /* 72px stage↔header and stage↔footer (Jy 2026-11-02 night). Not footer pad. */
+  padding: calc(var(--top-h) + 72px) 12px 72px;
 }
 
 .ehw-stage {
   position: relative;
-  width: min(92vw, calc((100dvh - 84px) * 4 / 5), 720px);
-  width: min(92vw, calc((100vh - 84px) * 4 / 5), 720px);
+  width: min(92vw, calc((100dvh - 210px) * 4 / 5), 720px);
+  width: min(92vw, calc((100vh - 210px) * 4 / 5), 720px);
   aspect-ratio: 4 / 5;
-  max-height: calc(100dvh - 84px);
-  max-height: calc(100vh - 84px);
+  max-height: calc(100dvh - 210px);
+  max-height: calc(100vh - 210px);
 }
 
 .ehw-cover {
@@ -283,11 +288,12 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   .ehw-brackets { transition: none; }
 }
 
-/* Hit areas expanded left to wrap the (01)/(02)/(03) numbers; no mutual overlap. */
+/* Hit areas hug visual targets + (01)/(02)/(03) numbers; no mutual overlap.
+   Title hugs type only (not photo 03). Photo 03 includes (03) at its top-left. */
 .ehw-hs-dang { left: 49.8%; top: 4.5%; width: 34.2%; height: 36.5%; }
 .ehw-hs-mas  { left: 6.4%; top: 29.9%; width: 37.2%; height: 40.5%; }
-.ehw-hs-ehw  { left: 53.6%; top: 62.5%; width: 39.2%; height: 33.3%; }
-.ehw-hs-title{ left: 56.5%; top: 43.5%; width: 35.0%; height: 18.5%; }
+.ehw-hs-title{ left: 57.0%; top: 49.2%; width: 33.5%; height: 8.5%; }
+.ehw-hs-ehw  { left: 52.5%; top: 58.2%; width: 40.5%; height: 38.0%; }
 
 /* Modal */
 .ehw-backdrop {
@@ -416,14 +422,14 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 }
 
 @media (max-width: 520px) {
-  /* brand stays 12.6px at all widths — match About ~87px (Steve Soft FAIL 709c099) */
+  /* phone brand size set at max-width 800 (14px) — taste, not About pixel match */
   .ehw-oval-mask { left: 10.5%; top: 11.8%; width: 32%; height: 9.5%; }
   .ehw-interact-cue { font-size: clamp(8px, 2.6vw, 10px); }
   .ehw-modal { padding: 24px 18px 18px; }
 }
 
 @media (orientation: landscape) and (max-height: 520px) {
-  .ehw-main { padding: calc(var(--top-h) + 4px) 8px 4px; }
+  .ehw-main { padding: calc(var(--top-h) + 24px) 8px 24px; }
   .ehw-stage {
     width: min(48vw, calc((100vh - 64px) * 4 / 5));
   }
@@ -436,8 +442,7 @@ body.ehw-page .site-footer {
   color: var(--footer-muted, #666);
   /* Full-width partition like other pages (quiet teal on yellow) */
   border-top: 1px solid rgba(53, 99, 101, 0.35);
-  /* Increase top pad (Jy 2026-11-02): more air hairline→Back home; sides/bottom keep chrome tokens */
-  padding: 72px 24px 72px;
+  /* Internal pad stays shared chrome 56/24/72 — gap above footer is .ehw-main pad-bottom */
 }
 
 body.ehw-page .footer-home {
