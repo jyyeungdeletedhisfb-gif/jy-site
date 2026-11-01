@@ -136,7 +136,7 @@ h1 {
   background: #111;
   color: inherit;
   cursor: pointer;
-  transform: scale(var(--peek-scale));
+  transform: translateX(var(--shift, 0px)) scale(var(--peek-scale));
   opacity: var(--peek-opacity);
   filter: brightness(0.72);
   transition:
@@ -148,7 +148,7 @@ h1 {
   -webkit-tap-highlight-color: transparent;
 }
 .slide.is-active {
-  transform: scale(var(--active-scale));
+  transform: translateX(0) scale(var(--active-scale));
   opacity: 1;
   filter: brightness(1);
   cursor: zoom-in;
@@ -320,12 +320,22 @@ h1 {
 .mock-footer code { font-size: 0.9em; color: #888; }
 
 @media (max-width: 520px) {
+  /* Phone: active plate fits fully inside the viewport with ~40px of each
+     neighbour peeking (vp half − slide half − gap). */
   :root {
-    --slide-w: min(72vw, 280px);
-    --peek-scale: 0.72;
-    --peek-opacity: 0.36;
+    --slide-w: min(58vw, 240px);
+    --slide-gap: 12px;
+    --peek-scale: 0.8;
+    --peek-opacity: 0.42;
   }
-  .showreel { padding: 0 36px; }
+  .showreel { padding: 0 28px; }
+  .nav { width: 28px; }
+  .nav-prev { left: 0; }
+  .nav-next { right: 0; }
+  .track-viewport {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%);
+  }
   .br { width: 16px; height: 16px; }
 }
 

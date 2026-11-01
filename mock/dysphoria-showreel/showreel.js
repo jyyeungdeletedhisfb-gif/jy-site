@@ -39,6 +39,9 @@
   let startX = 0;
   let dragging = false;
   let suppressClick = false;
+  let captured = false;
+  let pointerId = null;
+  const DRAG_THRESHOLD = 6;
 
   function pad(n) { return String(n).padStart(2, "0"); }
 
@@ -80,7 +83,11 @@
     if (!slide) return { slideW: 300, gap: 20 };
     const style = getComputedStyle(track);
     const gap = parseFloat(style.gap) || 20;
-    return { slideW: slide.getBoundingClientRect().width, gap };
+    // Layout (unscaled) width. getBoundingClientRect() includes the
+    // peek scale() transform, which skewed slot math and drifted the active plate.
+    // Computed width is sub-pixel exact (offsetWidth rounds, e.g. 58vw=226.2).
+    const w = parseFloat(getComputedStyle(slide).width) || slide.offsetWidth;
+    return { slideW: w, gap };
   }
 
   /** Offset so slide `index` sits centered in the viewport */
@@ -98,8 +105,20 @@
     track.style.transform = `translate3d(${offsetFor(i, extraDrag)}px,0,0)`;
   }
 
+  function peekScale() {
+    const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--peek-scale"));
+    return isFinite(v) && v > 0 ? v : 0.78;
+  }
+
   function syncClasses() {
+    const { slideW } = metrics();
+    // Pull scaled peeks inward so the visible gap between every plate equals
+    // the track gap (scale shrinks around centre, leaving dead space otherwise).
+    const pull = slideW * (1 - peekScale()) / 2;
     slideEls().forEach((el, idx) => {
+      const d = idx - i;
+      const shift = d === 0 ? 0 : -Math.sign(d) * (2 * Math.abs(d) - 1) * pull;
+      el.style.setProperty("--shift", shift.toFixed(2) + "px");
       el.classList.toggle("is-active", idx === i);
       el.classList.toggle("is-flipped", idx === i && flipped);
       if (idx !== i) el.classList.remove("is-flipped");
@@ -121,9 +140,11 @@
     if (!active) return;
     const rect = active.getBoundingClientRect();
     const vp = viewport.getBoundingClientRect();
-    // Active slide is CSS-scaled; getBoundingClientRect already includes scale
-    brackets.style.width = rect.width + "px";
-    brackets.style.height = rect.height + "px";
+    // Size from layout box, not the live rect: right after a class swap the new
+    // active plate is still mid-transition at peek scale, which shrank brackets.
+    const cs = getComputedStyle(active);
+    brackets.style.width = parseFloat(cs.width) + "px";
+    brackets.style.height = parseFloat(cs.height) + "px";
     // Keep vertically centered on the active plate within viewport
     const cy = rect.top + rect.height / 2 - vp.top;
     brackets.style.top = cy + "px";
@@ -168,26 +189,40 @@
   }
 
   // Pointer / touch drag (gutter swipe analogue)
+  // No pointer capture on pointerdown: capturing retargets the follow-up click
+  // to .track-viewport, killing active-plate flip + peek snap. Capture only once
+  // the pointer has travelled past DRAG_THRESHOLD (a real drag).
   function onPointerDown(e) {
     if (e.button != null && e.button !== 0) return;
     dragging = true;
+    captured = false;
     suppressClick = false;
+    pointerId = e.pointerId;
     startX = e.clientX;
     dragX = 0;
-    viewport.classList.add("is-dragging");
-    track.classList.add("no-anim");
-    viewport.setPointerCapture?.(e.pointerId);
   }
   function onPointerMove(e) {
     if (!dragging) return;
     dragX = e.clientX - startX;
-    if (Math.abs(dragX) > 8) suppressClick = true;
+    if (!captured) {
+      if (Math.abs(dragX) < DRAG_THRESHOLD) return;
+      captured = true;
+      suppressClick = true;
+      viewport.classList.add("is-dragging");
+      track.classList.add("no-anim");
+      try { viewport.setPointerCapture(pointerId); } catch (_) {}
+    }
     applyTransform(dragX, false);
   }
   function onPointerUp() {
     if (!dragging) return;
     dragging = false;
+    if (!captured) { dragX = 0; return; } // plain click: let it reach the slide
+    captured = false;
     viewport.classList.remove("is-dragging");
+    try { viewport.releasePointerCapture(pointerId); } catch (_) {}
+    // Swallow the click that follows a drag, then re-arm.
+    window.setTimeout(() => { suppressClick = false; }, 0);
     const { slideW, gap } = metrics();
     const threshold = Math.min(72, (slideW + gap) * 0.22);
     let next = i;

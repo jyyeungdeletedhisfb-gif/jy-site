@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex" />
 <title>EHW interact cue — locked pick</title>
+<!-- rev: cue-fix1 (cue moved under cover stage) -->
 <style>
   :root {
     --ehw-yellow: #E8CA36;
@@ -85,14 +86,19 @@
     display: block;
     opacity: 0.92;
   }
+  /* Cue sits on yellow directly UNDER the cover stage (not over the art),
+     so it can never collide with photo 03 at any width. Wraps on narrow
+     screens; finger stays first. */
   .cue {
-    position: absolute;
-    left: 0; right: 0; bottom: 14px;
+    position: static;
+    width: min(100%, 420px);
+    margin: 14px auto 0;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 0 12px;
+    padding: 0 4px;
     pointer-events: none;
     color: var(--ehw-teal);
     font-size: 11px;
@@ -102,10 +108,12 @@
     text-shadow: 0 0 8px rgba(232,202,54,0.85);
   }
   .cue .chars {
-    display: inline-flex;
-    align-items: baseline;
-    white-space: pre;
+    display: inline-block;
+    text-align: center;
+    white-space: normal;
+    min-width: 0;
   }
+  .cue .word { display: inline-block; white-space: nowrap; }
   .cue .char {
     display: inline-block;
     opacity: 0;
@@ -192,16 +200,16 @@
       Jy locked copy + motion (2026-11-02). <strong>Mock only — not on production <code>/ehw/</code></strong> until Final.
     </p>
     <p class="note">
-      Teal micro-label on yellow under the cover. Character slide-left into place; reduced-motion shows final line instantly.
+      Teal micro-label on yellow under the cover (below the art, never over photo 03). Character slide-left into place; reduced-motion shows final line instantly.
     </p>
   </header>
 
   <div class="stage-wrap">
     <span class="badge">Locked · selected</span>
     <div class="demo" id="demo">
-      <img src="assets/ehw-cover-4x5.jpg" alt="" width="540" height="675" />
-      <div class="cue" id="cue" aria-hidden="true"></div>
+      <img src="assets/ehw-cover-4x5.jpg?v=cue-fix1" alt="" width="540" height="675" />
     </div>
+    <div class="cue" id="cue" aria-hidden="true"></div>
     <button type="button" class="replay" id="replay">Replay motion</button>
   </div>
 
@@ -238,14 +246,28 @@
 
     var wrap = document.createElement("span");
     wrap.className = "chars";
+    // Chars grouped into nowrap words so narrow screens wrap between words,
+    // never mid-word. Stagger index stays global (per-char slide-left).
+    var word = null;
     for (var i = 0; i < TEXT.length; i++) {
+      var c = TEXT.charAt(i);
+      if (c === " ") {
+        wrap.appendChild(document.createTextNode(" "));
+        word = null;
+        continue;
+      }
+      if (!word) {
+        word = document.createElement("span");
+        word.className = "word";
+        wrap.appendChild(word);
+      }
       var ch = document.createElement("span");
       ch.className = "char";
-      ch.textContent = TEXT.charAt(i);
+      ch.textContent = c;
       if (animate && !reduced) {
         ch.style.animationDelay = (40 + i * 28) + "ms";
       }
-      wrap.appendChild(ch);
+      word.appendChild(ch);
     }
     cue.appendChild(wrap);
   }

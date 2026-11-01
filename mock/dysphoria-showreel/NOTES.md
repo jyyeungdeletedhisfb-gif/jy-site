@@ -51,3 +51,8 @@ Not a Framer drop-in. Spatial feel only; chrome stays Dysphoria (black field, He
 
 - Production `dysphoria/index.html`, `css/dysphoria.css`, `js/dysphoria.js`
 - Full 15-track set, alt Replace, soundtrack embed, load gate, exit scrub
+
+## Fix pass (Steve QA on 01668ec)
+- P0 centring: slot math uses the layout (unscaled) width from computed style, not the scaled `getBoundingClientRect()`. The active plate now sits exactly under the brackets at every index. Brackets are also sized from the layout box, so they no longer shrink mid-transition.
+- P1 click: no `setPointerCapture` on pointerdown. Capture starts only after 6px of travel. A plain click reaches the plate: clicking the active plate flips it, and clicking a peek snaps to it. A drag swallows its trailing click.
+- P1 phone: below 520px, plates are min(58vw, 240px), the gap is 12px and peeks scale to 0.8. Peeks are pulled inward via `--shift` so the visible gap between plates equals the track gap. The active plate fits fully, with about 42–47px of each neighbour showing at 390/412.
