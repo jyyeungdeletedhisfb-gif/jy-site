@@ -195,9 +195,35 @@
     return pathIsDysphoria(window.location.pathname || "");
   }
 
+  function isEhwPage() {
+    return pathIsEhw(window.location.pathname || "");
+  }
+
   function pathIsDysphoria(pathname) {
     var path = String(pathname || "").replace(/\/+$/, "");
     return /\/dysphoria$/i.test(path);
+  }
+
+  function pathIsEhw(pathname) {
+    var path = String(pathname || "").replace(/\/+$/, "");
+    return /\/ehw$/i.test(path);
+  }
+
+  function pathBrandFace(pathname) {
+    if (pathIsDysphoria(pathname)) return "clarendon";
+    if (pathIsEhw(pathname)) return "druk";
+    return "geist";
+  }
+
+  function hrefBrandFace(href) {
+    if (!href || href.charAt(0) === "#") return null;
+    try {
+      var url = new URL(href, window.location.href);
+      if (url.origin !== window.location.origin) return null;
+      return pathBrandFace(url.pathname);
+    } catch (e) {
+      return null;
+    }
   }
 
   function leavesDysphoria(href) {
@@ -241,10 +267,11 @@
 
   var FACE_GEIST = "is-shuffling-from-geist";
   var FACE_CLARENDON = "is-shuffling-from-clarendon";
+  var FACE_DRUK = "is-shuffling-from-druk";
 
   function clearShuffleFace(el) {
     if (!el) return;
-    el.classList.remove(FACE_GEIST, FACE_CLARENDON);
+    el.classList.remove(FACE_GEIST, FACE_CLARENDON, FACE_DRUK);
   }
 
   function setShuffleFace(el, face) {
@@ -252,11 +279,12 @@
     clearShuffleFace(el);
     if (face === "geist") el.classList.add(FACE_GEIST);
     if (face === "clarendon") el.classList.add(FACE_CLARENDON);
+    if (face === "druk") el.classList.add(FACE_DRUK);
   }
 
   /**
    * Short letter-scramble / decode on the brand mark only.
-   * opts.fromFace: "geist" | "clarendon" — force that face during scramble,
+   * opts.fromFace: "geist" | "clarendon" | "druk" — force that face during scramble,
    * then clear so page CSS settles the destination face.
    * Duration capped ≤800ms. Reduced-motion skips glyphs but still settles face.
    */
@@ -349,8 +377,16 @@
     });
   }
 
+  function playEnterEhw(el, label) {
+    /* Scramble already on Druk (Geist fallback until woff2) — never flash prior face. */
+    scrambleBrand(el, label, {
+      duration: SHUFFLE_MS,
+      fromFace: "druk",
+    });
+  }
+
   function playExitArrival(el, label) {
-    /* Force Geist during arrival scramble — never flash Clarendon on Geist pages.
+    /* Force Geist during arrival scramble — never flash Clarendon/Druk on Geist pages.
        Glyphs decode already in Geist; page CSS keeps Geist after settle. */
     scrambleBrand(el, label, {
       duration: SHUFFLE_MS,
@@ -361,10 +397,17 @@
   function initBrandShuffle() {
     var el = brandEl();
     if (!el) return;
-    /* Dysphoria Clarendon is title case; Geist chrome stays ALL CAPS. */
+    /* Dysphoria Clarendon is title case; EHW Druk + Geist chrome stay ALL CAPS. */
     var label = isDysphoriaPage()
       ? (el.textContent || "Jy Yeüng").trim() || "Jy Yeüng"
       : (el.textContent || "JY YEÜNG").trim() || "JY YEÜNG";
+
+    var shuffleMarkedByClick = false;
+
+    function markNavShuffle(dir) {
+      shuffleMarkedByClick = true;
+      markShuffle(dir);
+    }
 
     /* Hard refresh / same-URL reload: never scramble; drop any stale flag
        left by pagehide from the previous document. */
@@ -374,22 +417,22 @@
       return;
     }
 
-    if (isDysphoriaPage()) {
-      /* Only scramble when a Geist-chrome page marked enter (font change). */
+    if (isDysphoriaPage() || isEhwPage()) {
+      /* Only scramble when a different-face page marked enter (font change). */
       if (takeShuffle() === "enter") {
-        playEnterDysphoria(el, label);
+        if (isDysphoriaPage()) playEnterDysphoria(el, label);
+        else playEnterEhw(el, label);
       } else {
         el.textContent = label;
       }
 
       /* Back / tab discard: mark exit so Geist destination can flash.
-         Reload path clears this flag above on the next document. */
+         Link clicks set the flag first; pagehide must not overwrite era→era enter. */
       window.addEventListener("pagehide", function () {
-        markShuffle("exit");
+        if (!shuffleMarkedByClick) markShuffle("exit");
       });
 
-      /* Exit: mark only — scramble plays once on Geist arrival (mirrors enter).
-         Do not scramble here or About/Work/etc. will double-shuffle. */
+      /* Leaving this era: enter if destination is another era face, else exit to Geist. */
       document.addEventListener(
         "click",
         function (e) {
@@ -398,15 +441,17 @@
           if (link.getAttribute("target") === "_blank") return;
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
           var href = link.getAttribute("href");
-          if (!leavesDysphoria(href)) return;
-          markShuffle("exit");
+          var to = hrefBrandFace(href);
+          var from = pathBrandFace(window.location.pathname || "");
+          if (!to || to === from) return;
+          markNavShuffle(to === "geist" ? "exit" : "enter");
         },
         true
       );
       return;
     }
 
-    /* Geist chrome: mark enter when navigating into Dysphoria (font change). */
+    /* Geist chrome: mark enter when navigating into an era face (font change). */
     document.addEventListener(
       "click",
       function (e) {
@@ -415,7 +460,8 @@
         if (link.getAttribute("target") === "_blank") return;
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         var href = link.getAttribute("href");
-        if (!entersDysphoria(href)) return;
+        var to = hrefBrandFace(href);
+        if (!to || to === "geist") return;
         markShuffle("enter");
       },
       true
@@ -429,7 +475,7 @@
 
     maybeExitArrival();
     window.addEventListener("pageshow", function (e) {
-      /* bfcache Back from Dysphoria: flag set on pagehide */
+      /* bfcache Back from an era page: flag set on pagehide */
       if (e.persisted) maybeExitArrival();
     });
   }

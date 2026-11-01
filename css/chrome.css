@@ -199,6 +199,35 @@
     margin: 0;
   }
 }
+
+/* EHW topbar brand: Druk ALL CAPS (falls back to Geist until Jy supplies
+   assets/fonts/Druk-*.woff2 — Commercial Type, no free CDN).
+   chrome.css loads after ehw.css — keep this so Druk wins over Clarendon rule. */
+body.ehw-page .topbar .brand.site-name,
+body.ehw-page .topbar a.site-name.brand {
+  font-family: "Druk", "Geist", Helvetica, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: var(--site-name-tracking, 0);
+  text-transform: uppercase;
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  height: 14px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  vertical-align: middle;
+  transform: none;
+  color: #356365;
+}
+@media (max-width: 800px) {
+  body.ehw-page .topbar .brand.site-name,
+  body.ehw-page .topbar a.site-name.brand {
+    font-size: 14px;
+    transform: none;
+  }
+}
 .nav-toggle {
   -webkit-appearance: none;
   appearance: none;
@@ -491,6 +520,15 @@ html.nav-open {
   font-weight: 700 !important;
   letter-spacing: 0.01em !important;
   text-transform: none !important;
+}
+
+/* Enter EHW scramble: force Druk (Geist fallback) — never Geist/Clarendon flash. */
+.site-name.is-shuffling-from-druk {
+  font-family: "Druk", "Geist", Helvetica, "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: var(--site-name-tracking, 0) !important;
+  text-transform: uppercase !important;
+  transform: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -909,6 +947,7 @@ a.work-tile:focus-visible {
 .work-grid > li:nth-child(2) .work-tile { transition-delay: 0.07s; }
 .work-grid > li:nth-child(3) .work-tile { transition-delay: 0.14s; }
 .work-grid > li:nth-child(4) .work-tile { transition-delay: 0.21s; }
+.work-grid > li:nth-child(5) .work-tile { transition-delay: 0.28s; }
 .work-grid .work-tile.is-in,
 .work-tile.float-up.is-in {
   opacity: 1;
