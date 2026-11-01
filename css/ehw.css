@@ -89,7 +89,7 @@ body.ehw-page .topbar .nav-burger {
 }
 body.ehw-page:not(.on-dark) .topbar .nav-burger span,
 body.ehw-page .topbar .nav-burger span {
-  background: var(--ehw-teal);
+  background: var(--ehw-teal) !important; /* beats chrome #111 !important on light topbars */
 }
 body.ehw-page .topbar .site-nav.is-open .nav-toggle,
 body.ehw-page .topbar .site-nav.is-open .nav-burger,
@@ -99,7 +99,7 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger {
 }
 body.ehw-page .topbar .site-nav.is-open .nav-burger span,
 body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
-  background: #eee;
+  background: #eee !important;
 }
 
 @media (max-width: 800px) {
