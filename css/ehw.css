@@ -416,7 +416,7 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 }
 
 @media (max-width: 520px) {
-  body.ehw-page .topbar .brand.site-name { font-size: 14px; }
+  /* brand stays 12.6px at all widths — match About ~87px (Steve Soft FAIL 709c099) */
   .ehw-oval-mask { left: 10.5%; top: 11.8%; width: 32%; height: 9.5%; }
   .ehw-interact-cue { font-size: clamp(8px, 2.6vw, 10px); }
   .ehw-modal { padding: 24px 18px 18px; }
