@@ -8,8 +8,22 @@
   --font-helvetica: Helvetica, "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Druk is Commercial Type — @font-face wired only when Jy supplies
-   assets/fonts/Druk-*.woff2. Until then the stack falls through to Geist. */
+/* Druk Text Wide Bold — Jy 2026-11-02 (licensed). Tracking -40 → -0.04em. */
+@font-face {
+  font-family: "Druk";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/Druk-Bold.woff2") format("woff2");
+}
+/* Map 900 so existing Geist-Black-weight brand rules still resolve to Druk Bold. */
+@font-face {
+  font-family: "Druk";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../assets/fonts/Druk-Bold.woff2") format("woff2");
+}
 
 * { box-sizing: border-box; }
 
@@ -53,8 +67,8 @@ body.ehw-page .topbar .brand.site-name {
   text-decoration: none;
   font-family: var(--font-druk);
   font-size: 16px;
-  font-weight: 900;
-  letter-spacing: 0;
+  font-weight: 700;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
   line-height: 1;
   display: inline-flex;

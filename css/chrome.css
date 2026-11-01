@@ -2,6 +2,23 @@
    Linked from home, work, dysphoria, contact, privacy.
    Respects <base href="../"> on era/sub pages. */
 
+/* Druk Text Wide Bold — EHW brand only (Jy 2026-11-02). Also needed site-wide
+   so Enter-EHW scramble never falls through to Geist before ehw.css loads. */
+@font-face {
+  font-family: "Druk";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/Druk-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Druk";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../assets/fonts/Druk-Bold.woff2") format("woff2");
+}
+
 /* Geist Black 900 — shared brand mark (About hero + title bars) */
 @font-face {
   font-family: "Geist";
@@ -200,14 +217,13 @@
   }
 }
 
-/* EHW topbar brand: Druk ALL CAPS (falls back to Geist until Jy supplies
-   assets/fonts/Druk-*.woff2 — Commercial Type, no free CDN).
+/* EHW topbar brand: Druk Bold ALL CAPS, tracking -0.04em (Jy 2026-11-02).
    chrome.css loads after ehw.css — keep this so Druk wins over Clarendon rule. */
 body.ehw-page .topbar .brand.site-name,
 body.ehw-page .topbar a.site-name.brand {
   font-family: "Druk", "Geist", Helvetica, "Helvetica Neue", Arial, sans-serif;
-  font-weight: 900;
-  letter-spacing: var(--site-name-tracking, 0);
+  font-weight: 700;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
   font-size: 16px;
   line-height: 1;
@@ -522,11 +538,11 @@ html.nav-open {
   text-transform: none !important;
 }
 
-/* Enter EHW scramble: force Druk (Geist fallback) — never Geist/Clarendon flash. */
+/* Enter EHW scramble: force Druk Bold — never Geist/Clarendon flash. */
 .site-name.is-shuffling-from-druk {
   font-family: "Druk", "Geist", Helvetica, "Helvetica Neue", Arial, sans-serif !important;
-  font-weight: 900 !important;
-  letter-spacing: var(--site-name-tracking, 0) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
   text-transform: uppercase !important;
   transform: none !important;
 }
