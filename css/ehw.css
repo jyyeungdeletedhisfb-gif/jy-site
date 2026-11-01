@@ -265,4 +265,65 @@ body.ehw-page .topbar .site-nav.is-open .nav-burger span {
   }
 }
 
-/* Footer stays site-chrome dark — no era restyle (Jy: footers match all pages) */
+/* EHW era footer — yellow ground; structure matches site chrome.
+   Interactive bits teal; credit in dark ink for contrast on yellow. */
+body.ehw-page .site-footer {
+  background: var(--ehw-yellow);
+  color: var(--ehw-ink);
+  border-top: 1px solid rgba(53, 99, 101, 0.22);
+}
+
+body.ehw-page .footer-home {
+  color: var(--ehw-teal);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+@media (hover: hover) and (pointer: fine) {
+  body.ehw-page .footer-home:hover {
+    color: var(--ehw-ink);
+  }
+}
+body.ehw-page .footer-home:focus-visible {
+  outline: 2px solid var(--ehw-teal);
+  outline-offset: 3px;
+}
+
+body.ehw-page .footer-icon {
+  color: var(--ehw-teal);
+}
+@media (hover: hover) and (pointer: fine) {
+  body.ehw-page a.footer-icon:hover {
+    color: var(--ehw-ink);
+    border-color: rgba(53, 99, 101, 0.45);
+    background: rgba(53, 99, 101, 0.1);
+  }
+}
+body.ehw-page a.footer-icon:focus-visible {
+  outline: 2px solid var(--ehw-teal);
+  outline-offset: 2px;
+}
+
+body.ehw-page .footer-credit,
+body.ehw-page .site-footer .copy {
+  color: var(--ehw-ink);
+}
+
+body.ehw-page .footer-links a {
+  color: var(--ehw-teal);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+@media (hover: hover) and (pointer: fine) {
+  body.ehw-page .footer-links a:hover {
+    color: var(--ehw-ink);
+  }
+}
+body.ehw-page .footer-links a:focus-visible {
+  outline: 2px solid var(--ehw-teal);
+  outline-offset: 3px;
+}
+body.ehw-page .footer-links a[aria-current="page"] {
+  color: var(--ehw-ink);
+}
