@@ -67,7 +67,8 @@ Jy emphasis: get enter/exit faces right. Wrong face for even one frame is a bloc
 - **Short era landings (EHW):** do not `flex-grow` the main stage to fill the viewport — that opens a yellow void above the footer on tall screens. Pack footer under the cover (shared footer padding `56 / 72` stays). Back home→footer-bottom must match Work / Dysphoria (~240px at 1×).
 - **Footer hairline:** full-width `border-top` on `.site-footer` on every page (including EHW). EHW uses quiet teal `rgba(53,99,101,0.35)` on yellow — never a short inset `<hr>`. Stage/`ehw-main` pad-bottom **0** so the line sits close under the cover like About content→hairline (~56px line→Back home from shared footer pad-top).
 - **Footer IG/email icons:** always-on circle border (`1px solid #555` idle in chrome). Era/About may retint (EHW teal `rgba(53,99,101,0.45)`; About I/He keep their overrides). Hover may fill/brighten; do not return to transparent idle.
-- **EHW interact cue (pending Jy pick):** message under the cover (“interact with the elements above” class), not hotspot brackets. Mock only until pick — see `/mock/ehw-interact-cue/`.
+- **EHW interact cue (locked copy, mock only):** `TAP EACH ELEMENT TO INTERACT.` + ☝️; slide-left by character under the cover (teal on yellow). Mock `/mock/ehw-interact-cue/`. **Do not ship to production `/ehw/` until Jy Final.**
+- **Era / project load gates:** every era landing (Dysphoria, EHW, future) opens with a first-open load gate (mark + label + spinner). Copy Dysphoria timings; recolor to the era. See [`motion-and-interaction.md`](./motion-and-interaction.md).
 
 
 ### When shuffle runs

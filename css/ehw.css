@@ -397,3 +397,55 @@ body.ehw-page .footer-links a:focus-visible {
 body.ehw-page .footer-links a[aria-current="page"] {
   color: var(--ehw-ink);
 }
+
+/* ===== FIRST-OPEN LOAD GATE (Dysphoria pattern → EHW yellow/teal) ===== */
+body.ehw-page .load-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 300; /* above era topbar (200); below modal backdrop (400) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ehw-yellow);
+  color: var(--ehw-teal);
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.45s;
+}
+body.ehw-page .load-gate.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+body.ehw-page .load-gate-inner {
+  text-align: center;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  font-size: 11px;
+  color: var(--ehw-teal);
+  font-family: var(--font-helvetica);
+}
+body.ehw-page .load-gate-label {
+  display: block;
+}
+body.ehw-page .load-gate-mark {
+  display: block;
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 18px;
+  border: 1px solid rgba(53, 99, 101, 0.35);
+  border-top-color: var(--ehw-teal);
+  border-radius: 50%;
+  animation: loadSpin 0.85s linear infinite;
+}
+@keyframes loadSpin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.ehw-page .load-gate {
+    transition: opacity 0.15s ease, visibility 0.15s;
+  }
+  body.ehw-page .load-gate-mark {
+    animation: none;
+    border-color: var(--ehw-teal);
+    opacity: 0.7;
+  }
+}

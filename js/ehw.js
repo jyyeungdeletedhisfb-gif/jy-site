@@ -24,6 +24,65 @@
     }
   };
 
+  /* --- Load gate (Dysphoria timings; EHW cover preload) --- */
+  function preloadImages(urls) {
+    return Promise.all(
+      urls.map(function (src) {
+        return new Promise(function (resolve) {
+          var img = new Image();
+          img.decoding = "async";
+          img.onload = img.onerror = function () {
+            resolve(src);
+          };
+          img.src = src;
+        });
+      })
+    );
+  }
+
+  function dismissLoadGate() {
+    var gate = document.getElementById("loadGate");
+    if (!gate || gate.classList.contains("is-done")) return;
+    gate.classList.add("is-done");
+    gate.setAttribute("aria-busy", "false");
+    var remove = function () {
+      if (gate.parentNode) gate.parentNode.removeChild(gate);
+    };
+    gate.addEventListener("transitionend", remove, { once: true });
+    setTimeout(remove, 700);
+  }
+
+  async function runLoadGate() {
+    var reduced =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var urls = [
+      "assets/ehw/ehw-cover-4x5.webp",
+      "assets/ehw/ehw-cover-4x5.jpg"
+    ];
+    var timeoutMs = reduced ? 400 : 2200;
+    var minMs = reduced ? 0 : 320;
+    var started = performance.now();
+    await Promise.race([
+      preloadImages(urls),
+      new Promise(function (r) {
+        setTimeout(r, timeoutMs);
+      })
+    ]);
+    var waited = performance.now() - started;
+    if (waited < minMs) {
+      await new Promise(function (r) {
+        setTimeout(r, minMs - waited);
+      });
+    }
+    dismissLoadGate();
+  }
+
+  runLoadGate().catch(function () {
+    dismissLoadGate();
+  });
+
+  /* --- Hotspot modals --- */
   var backdrop = document.getElementById("ehw-backdrop");
   var modal = document.getElementById("ehw-modal");
   var titleEl = document.getElementById("ehw-modal-title");

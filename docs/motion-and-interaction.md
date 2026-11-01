@@ -1,7 +1,7 @@
 # Motion and interaction — thisisjyyeung.com
 
-Version: **1.1**  
-Last updated: **2026-10-07** (HKT)
+Version: **1.2**  
+Last updated: **2026-11-02** (HKT)
 
 Living handbook of how the site moves and responds. Seed from **live CSS/JS/HTML**, not aspiration. Rachel owns the doc; Steve flags gaps in smoke notes; Jy taste-locks anything that reads on glass.
 
@@ -131,6 +131,22 @@ Brand / layout locks (I/He crops, landscape 50/50, hero park) live in [`design-t
 | **Reduced motion** | Timeout 400ms, min hold 0, spinner off, faster dismiss (0.15s). |
 | **Quirks** | Soft backlog: lazy-load plates beyond neighbors (see `backlog.md`) — not shipped. |
 | **Lessons** | Cap phone gate variants at 1600w so mid-expand stays under ~500KB; desktop keeps full master for 6.4× expand. |
+
+### EHW — load gate
+
+| | |
+| --- | --- |
+| **Intent** | First-open preload of EHW cover (webp + jpg). Same pattern as Dysphoria; yellow field + teal spinner/label. |
+| **Timings** | Race preload vs **2200ms** timeout; min hold **320ms**; dismiss opacity **0.45s**; DOM remove by 700ms. Spinner `loadSpin` 0.85s linear. |
+| **Triggers** | On `ehw.js` boot (parallel with hotspot wiring). |
+| **Reduced motion** | Timeout 400ms, min hold 0, spinner off, faster dismiss (0.15s). |
+| **Label** | `everything he wanted` (lowercase, matches era casing). |
+| **Quirks** | Gate `z-index: 300` so it covers the fixed EHW topbar during preload. Custom EHW animation may replace this later (Jy). |
+| **Lessons** | — |
+
+### Standing rule — era / project load gates
+
+**All future project/era pages get a first-open load gate** (mark + era label + spinner; Dysphoria timings unless an era needs a custom beat). Adapt colors to the era palette. Document each new gate here.
 
 ### Dysphoria — enter / exit gates + soundtrack
 
