@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>EHW interact cue — pick wording</title>
+<style>
+  :root {
+    --ehw-yellow: #E8CA36;
+    --ehw-teal: #356365;
+    --ehw-ink: #1a2e2f;
+    --ehw-muted: #666;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--ehw-yellow);
+    color: var(--ehw-ink);
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  header {
+    padding: 28px 20px 8px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ehw-teal);
+  }
+  .lede {
+    margin: 0 0 6px;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: var(--ehw-ink);
+    max-width: 46em;
+  }
+  .lede a { color: var(--ehw-teal); }
+  .note {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: var(--ehw-muted);
+    max-width: 46em;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 980px;
+    margin: 0 auto 40px;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: #fff8dc;
+    border: 2px solid var(--ehw-teal);
+    border-radius: 10px;
+    overflow: hidden;
+    color: inherit;
+  }
+  .thumb {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: var(--ehw-yellow);
+    overflow: hidden;
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.92;
+  }
+  .cue {
+    position: absolute;
+    left: 0; right: 0; bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 10px;
+    text-align: center;
+    color: var(--ehw-teal);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.35;
+    pointer-events: none;
+    text-shadow: 0 0 8px rgba(232,202,54,0.85);
+  }
+  .cue .ico {
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: none;
+    line-height: 1;
+  }
+  .cue.sentence {
+    text-transform: none;
+    letter-spacing: 0.02em;
+    font-size: 12px;
+  }
+  .meta {
+    padding: 14px 14px 16px;
+  }
+  .meta h2 {
+    margin: 0 0 6px;
+    font-size: 0.95rem;
+    color: var(--ehw-teal);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .meta p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+  .meta code {
+    font-size: 0.8em;
+    background: rgba(53,99,101,0.08);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  footer {
+    max-width: 980px;
+    margin: 0 auto 48px;
+    padding: 0 20px;
+    font-size: 0.82rem;
+    color: var(--ehw-muted);
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>EHW interact cue — pick wording</h1>
+    <p class="lede">
+      Direction change (Jy): not hotspot brackets/outlines. A quiet message
+      <strong>under the cover</strong>, pointing up at the clickable portraits —
+      e.g. “interact with the elements above” + a small ☝🏻 / ↑.
+      Research from museum attract screens (“Touch to Explore”), portfolio grids
+      (“Open project”), and album microsites. <strong>Mock only — not in production <code>/ehw/</code>.</strong>
+    </p>
+    <p class="note">
+      Presentation locked for this round: one centered teal line, small type, sits in the yellow under the art (above the footer hairline when shipped). Pick copy first; we can dial weight/case after.
+    </p>
+  </header>
+
+  <div class="grid">
+    <article class="card">
+      <div class="thumb">
+        <img src="assets/ehw-cover-4x5.jpg" alt="" width="540" height="675" />
+        <div class="cue sentence" aria-hidden="true"><span class="ico">☝🏻</span> Interact with the elements above</div>
+      </div>
+      <div class="meta">
+        <h2>A — Interact + ☝🏻</h2>
+        <p>Closest to Jy’s words. Sentence case, finger points up. Clear intent; a touch museum/attract.</p>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="thumb">
+        <img src="assets/ehw-cover-4x5.jpg" alt="" width="540" height="675" />
+        <div class="cue" aria-hidden="true">Tap the elements above <span class="ico">↑</span></div>
+      </div>
+      <div class="meta">
+        <h2>B — Tap + ↑</h2>
+        <p>Phone-first verb (Android gate). Caps micro-label. Pure ↑ instead of emoji if emoji feels loud.</p>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="thumb">
+        <img src="assets/ehw-cover-4x5.jpg" alt="" width="540" height="675" />
+        <div class="cue" aria-hidden="true"><span class="ico">☝🏻</span> Click the artwork</div>
+      </div>
+      <div class="meta">
+        <h2>C — Click the artwork</h2>
+        <p>Shorter. Names the cover as the hit target. “Click” skews desktop; fine if we keep one string for all.</p>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="thumb">
+        <img src="assets/ehw-cover-4x5.jpg" alt="" width="540" height="675" />
+        <div class="cue" aria-hidden="true">Explore above <span class="ico">↑</span></div>
+      </div>
+      <div class="meta">
+        <h2>D — Explore above</h2>
+        <p>Quietest. Editorial/album tone. Least instructional — may need the arrow to land.</p>
+      </div>
+    </article>
+  </div>
+
+  <footer>
+    Supersedes hotspot mock at <a href="../ehw-click-cues/">/mock/ehw-click-cues/</a> (left in place). Tell Rachel A/B/C/D (or a tweak).
+  </footer>
+</body>
+</html>

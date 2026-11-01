@@ -599,7 +599,8 @@ html.nav-open {
   color: #c8c8c8;
   text-decoration: none;
   border-radius: 50%;
-  border: 1px solid transparent;
+  /* Always-on circle border (Jy 2026-11-01); era/About may retint. */
+  border: 1px solid #555;
   background: transparent;
   padding: 0;
   cursor: pointer;

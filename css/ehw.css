@@ -126,7 +126,8 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: calc(var(--top-h) + 12px) 12px 28px;
+  /* pad-bottom 0: hairline sits close under cover like About content→footer */
+  padding: calc(var(--top-h) + 12px) 12px 0;
 }
 
 .ehw-stage {
@@ -260,6 +261,65 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   outline-offset: 2px;
 }
 
+
+/* MAS Apple Music embed — hug-card gates mirror Dysphoria soundtrack iframe */
+.ehw-modal.ehw-modal--embed {
+  width: min(92vw, 520px);
+  max-height: min(92vh, 760px);
+}
+.ehw-modal-body {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.ehw-modal-embed {
+  margin-top: 16px;
+}
+.ehw-modal-embed .listen-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin: 0 0 14px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ehw-ink);
+}
+.ehw-modal-embed .listen-row a {
+  color: var(--ehw-teal);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(53, 99, 101, 0.45);
+}
+.ehw-modal-embed .listen-row .soon {
+  color: #888;
+}
+.ehw-modal-embed iframe {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 450px;
+  border: 1px solid #555;
+  background: transparent;
+}
+@media (min-width: 768px) {
+  .ehw-modal-embed iframe {
+    border: 0;
+    outline: none;
+  }
+}
+@media (min-width: 801px) {
+  .ehw-modal-embed iframe { height: 500px; }
+}
+@media (max-width: 800px) {
+  .ehw-modal-embed iframe {
+    box-sizing: content-box;
+    width: calc(100% - 2px);
+    height: 450px;
+    overflow: hidden;
+  }
+}
+
 @media (max-width: 520px) {
   body.ehw-page .topbar .brand.site-name { font-size: 14px; }
   .ehw-oval-mask { height: 6.8%; top: 12.8%; }
@@ -267,7 +327,7 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 }
 
 @media (orientation: landscape) and (max-height: 520px) {
-  .ehw-main { padding: calc(var(--top-h) + 4px) 8px 16px; }
+  .ehw-main { padding: calc(var(--top-h) + 4px) 8px 0; }
   .ehw-stage {
     width: min(48vw, calc((100vh - 64px) * 4 / 5));
   }
@@ -278,7 +338,8 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 body.ehw-page .site-footer {
   background: var(--ehw-yellow);
   color: var(--footer-muted, #666);
-  border-top: none;
+  /* Full-width partition like other pages (quiet teal on yellow) */
+  border-top: 1px solid rgba(53, 99, 101, 0.35);
 }
 
 body.ehw-page .footer-home {
@@ -299,6 +360,7 @@ body.ehw-page .footer-home:focus-visible {
 
 body.ehw-page .footer-icon {
   color: var(--ehw-teal);
+  border-color: rgba(53, 99, 101, 0.45);
 }
 @media (hover: hover) and (pointer: fine) {
   body.ehw-page a.footer-icon:hover {

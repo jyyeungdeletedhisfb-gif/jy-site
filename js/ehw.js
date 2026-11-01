@@ -6,7 +6,12 @@
     },
     mas: {
       title: "Main Antagonist Syndrome",
-      body: "Placeholder for Main Antagonist Syndrome. Red editorial mood and the Apple Music playlist embed will sit in this mini window. Body copy TBD."
+      body: "Playlist for the red editorial piece. Body copy TBD.",
+      embed: {
+        src: "https://embed.music.apple.com/hk/playlist/pl.u-jV89b1Wud12y6xr",
+        listen: "https://music.apple.com/hk/playlist/main-antagonist-syndrome/pl.u-jV89b1Wud12y6xr?l=en&ls",
+        title: "Main Antagonist Syndrome on Apple Music"
+      }
     },
     ehw: {
       title: "everything he wanted",
@@ -23,18 +28,71 @@
   var modal = document.getElementById("ehw-modal");
   var titleEl = document.getElementById("ehw-modal-title");
   var bodyEl = document.getElementById("ehw-modal-body");
+  var embedEl = document.getElementById("ehw-modal-embed");
   var closeBtn = document.getElementById("ehw-modal-close");
   if (!backdrop || !modal || !titleEl || !bodyEl || !closeBtn) return;
 
   var lastFocus = null;
+
+  function clearEmbed() {
+    if (!embedEl) return;
+    embedEl.innerHTML = "";
+    embedEl.hidden = true;
+  }
+
+  function renderEmbed(embed) {
+    if (!embedEl || !embed) {
+      clearEmbed();
+      return;
+    }
+    embedEl.hidden = false;
+    embedEl.innerHTML = "";
+
+    var row = document.createElement("div");
+    row.className = "listen-row";
+    var label = document.createElement("span");
+    label.textContent = "Listen on";
+    var apple = document.createElement("a");
+    apple.href = embed.listen;
+    apple.target = "_blank";
+    apple.rel = "noopener";
+    apple.textContent = "Apple Music";
+    var soon = document.createElement("span");
+    soon.className = "soon";
+    soon.textContent = "Spotify · soon";
+    row.appendChild(label);
+    row.appendChild(apple);
+    row.appendChild(soon);
+
+    var iframe = document.createElement("iframe");
+    iframe.title = embed.title || "Apple Music playlist";
+    iframe.setAttribute("allow", "autoplay *; encrypted-media *; fullscreen *; clipboard-write");
+    iframe.setAttribute("frameborder", "0");
+    iframe.setAttribute("height", "450");
+    iframe.setAttribute("scrolling", "no");
+    iframe.setAttribute(
+      "sandbox",
+      "allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+    );
+    iframe.src = embed.src;
+
+    embedEl.appendChild(row);
+    embedEl.appendChild(iframe);
+  }
 
   function openModal(key) {
     var item = copy[key];
     if (!item) return;
     lastFocus = document.activeElement;
     titleEl.textContent = item.title;
-    bodyEl.textContent = item.body;
+    bodyEl.textContent = item.body || "";
     modal.classList.toggle("art-desc", !!item.art);
+    modal.classList.toggle("ehw-modal--embed", !!item.embed);
+    if (item.embed) {
+      renderEmbed(item.embed);
+    } else {
+      clearEmbed();
+    }
     backdrop.hidden = false;
     void backdrop.offsetWidth;
     backdrop.classList.add("open");
@@ -45,6 +103,8 @@
     backdrop.classList.remove("open");
     var done = function () {
       backdrop.hidden = true;
+      clearEmbed();
+      modal.classList.remove("ehw-modal--embed");
       backdrop.removeEventListener("transitionend", done);
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     };
