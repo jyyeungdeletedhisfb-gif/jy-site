@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Dysphoria plates — Showreel X feel (taste mock)</title>
+<link rel="stylesheet" href="showreel.css" />
+</head>
+<body>
+  <header class="mock-header">
+    <p class="eyebrow">Taste mock · not production</p>
+    <h1>Dysphoria plates ← Showreel Carousel X</h1>
+    <p class="lede">
+      Center-snap · side peeks (scale + opacity) · glowing corner focus brackets.
+      Flip / Prev–Next / gutter swipe kept; loupe stubbed (see NOTES).
+      <a href="NOTES.md">NOTES.md</a>
+    </p>
+  </header>
+
+  <section class="sheets" aria-label="Plate showreel mock">
+    <div class="title-jump" id="titleJump">
+      <span class="num" id="titleNum">01/08</span>
+      <span class="sep">—</span>
+      <span class="name" id="titleName">The Host</span>
+    </div>
+
+    <div class="showreel" id="showreel">
+      <button type="button" class="nav nav-prev" id="prevBtn" aria-label="Previous">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6 L9 12 l5.5 6"/></svg>
+      </button>
+      <button type="button" class="nav nav-next" id="nextBtn" aria-label="Next">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6 L15 12 l-5.5 6"/></svg>
+      </button>
+
+      <div class="track-viewport" id="viewport">
+        <div class="track" id="track" role="list"></div>
+        <!-- Viewfinder brackets lock onto the active (center) plate -->
+        <div class="brackets" id="brackets" aria-hidden="true">
+          <span class="br tl"></span>
+          <span class="br tr"></span>
+          <span class="br bl"></span>
+          <span class="br brc"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tools" role="toolbar" aria-label="Plate tools">
+      <button type="button" class="icon-btn" id="flipBtn" aria-pressed="false" title="Flip">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18 8 H7"/><path d="M10 5.5 L7 8 l3 2.5"/>
+          <path d="M6 16 H17"/><path d="M14 13.5 L17 16 l-3 2.5"/>
+        </svg>
+        <span>Flip</span>
+      </button>
+      <button type="button" class="icon-btn muted" id="loupeBtn" aria-pressed="false" title="Loupe (kept on live; stub here)" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.2"/><path d="M15.8 15.8 L20.2 20.2"/></svg>
+        <span>Loupe (live)</span>
+      </button>
+    </div>
+
+    <ol class="ticks" id="ticks" aria-label="Position"></ol>
+  </section>
+
+  <footer class="mock-footer">
+    <p>Swipe / drag track · arrow keys · click a peek to snap · tap active plate or Flip for liner.</p>
+    <p class="dim">Mirror only · <code>/mock/dysphoria-showreel/</code> · live Dysphoria untouched</p>
+  </footer>
+
+  <script src="showreel.js"></script>
+</body>
+</html>
