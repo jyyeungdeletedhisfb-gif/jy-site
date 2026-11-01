@@ -66,10 +66,11 @@ body.ehw-page .topbar .brand.site-name {
   color: var(--ehw-teal);
   text-decoration: none;
   font-family: var(--font-druk);
-  font-size: 16px;
+  font-size: 12.6px; /* match About Geist brand width ~87px */
   font-weight: 700;
   letter-spacing: -0.04em;
   text-transform: uppercase;
+  white-space: nowrap;
   line-height: 1;
   display: inline-flex;
   align-items: center;
@@ -140,8 +141,8 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* pad-bottom 0: hairline sits close under cover like About content→footer */
-  padding: calc(var(--top-h) + 12px) 12px 0;
+  /* Top 12px under topbar; bottom 12px above hairline so both gaps match (Jy Z marks). */
+  padding: calc(var(--top-h) + 12px) 12px 12px;
 }
 
 .ehw-stage {
@@ -166,17 +167,55 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   pointer-events: none;
 }
 
-/* Mask JY YEÜNG oval on website version (not a clickable component) */
+/* Cover oval masked; interact cue sits in that top-left slot (Jy 2026-11-02). */
 .ehw-oval-mask {
   position: absolute;
-  left: 11.2%;
-  top: 12.6%;
-  width: 29.5%;
-  height: 7.2%;
+  left: 10.5%;
+  top: 11.8%;
+  width: 32%;
+  height: 9.5%;
   border-radius: 50%;
   background: var(--ehw-yellow);
   pointer-events: none;
   z-index: 2;
+}
+.ehw-interact-cue {
+  position: absolute;
+  left: 9.5%;
+  top: 11.2%;
+  width: 34%;
+  z-index: 4;
+  pointer-events: none;
+  color: var(--ehw-teal);
+  font-family: var(--font-helvetica);
+  font-size: clamp(8px, 1.55vw, 11px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.35;
+  text-align: left;
+}
+.ehw-interact-cue .chars {
+  display: block;
+}
+.ehw-interact-cue .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.ehw-interact-cue .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(0.55em);
+  animation: ehwCueSlide 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes ehwCueSlide {
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ehw-interact-cue .char {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 }
 
 .ehw-hotspot {
@@ -184,28 +223,70 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   z-index: 3;
   margin: 0;
   padding: 0;
-  border: 2px solid transparent;
-  border-radius: 2px;
+  border: none;
+  border-radius: 0;
   background: transparent;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+  outline: none;
+  box-shadow: none;
+  user-select: none;
+  -webkit-user-select: none;
+  color: inherit;
+}
+.ehw-hotspot:focus { outline: none; }
+.ehw-hotspot:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
 }
 .ehw-hotspot:focus-visible {
-  outline: none;
-  border-color: var(--ehw-teal);
-  box-shadow: 0 0 0 2px var(--ehw-yellow), 0 0 0 4px var(--ehw-teal);
+  outline: 2px solid var(--ehw-teal);
+  outline-offset: 4px;
 }
-.ehw-hotspot:hover {
-  background: rgba(53, 99, 101, 0.08);
-}
-@media (prefers-reduced-motion: reduce) {
-  .ehw-hotspot { transition: none; }
+/* No wash / blue flash — brackets are the only hover cue */
+.ehw-hotspot:hover,
+.ehw-hotspot:active {
+  background: transparent;
 }
 
-.ehw-hs-dang { left: 53.4%; top: 4.8%; width: 30.5%; height: 36.2%; }
-.ehw-hs-mas  { left: 10.0%; top: 30.2%; width: 33.6%; height: 40.2%; }
-.ehw-hs-ehw  { left: 57.2%; top: 62.8%; width: 35.6%; height: 33.0%; }
+/* Corner brackets — slightly outside image + (01) number. Hover (fine pointer) only. */
+.ehw-brackets {
+  position: absolute;
+  inset: -5px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+.ehw-hotspot:hover .ehw-brackets,
+.ehw-hotspot:focus-visible .ehw-brackets {
+  opacity: 1;
+}
+@media (hover: none) {
+  .ehw-hotspot:active .ehw-brackets { opacity: 1; }
+}
+.ehw-brackets .br {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--ehw-teal);
+  border-style: solid;
+  border-width: 0;
+}
+.ehw-brackets .br.tl { top: 0; left: 0; border-top-width: 2px; border-left-width: 2px; }
+.ehw-brackets .br.tr { top: 0; right: 0; border-top-width: 2px; border-right-width: 2px; }
+.ehw-brackets .br.bl { bottom: 0; left: 0; border-bottom-width: 2px; border-left-width: 2px; }
+.ehw-brackets .br.brc { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .ehw-brackets { transition: none; }
+}
+
+/* Hit areas expanded left to wrap the (01)/(02)/(03) numbers; no mutual overlap. */
+.ehw-hs-dang { left: 49.8%; top: 4.5%; width: 34.2%; height: 36.5%; }
+.ehw-hs-mas  { left: 6.4%; top: 29.9%; width: 37.2%; height: 40.5%; }
+.ehw-hs-ehw  { left: 53.6%; top: 62.5%; width: 39.2%; height: 33.3%; }
 .ehw-hs-title{ left: 56.5%; top: 43.5%; width: 35.0%; height: 18.5%; }
 
 /* Modal */
@@ -336,12 +417,13 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 
 @media (max-width: 520px) {
   body.ehw-page .topbar .brand.site-name { font-size: 14px; }
-  .ehw-oval-mask { height: 6.8%; top: 12.8%; }
+  .ehw-oval-mask { left: 10.5%; top: 11.8%; width: 32%; height: 9.5%; }
+  .ehw-interact-cue { font-size: clamp(8px, 2.6vw, 10px); }
   .ehw-modal { padding: 24px 18px 18px; }
 }
 
 @media (orientation: landscape) and (max-height: 520px) {
-  .ehw-main { padding: calc(var(--top-h) + 4px) 8px 0; }
+  .ehw-main { padding: calc(var(--top-h) + 4px) 8px 4px; }
   .ehw-stage {
     width: min(48vw, calc((100vh - 64px) * 4 / 5));
   }
@@ -354,6 +436,8 @@ body.ehw-page .site-footer {
   color: var(--footer-muted, #666);
   /* Full-width partition like other pages (quiet teal on yellow) */
   border-top: 1px solid rgba(53, 99, 101, 0.35);
+  /* Increase top pad (Jy 2026-11-02): more air hairline→Back home; sides/bottom keep chrome tokens */
+  padding: 72px 24px 72px;
 }
 
 body.ehw-page .footer-home {
@@ -432,7 +516,7 @@ body.ehw-page .load-gate.is-done {
 body.ehw-page .load-gate-inner {
   text-align: center;
   letter-spacing: 0.18em;
-  text-transform: lowercase;
+  text-transform: uppercase; /* match topbar project title */
   font-size: 11px;
   color: var(--ehw-teal);
   font-family: var(--font-helvetica);
@@ -462,4 +546,61 @@ body.ehw-page .load-gate-mark {
     border-color: var(--ehw-teal);
     opacity: 0.7;
   }
+}
+
+
+/* View on Instagram — modal foot (Dysphoria liner-ig pattern, teal on cream) */
+.ehw-modal-ig {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--ehw-teal);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  -webkit-tap-highlight-color: transparent;
+}
+.ehw-modal-ig::after {
+  content: "";
+  position: absolute;
+  left: -8px; right: -8px; top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
+.ehw-modal-ig svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ehw-modal-ig span {
+  border-bottom: 1px solid rgba(53, 99, 101, 0.45);
+  padding-bottom: 1px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ehw-modal-ig:hover span { border-bottom-color: var(--ehw-ink); }
+}
+.ehw-modal-ig:focus-visible {
+  outline: 2px solid var(--ehw-teal);
+  outline-offset: 3px;
+}
+
+/* Offscreen Apple Music warm iframe (loaded during gate; moved into modal on open) */
+#ehw-embed-warm {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 320px;
+  height: 450px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
 }

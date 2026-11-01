@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex" />
 <title>EHW interact cue — locked pick</title>
-<!-- rev: cue-fix1 (cue moved under cover stage) -->
+<!-- rev: cue-fix2 (top-left oval slot; no finger; live on /ehw/) -->
 <style>
   :root {
     --ehw-yellow: #E8CA36;
@@ -86,30 +86,39 @@
     display: block;
     opacity: 0.92;
   }
-  /* Cue sits on yellow directly UNDER the cover stage (not over the art),
-     so it can never collide with photo 03 at any width. Wraps on narrow
-     screens; finger stays first. */
+  /* Cue top-left on cover (oval slot). No finger/wingding (Jy 2026-11-02). */
+  .oval-mask {
+    position: absolute;
+    left: 10.5%;
+    top: 11.8%;
+    width: 32%;
+    height: 9.5%;
+    border-radius: 50%;
+    background: var(--ehw-yellow);
+    pointer-events: none;
+    z-index: 1;
+  }
   .cue {
-    position: static;
-    width: min(100%, 420px);
-    margin: 14px auto 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 0 4px;
+    position: absolute;
+    left: 9.5%;
+    top: 11.2%;
+    width: 34%;
+    margin: 0;
+    display: block;
+    padding: 0;
     pointer-events: none;
     color: var(--ehw-teal);
-    font-size: 11px;
+    font-size: clamp(8px, 2.4vw, 11px);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     line-height: 1.35;
-    text-shadow: 0 0 8px rgba(232,202,54,0.85);
+    text-align: left;
+    text-shadow: none;
+    z-index: 2;
   }
   .cue .chars {
-    display: inline-block;
-    text-align: center;
+    display: block;
+    text-align: left;
     white-space: normal;
     min-width: 0;
   }
@@ -120,21 +129,11 @@
     transform: translateX(0.7em);
     animation: slideLeftChar 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .cue .ico {
-    font-size: 14px;
-    letter-spacing: 0;
-    text-transform: none;
-    line-height: 1;
-    opacity: 0;
-    transform: translateX(0.7em);
-    animation: slideLeftChar 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
   @keyframes slideLeftChar {
     to { opacity: 1; transform: translateX(0); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cue .char,
-    .cue .ico {
+    .cue .char {
       opacity: 1;
       transform: none;
       animation: none;
@@ -197,27 +196,28 @@
   <header>
     <h1>EHW interact cue — locked pick</h1>
     <p class="lede">
-      Jy locked copy + motion (2026-11-02). <strong>Mock only — not on production <code>/ehw/</code></strong> until Final.
+      Jy locked copy + motion (2026-11-02). <strong>Now shipping on production <code>/ehw/</code></strong> (mirror). Mock kept in sync.
     </p>
     <p class="note">
-      Teal micro-label on yellow under the cover (below the art, never over photo 03). Character slide-left into place; reduced-motion shows final line instantly.
+      Teal micro-label in the top-left oval slot on the cover. No finger emoji. Character slide-left; reduced-motion shows final line instantly.
     </p>
   </header>
 
   <div class="stage-wrap">
     <span class="badge">Locked · selected</span>
     <div class="demo" id="demo">
-      <img src="assets/ehw-cover-4x5.jpg?v=cue-fix1" alt="" width="540" height="675" />
+      <img src="assets/ehw-cover-4x5.jpg?v=cue-fix2" alt="" width="540" height="675" />
+      <div class="oval-mask" aria-hidden="true"></div>
+      <div class="cue" id="cue" aria-hidden="true"></div>
     </div>
-    <div class="cue" id="cue" aria-hidden="true"></div>
     <button type="button" class="replay" id="replay">Replay motion</button>
   </div>
 
   <div class="meta">
     <h2>Spec</h2>
-    <p><strong>Copy (exact):</strong> <code>TAP EACH ELEMENT TO INTERACT.</code> + pointy-finger ☝️</p>
+    <p><strong>Copy (exact):</strong> <code>TAP EACH ELEMENT TO INTERACT.</code> — no finger / no wingding.</p>
     <ul>
-      <li>Motion: each character (and the finger) slides left into place from the right, staggered.</li>
+      <li>Motion: each character slides left into place from the right, staggered.</li>
       <li><code>prefers-reduced-motion: reduce</code> → final text, no per-char motion.</li>
       <li>A–D wording research retired as superseded (same chrome).</li>
     </ul>
@@ -231,19 +231,12 @@
 <script>
 (function () {
   var TEXT = "TAP EACH ELEMENT TO INTERACT.";
-  var FINGER = "☝️";
   var cue = document.getElementById("cue");
   var replay = document.getElementById("replay");
   var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function build(animate) {
     cue.innerHTML = "";
-    var finger = document.createElement("span");
-    finger.className = "ico";
-    finger.textContent = FINGER;
-    if (animate && !reduced) finger.style.animationDelay = "0ms";
-    cue.appendChild(finger);
-
     var wrap = document.createElement("span");
     wrap.className = "chars";
     // Chars grouped into nowrap words so narrow screens wrap between words,
