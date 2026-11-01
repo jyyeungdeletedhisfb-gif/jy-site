@@ -80,19 +80,25 @@ body.ehw-page .top-right {
   min-width: 4em;
 }
 
-/* Dark teal hamburger on yellow topbar */
+/* Teal hamburger on yellow topbar — specificity beats chrome body:not(.on-dark) */
+body.ehw-page:not(.on-dark) .topbar .nav-toggle,
+body.ehw-page:not(.on-dark) .topbar .nav-burger,
 body.ehw-page .topbar .nav-toggle,
 body.ehw-page .topbar .nav-burger {
   color: var(--ehw-teal);
 }
+body.ehw-page:not(.on-dark) .topbar .nav-burger span,
 body.ehw-page .topbar .nav-burger span {
   background: var(--ehw-teal);
 }
 body.ehw-page .topbar .site-nav.is-open .nav-toggle,
-body.ehw-page .topbar .site-nav.is-open .nav-burger {
+body.ehw-page .topbar .site-nav.is-open .nav-burger,
+body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-toggle,
+body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger {
   color: #eee;
 }
-body.ehw-page .topbar .site-nav.is-open .nav-burger span {
+body.ehw-page .topbar .site-nav.is-open .nav-burger span,
+body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   background: #eee;
 }
 
@@ -269,8 +275,8 @@ body.ehw-page .topbar .site-nav.is-open .nav-burger span {
    Interactive bits teal; credit in dark ink for contrast on yellow. */
 body.ehw-page .site-footer {
   background: var(--ehw-yellow);
-  color: var(--ehw-ink);
-  border-top: 1px solid rgba(53, 99, 101, 0.22);
+  color: var(--footer-muted, #666);
+  border-top: none;
 }
 
 body.ehw-page .footer-home {
@@ -304,13 +310,13 @@ body.ehw-page a.footer-icon:focus-visible {
   outline-offset: 2px;
 }
 
+/* Locked site language: credit + Privacy stay muted grey #666 on every page/era */
 body.ehw-page .footer-credit,
-body.ehw-page .site-footer .copy {
-  color: var(--ehw-ink);
-}
-
+body.ehw-page .site-footer .copy,
 body.ehw-page .footer-links a {
-  color: var(--ehw-teal);
+  color: var(--footer-muted, #666);
+}
+body.ehw-page .footer-links a {
   text-decoration: underline;
   text-underline-offset: 0.18em;
   text-decoration-thickness: 1px;

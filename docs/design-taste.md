@@ -60,6 +60,11 @@ Implementation: `js/chrome.js` (`markShuffle` / `takeShuffle` / `scrambleBrand` 
 
 Jy emphasis: get enter/exit faces right. Wrong face for even one frame is a blocker.
 
+
+### Footer credit + Privacy color (locked)
+- `.footer-credit`, `.copy` (© line), and `.footer-links a` (Privacy) stay **muted grey `#666`** (`--footer-muted`) on **every** page and era — including yellow EHW. Do not recolor these to era accents.
+- Era pages may tint footer **background**, Back home, and social icons; credit/Privacy grey is site language.
+
 ### When shuffle runs
 
 1. Shuffle **ONLY** on real **font-change** navigation: **Geist chrome ↔ Dysphoria Clarendon**.
