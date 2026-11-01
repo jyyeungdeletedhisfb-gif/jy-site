@@ -373,6 +373,17 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   font-size: 0.95rem;
   line-height: 1.55;
 }
+.ehw-modal-photo {
+  display: block;
+  margin: 0 0 16px;
+}
+.ehw-modal-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  background: rgba(53, 99, 101, 0.08);
+}
 .ehw-modal-embed {
   margin-top: 16px;
 }

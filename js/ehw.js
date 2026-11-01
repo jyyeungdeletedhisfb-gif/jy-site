@@ -6,16 +6,31 @@
     '<circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/>' +
     "</svg>";
 
+  /* HQ portraits (Jy map 2026-11-02): DSCF0009→01 Dang, DSCF0044→02 MAS, DSCF0058→03 EHW */
+  var PORTRAIT_V = "ehw-p1";
+  function portraitUrls(slug) {
+    var base = "assets/ehw/portraits/" + slug;
+    return {
+      slug: slug,
+      webp: [720, 1080, 1600, 2400].map(function (w) { return base + "-" + w + "w.webp " + w + "w"; }).join(", "),
+      jpg: [720, 1080, 1600].map(function (w) { return base + "-" + w + "w.jpg " + w + "w"; }).join(", "),
+      fallback: base + "-1080w.jpg",
+      preload: base + "-1080w.webp"
+    };
+  }
+
   var copy = {
     dang: {
       title: "Dang",
       body: "Placeholder for Dang. Caroline Polachek PowerPoint energy — IG slides and video land here. Body copy TBD.",
-      ig: "https://www.instagram.com/p/DbvWOeOEgox/?exln=eWRhMmNxYjVnMmU="
+      ig: "https://www.instagram.com/p/DbvWOeOEgox/?exln=eWRhMmNxYjVnMmU=",
+      portrait: portraitUrls("01-dang")
     },
     mas: {
       title: "Main Antagonist Syndrome",
       body: "Playlist for the red editorial piece. Body copy TBD.",
       ig: "https://www.instagram.com/p/DcgYMkEkuu3/?mdxt=MnR2d2x3andxYTJ4",
+      portrait: portraitUrls("02-main-antagonist-syndrome"),
       embed: {
         src: "https://embed.music.apple.com/hk/playlist/pl.u-jV89b1Wud12y6xr",
         listen: "https://music.apple.com/hk/playlist/main-antagonist-syndrome/pl.u-jV89b1Wud12y6xr?l=en&ls",
@@ -25,7 +40,8 @@
     ehw: {
       title: "everything he wanted",
       body: "Placeholder for everything he wanted. Younger-self editorial piece. Body copy TBD.",
-      ig: "https://www.instagram.com/p/Deo-DPsnztj/?psln=MTYweXJsd290eDR5MA=="
+      ig: "https://www.instagram.com/p/Deo-DPsnztj/?psln=MTYweXJsd290eDR5MA==",
+      portrait: portraitUrls("03-everything-he-wanted")
     },
     art: {
       title: "Art description",
@@ -98,7 +114,10 @@
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var urls = [
       "assets/ehw/ehw-cover-4x5.webp",
-      "assets/ehw/ehw-cover-4x5.jpg"
+      "assets/ehw/ehw-cover-4x5.jpg",
+      copy.dang.portrait.preload,
+      copy.mas.portrait.preload,
+      copy.ehw.portrait.preload
     ];
     var timeoutMs = reduced ? 400 : 2200;
     var minMs = reduced ? 0 : 320;
@@ -194,6 +213,41 @@
     embedEl.hidden = true;
   }
 
+  function renderPortrait(portrait, alt) {
+    if (!portrait) return null;
+    var pic = document.createElement("picture");
+    pic.className = "ehw-modal-photo";
+    var webp = document.createElement("source");
+    webp.type = "image/webp";
+    // cache-bust via query on each candidate
+    webp.srcset = portrait.webp
+      .split(", ")
+      .map(function (part) {
+        var bits = part.split(" ");
+        return bits[0] + "?v=" + PORTRAIT_V + " " + bits[1];
+      })
+      .join(", ");
+    webp.sizes = "(max-width: 520px) 92vw, 420px";
+    pic.appendChild(webp);
+    var img = document.createElement("img");
+    img.src = portrait.fallback + "?v=" + PORTRAIT_V;
+    img.srcset = portrait.jpg
+      .split(", ")
+      .map(function (part) {
+        var bits = part.split(" ");
+        return bits[0] + "?v=" + PORTRAIT_V + " " + bits[1];
+      })
+      .join(", ");
+    img.sizes = "(max-width: 520px) 92vw, 420px";
+    img.alt = alt || "";
+    img.width = 1080;
+    img.height = 1620;
+    img.decoding = "async";
+    img.loading = "eager";
+    pic.appendChild(img);
+    return pic;
+  }
+
   function renderIgLink(href, title) {
     if (!href || !/^https?:\/\//i.test(href)) return null;
     var a = document.createElement("a");
@@ -248,6 +302,8 @@
     lastFocus = document.activeElement;
     titleEl.textContent = item.title;
     bodyEl.textContent = "";
+    var photo = renderPortrait(item.portrait, item.title);
+    if (photo) bodyEl.appendChild(photo);
     if (item.body) {
       var p = document.createElement("p");
       p.textContent = item.body;
