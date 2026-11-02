@@ -7,7 +7,7 @@ Operational notes for **reachability**, **Privacy**, analytics, and cookies. Ali
 - **No Contact page** on the live site. Email icons (nav + footer) and the About close block cover reachability. A dedicated `/contact/` route only returns when Formspree (or similar) comes back — currently **parked**.
 - **Public email:** `thisisjyyeung@gmail.com`
   - Envelope / email icons → `mailto:thisisjyyeung@gmail.com` (`aria-label="Email"`)
-  - About close: **CONTACT** subtitle (`about-trail__heading`) + **EMAIL** mailto + **INSTAGRAM**
+  - About close: **CONTACT** subtitle (`about-trail__heading`) + **Instagram** left + **Email** mailto right
 - Hamburger: no CONTACT text item (icons are enough).
 - Home hero section links: WORK / ABOUT only (no CONTACT).
 
