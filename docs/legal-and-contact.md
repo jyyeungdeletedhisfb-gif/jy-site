@@ -1,22 +1,27 @@
 # Legal + Contact (site notes)
 
-Operational notes for **Contact**, **Privacy**, analytics, and cookies. Aligns with `docs/next-workstreams-misc-and-hub.md` (Telha Clarke–style short Privacy; no company-office tone).
+Operational notes for **reachability**, **Privacy**, analytics, and cookies. Aligns with `docs/next-workstreams-misc-and-hub.md` (Telha Clarke–style short Privacy; no company-office tone).
 
-## Contact page (`/contact/`)
+## Contact (email-only — no `/contact/` page)
 
-- Placeholder until Formspree is wired. **Do not invent a Formspree form ID** — Jy/Dex adds the real endpoint when ready.
-- **Locked disclaimer copy** (warm “I”; keep exact on the page and in the form UI when live):
+- **No Contact page** on the live site. Email icons (nav + footer) and the About close block cover reachability. A dedicated `/contact/` route only returns when Formspree (or similar) comes back — currently **parked**.
+- **Public email:** `thisisjyyeung@gmail.com`
+  - Envelope / email icons → `mailto:thisisjyyeung@gmail.com` (`aria-label="Email"`)
+  - About close: **CONTACT** subtitle (`about-trail__heading`) + **EMAIL** mailto + **INSTAGRAM**
+- Hamburger: no CONTACT text item (icons are enough).
+- Home hero section links: WORK / ABOUT only (no CONTACT).
+
+### Formspree (parked)
+
+When Jy reopens a form:
+1. Create a Formspree form (Jy’s account).
+2. Reintroduce a thin `/contact/` (or About-embedded form) — **do not invent a Formspree form ID** in docs or commits until live.
+3. Fields: name, email, message (keep minimal).
+4. Restore locked disclaimer copy on the form UI:
 
   > You’ll get an email receipt when this sends. I usually reply within 5–7 days. I may not respond to spam or hostile messages.
 
-- Footer email icon → `contact/` (`aria-label="Contact"`). Nav includes a live **Contact** link; **About** stays soon.
-
-## Formspree plan
-
-1. Create a Formspree form (Jy’s account).
-2. Drop the action URL / form ID into `contact/index.html` only — no ID in docs or commits until live.
-3. Fields: name, email, message (keep minimal).
-4. Receipt + reply SLA are covered by the disclaimer above; Formspree processes submissions under their terms; use only to reply.
+Saved also in `docs/backlog.md`.
 
 ## Privacy page (`/privacy/`)
 
@@ -25,7 +30,7 @@ Light personal-artist page:
 - Operator: Jy Yeüng / thisisjyyeung.com
 - First-party collection: basically none today
 - Embeds (Apple Music, etc.): third-party cookies/data under *their* policies
-- Contact form (when live): name/email/message via Formspree → reply only
+- **No contact form** today — reach via email mailto or Instagram @thisisjyyeung
 - Analytics: honest stub — **no first-party analytics today**; update this page when anything is added
 - Rights: works © Jy Yeüng; All rights reserved (footer © line remains exact)
 
@@ -49,7 +54,8 @@ Preference: **cookieless analytics to avoid a CMP.**
 
 - © exact: `© 2026 JY YEÜNG. ALL RIGHTS RESERVED`
 - Quiet **Privacy** text link under/beside the © line (`.footer-links a` → `privacy/`)
-- Shared on home, Dysphoria, Contact, Privacy
+- Email icon → mailto; Instagram → @thisisjyyeung
+- Shared on home, Work, About, Dysphoria, EHW (mirror), Privacy
 
 ---
 

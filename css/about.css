@@ -418,11 +418,16 @@ html:has(body.about-voice-he) {
   opacity: 0.75;
 }
 
-/* Soft close — Contact + IG only */
+/* Soft close — CONTACT heading + Email / IG */
 .about-close {
   max-width: 40rem;
   margin: 0 auto;
   padding: 8px 24px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.about-close__links {
   display: flex;
   flex-wrap: wrap;
   gap: 14px 28px;
