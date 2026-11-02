@@ -25,7 +25,7 @@ Jy direction (changelog must record). Build on mirror; still **not** primary unt
 | P4 | Dysphoria showreel mock: **no brackets**; keep center-snap + peeks; loupe/flip physics unchanged on production | Done this tip — brackets removed from `/mock/dysphoria-showreel/` only |
 | P5 | Apple Music preload during Dysphoria load gate | Done this tip — offscreen warm iframe during gate (EHW pattern); production flip/loupe untouched |
 
-Mirror tip for P3–P5: `4e54b22`.
+Mirror tip for P3–P5: `23c3cfa`.
 
 ## P0 EHW (mirror `/ehw/`)
 
