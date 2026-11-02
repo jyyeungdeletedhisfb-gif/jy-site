@@ -814,6 +814,11 @@ body.home-dummy .home-dummy__links a:focus-visible {
   line-height: 1.55;
   color: #999;
 }
+
+/* Privacy: clearer break between lede and WHO RUNS THIS (Jy phone mark) */
+.page-shell.page-privacy .page-lede {
+  margin-bottom: 52px;
+}
 .page-shell .contact-disclaimer {
   margin: 0;
   padding: 18px 20px;

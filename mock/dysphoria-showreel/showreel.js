@@ -1,4 +1,4 @@
-/* Dysphoria showreel taste mock — center-snap + peeks + viewfinder brackets */
+/* Dysphoria showreel taste mock — center-snap + peeks (brackets removed) */
 (function () {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -24,7 +24,6 @@
 
   const track = document.getElementById("track");
   const viewport = document.getElementById("viewport");
-  const brackets = document.getElementById("brackets");
   const titleNum = document.getElementById("titleNum");
   const titleName = document.getElementById("titleName");
   const prevBtn = document.getElementById("prevBtn");
@@ -132,33 +131,8 @@
     prevBtn.disabled = i <= 0;
     nextBtn.disabled = i >= sheets.length - 1;
     flipBtn.setAttribute("aria-pressed", flipped ? "true" : "false");
-    sizeBrackets();
   }
 
-  function sizeBrackets() {
-    const active = slideEls()[i];
-    if (!active) return;
-    const rect = active.getBoundingClientRect();
-    const vp = viewport.getBoundingClientRect();
-    // Size from layout box, not the live rect: right after a class swap the new
-    // active plate is still mid-transition at peek scale, which shrank brackets.
-    const cs = getComputedStyle(active);
-    brackets.style.width = parseFloat(cs.width) + "px";
-    brackets.style.height = parseFloat(cs.height) + "px";
-    // Keep vertically centered on the active plate within viewport
-    const cy = rect.top + rect.height / 2 - vp.top;
-    brackets.style.top = cy + "px";
-    brackets.classList.add("on");
-  }
-
-  function pulseBrackets() {
-    if (reduceMotion) return;
-    brackets.classList.remove("pulse");
-    // reflow
-    void brackets.offsetWidth;
-    brackets.classList.add("pulse");
-    window.setTimeout(() => brackets.classList.remove("pulse"), 700);
-  }
 
   function goTo(next, fromUser) {
     next = Math.max(0, Math.min(sheets.length - 1, next));
@@ -169,7 +143,6 @@
     animating = true;
     applyTransform(0, true);
     syncClasses();
-    pulseBrackets();
     window.setTimeout(() => { animating = false; }, reduceMotion ? 0 : 560);
   }
 
@@ -265,6 +238,5 @@
   requestAnimationFrame(() => {
     applyTransform(0, false);
     syncClasses();
-    pulseBrackets();
   });
 })();

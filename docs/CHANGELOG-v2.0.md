@@ -21,9 +21,11 @@ Jy direction (changelog must record). Build on mirror; still **not** primary unt
 |---|---|---|
 | P1 | About CONTACT row: **Instagram left / Email right** | Done this tip (was Email then Instagram at `3d3a141`) |
 | P2 | Privacy: third-party copy = **Apple Music and Spotify** (no Dysphoria name) | Done this tip |
-| P3 | Privacy: fix lede → WHO RUNS spacing | Open (Rachel) |
-| P4 | Dysphoria carousel: **no brackets**; keep motion; loupe/flip physics unchanged | Open (Rachel) |
-| P5 | Apple Music preload during load gate | Open (Rachel; EHW gate already warms AM embed as of `709c099`) |
+| P3 | Privacy: fix lede → WHO RUNS spacing | Done this tip — `.page-privacy .page-lede` margin-bottom **52px** (was 28px) |
+| P4 | Dysphoria showreel mock: **no brackets**; keep center-snap + peeks; loupe/flip physics unchanged on production | Done this tip — brackets removed from `/mock/dysphoria-showreel/` only |
+| P5 | Apple Music preload during Dysphoria load gate | Done this tip — offscreen warm iframe during gate (EHW pattern); production flip/loupe untouched |
+
+Mirror tip for P3–P5: `4e54b22`.
 
 ## P0 EHW (mirror `/ehw/`)
 

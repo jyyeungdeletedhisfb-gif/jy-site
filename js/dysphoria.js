@@ -556,7 +556,8 @@
     if (h2 && st.heading) h2.textContent = st.heading;
     if (sub && st.sub) sub.textContent = st.sub;
     if (apple && st.appleMusicUrl) apple.href = st.appleMusicUrl;
-    if (iframe && st.appleMusicEmbed) iframe.src = st.appleMusicEmbed;
+    // Embed src is warmed offscreen during the load gate (see warmAppleEmbed).
+    if (iframe && st.appleMusicEmbed) iframe.setAttribute("data-src", st.appleMusicEmbed);
     if (bg && st.backdrop) {
       bg.style.backgroundImage = `url("${backdropDisplayUrl(st.backdrop)}")`;
     }
@@ -1058,6 +1059,65 @@
     return [...new Set(urls.filter(Boolean))];
   }
 
+
+  const AM_EMBED_FALLBACK = "https://embed.music.apple.com/us/playlist/pl.u-jV890pjsd12y6xr";
+  let warmWrap = null;
+  let warmIframe = null;
+
+  function makeAppleIframe(src, title) {
+    const iframe = document.createElement("iframe");
+    iframe.id = "soundtrackEmbed";
+    iframe.title = title || "Dysphoria soundtrack on Apple Music";
+    iframe.setAttribute("allow", "autoplay *; encrypted-media *; fullscreen *; clipboard-write");
+    iframe.setAttribute("frameborder", "0");
+    iframe.setAttribute("height", "450");
+    iframe.setAttribute("scrolling", "no");
+    iframe.setAttribute(
+      "sandbox",
+      "allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+    );
+    iframe.src = src;
+    return iframe;
+  }
+
+  /** Warm Apple Music embed during load gate so soundtrack is further along when opened. */
+  function warmAppleEmbed(src) {
+    if (warmIframe || !document.body) return;
+    const embedSrc = src || AM_EMBED_FALLBACK;
+    const slot = document.getElementById("soundtrackEmbed");
+    if (slot) {
+      // Drop any early src so we don't double-fetch; warm owns the network.
+      slot.removeAttribute("src");
+    }
+    warmWrap = document.createElement("div");
+    warmWrap.id = "dysphoria-embed-warm";
+    warmWrap.setAttribute("aria-hidden", "true");
+    warmIframe = makeAppleIframe(embedSrc, slot && slot.title);
+    warmWrap.appendChild(warmIframe);
+    document.body.appendChild(warmWrap);
+  }
+
+  function installWarmedEmbed() {
+    const section = soundtrackInner || document.getElementById("soundtrackInner");
+    if (!section || !warmIframe) {
+      // Fallback: set src on the placeholder if warm never ran.
+      const slot = document.getElementById("soundtrackEmbed");
+      if (slot && !slot.getAttribute("src")) {
+        const ds = slot.getAttribute("data-src") || AM_EMBED_FALLBACK;
+        slot.src = ds;
+      }
+      return;
+    }
+    const old = section.querySelector("iframe");
+    if (old && old !== warmIframe) {
+      old.replaceWith(warmIframe);
+    } else if (!old) {
+      section.appendChild(warmIframe);
+    }
+    if (warmWrap && warmWrap.parentNode) warmWrap.parentNode.removeChild(warmWrap);
+    warmWrap = null;
+  }
+
   function preloadImages(urls) {
     return Promise.all(
       urls.map(
@@ -1077,6 +1137,7 @@
     if (!gate || gate.classList.contains("is-done")) return;
     gate.classList.add("is-done");
     gate.setAttribute("aria-busy", "false");
+    installWarmedEmbed();
     const remove = () => {
       if (gate.parentNode) gate.parentNode.removeChild(gate);
     };
@@ -1093,6 +1154,12 @@
     const minMs = reduced ? 0 : 320;
 
     const started = performance.now();
+    const embedSrc =
+      (data && data.soundtrack && data.soundtrack.appleMusicEmbed) ||
+      (document.getElementById("soundtrackEmbed") &&
+        document.getElementById("soundtrackEmbed").getAttribute("data-src")) ||
+      AM_EMBED_FALLBACK;
+    warmAppleEmbed(embedSrc);
     await Promise.race([
       preloadImages(urls),
       new Promise((r) => setTimeout(r, timeoutMs)),

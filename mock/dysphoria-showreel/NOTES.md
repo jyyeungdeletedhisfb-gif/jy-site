@@ -10,7 +10,7 @@
 |---|---|
 | Center-snap scrolling | Active plate locked to viewport center; neighbors scroll under |
 | Side peeks, reduced scale + opacity | Peeks ~0.72–0.78 scale, ~0.36–0.42 opacity, slight dim |
-| Corner focus brackets (viewfinder) | Four L-brackets with soft cyan glow; pulse once on snap |
+| Corner focus brackets (viewfinder) | **Removed** (Jy 2026-11-02) — keep center-snap + peeks only |
 | Numbered tick pager | Minimal tick marks under stage (position only) |
 | Accent title for active piece | Title jump above: `01/08 — Name` |
 | Drag / arrows / keys | Pointer drag, Prev/Next, ←/→ |
@@ -30,16 +30,15 @@ Not a Framer drop-in. Spatial feel only; chrome stays Dysphoria (black field, He
 
 ## Conflicts / open calls for Jy
 
-1. **Loupe vs drag** — Showreel X treats the whole stage as a drag surface. Live loupe needs pointer tracking on the plate. Options: (a) loupe only after Flip-off + long-press / dedicated tool arm, (b) loupe button arms a mode that disables drag, (c) keep single-plate stage + add brackets/peeks *around* current DOM (less “film strip”).
+1. **Loupe vs drag** — Showreel X treats the whole stage as a drag surface. Live loupe needs pointer tracking on the plate. Options: (a) loupe only after Flip-off + long-press / dedicated tool arm, (b) loupe button arms a mode that disables drag, (c) keep single-plate stage + peeks *around* current DOM (less “film strip”).
 2. **Peek click** — mock: click neighbor → snap. Live already does peek buttons. Film-strip peeks are larger/closer; confirm no accidental flips.
 3. **Finite vs infinite** — recommend keep finite album ends (disabled chevrons at 01 / last).
-4. **Bracket color** — mock uses soft cyan viewfinder glow on black. Prefer warm white / Dysphoria hairline grey instead?
-5. **Replace (alt frames)** — not in mock; should brackets re-lock after alt swap the same way?
-6. **Phone** — peeks tighter (72% width). Confirm brackets don’t collide with nav chevrons at 390.
+4. **Replace (alt frames)** — not in mock; confirm peek/snap after alt swap.
+5. **Phone** — peeks tighter (72% width). Confirm peeks don’t collide with nav chevrons at 390.
 
 ## Reduced motion
 
-`prefers-reduced-motion: reduce` → no track/slide/bracket transitions; no glow pulse; brackets stay static on the active plate; snap is instant.
+`prefers-reduced-motion: reduce` → no track/slide transitions; snap is instant.
 
 ## Files
 
@@ -53,6 +52,7 @@ Not a Framer drop-in. Spatial feel only; chrome stays Dysphoria (black field, He
 - Full 15-track set, alt Replace, soundtrack embed, load gate, exit scrub
 
 ## Fix pass (Steve QA on 01668ec)
-- P0 centring: slot math uses the layout (unscaled) width from computed style, not the scaled `getBoundingClientRect()`. The active plate now sits exactly under the brackets at every index. Brackets are also sized from the layout box, so they no longer shrink mid-transition.
+- P0 centring: slot math uses the layout (unscaled) width from computed style, not the scaled `getBoundingClientRect()`. The active plate sits center at every index.
+- 2026-11-02: focus brackets removed per Jy; center-snap + side peeks kept.
 - P1 click: no `setPointerCapture` on pointerdown. Capture starts only after 6px of travel. A plain click reaches the plate: clicking the active plate flips it, and clicking a peek snaps to it. A drag swallows its trailing click.
 - P1 phone: below 520px, plates are min(58vw, 240px), the gap is 12px and peeks scale to 0.8. Peeks are pulled inward via `--shift` so the visible gap between plates equals the track gap. The active plate fits fully, with about 42–47px of each neighbour showing at 390/412.

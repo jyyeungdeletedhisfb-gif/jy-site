@@ -962,3 +962,15 @@
   @media (max-width: 800px) {
     .tracklist { width: min(calc(100vw - 128px), 320px); }
   }
+
+/* Offscreen Apple Music warm iframe (loaded during gate; moved into soundtrack) */
+#dysphoria-embed-warm {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 320px;
+  height: 450px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
