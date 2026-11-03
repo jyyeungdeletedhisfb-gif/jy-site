@@ -46,6 +46,8 @@ Jy brief via Dex. Cache tip `ehw-v2.0-n`. **Primary untouched.**
 | E5 | EHW footer hairline off | `body.ehw-page .site-footer { border-top: none }` — other pages unchanged |
 | E6 | `prefers-reduced-motion` | Skip float + breathe; final positions + static pill cue |
 
+Mirror tip: `d200881` (cache `ehw-v2.0-n`).
+
 Still **blocked on Jy:** final square cover (4:5 placeholder / yellow field still in use).
 
 ## Sign-off (v2.0 Final — blank until ready)
