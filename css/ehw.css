@@ -172,32 +172,97 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   pointer-events: none;
 }
 
-/* Cover oval masked; interact cue sits in that top-left slot (Jy 2026-11-02). */
-.ehw-oval-mask {
+/* Yellow veils over baked-in cover portraits (numbers/title/oval stay on cover art).
+   HQ layers float in on top — oval lives in cover art only (no landing oval chrome). */
+.ehw-portrait-veil {
   position: absolute;
-  left: 10.5%;
-  top: 11.8%;
-  width: 32%;
-  height: 9.5%;
-  border-radius: 50%;
+  z-index: 1;
   background: var(--ehw-yellow);
   pointer-events: none;
-  z-index: 2;
 }
+/* Photo content bounds (inside hotspot hit areas so (01)/(02)/(03) stay visible). */
+.ehw-veil-dang,
+.ehw-pl-dang { left: 53.6%; top: 4.7%; width: 30.4%; height: 36.6%; }
+.ehw-veil-mas,
+.ehw-pl-mas  { left: 10.2%; top: 30.3%; width: 33.6%; height: 40.2%; }
+.ehw-veil-ehw,
+.ehw-pl-ehw  { left: 57.5%; top: 57.0%; width: 35.6%; height: 38.8%; }
+
+.ehw-portrait-layer {
+  position: absolute;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.ehw-portrait-layer picture,
+.ehw-portrait-layer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.ehw-portrait-layer.from-right { transform: translateX(32%); }
+.ehw-portrait-layer.from-left  { transform: translateX(-32%); }
+
+/* After load gate: quiet float-in to established positions */
+.ehw-stage.is-entered .ehw-portrait-layer {
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    transform 1.05s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.75s ease;
+}
+.ehw-stage.is-entered .ehw-pl-mas  { transition-delay: 0ms; }
+.ehw-stage.is-entered .ehw-pl-dang { transition-delay: 90ms; }
+.ehw-stage.is-entered .ehw-pl-ehw  { transition-delay: 160ms; }
+
+/* Subtle constant breathe as interactivity cue (after float-in) */
+.ehw-stage.is-breathing .ehw-portrait-layer img {
+  animation: ehwBreathe 3.8s ease-in-out infinite;
+}
+.ehw-stage.is-breathing .ehw-pl-dang img { animation-delay: 0s; }
+.ehw-stage.is-breathing .ehw-pl-mas img  { animation-delay: 0.45s; }
+.ehw-stage.is-breathing .ehw-pl-ehw img  { animation-delay: 0.9s; }
+@keyframes ehwBreathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Pill interact cue — overlaid on cover art (not old oval top-left slot). */
 .ehw-interact-cue {
   position: absolute;
-  left: 9.5%;
-  top: 11.2%;
-  width: 34%;
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%);
   z-index: 4;
   pointer-events: none;
+  width: max-content;
+  max-width: min(92%, 22em);
+  padding: 0.55em 1.2em;
+  border: 1.5px solid var(--ehw-teal);
+  border-radius: 999px;
+  background: rgba(255, 248, 220, 0.94);
   color: var(--ehw-teal);
   font-family: var(--font-helvetica);
   font-size: clamp(8px, 1.55vw, 11px);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1.35;
-  text-align: left;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease, visibility 0.45s;
+}
+.ehw-interact-cue.is-on {
+  opacity: 1;
+  visibility: visible;
 }
 .ehw-interact-cue .chars {
   display: block;
@@ -209,13 +274,34 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 .ehw-interact-cue .char {
   display: inline-block;
   opacity: 0;
-  transform: translateX(0.55em);
+  transform: translateX(0.45em);
+}
+.ehw-interact-cue.is-on .char {
   animation: ehwCueSlide 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 @keyframes ehwCueSlide {
   to { opacity: 1; transform: translateX(0); }
 }
 @media (prefers-reduced-motion: reduce) {
+  .ehw-portrait-layer,
+  .ehw-portrait-layer.from-right,
+  .ehw-portrait-layer.from-left {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+  .ehw-stage.is-entered .ehw-portrait-layer {
+    transition: none;
+  }
+  .ehw-stage.is-breathing .ehw-portrait-layer img {
+    animation: none;
+  }
+  .ehw-interact-cue {
+    opacity: 1;
+    visibility: visible;
+    transition: none;
+  }
   .ehw-interact-cue .char {
     opacity: 1;
     transform: none;
@@ -434,8 +520,12 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 
 @media (max-width: 520px) {
   /* phone brand size set at max-width 800 (14px) — taste, not About pixel match */
-  .ehw-oval-mask { left: 10.5%; top: 11.8%; width: 32%; height: 9.5%; }
-  .ehw-interact-cue { font-size: clamp(8px, 2.6vw, 10px); }
+  .ehw-interact-cue {
+    font-size: clamp(7.5px, 2.5vw, 10px);
+    top: 19%;
+    padding: 0.5em 0.95em;
+    max-width: 90%;
+  }
   .ehw-modal { padding: 24px 18px 18px; }
 }
 
@@ -451,8 +541,8 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 body.ehw-page .site-footer {
   background: var(--ehw-yellow);
   color: var(--footer-muted, #666);
-  /* Full-width partition like other pages (quiet teal on yellow) */
-  border-top: 1px solid rgba(53, 99, 101, 0.35);
+  /* Jy 2026-11-02 evening: kill stage↔footer hairline on EHW only */
+  border-top: none;
   /* Internal pad stays shared chrome 56/24/72 — gap above footer is .ehw-main pad-bottom */
 }
 

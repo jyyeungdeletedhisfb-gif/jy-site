@@ -26,8 +26,8 @@
 
   <link rel="preconnect" href="https://embed.music.apple.com" crossorigin />
   <link rel="preconnect" href="https://music.apple.com" crossorigin />
-  <link rel="stylesheet" href="css/chrome.css?v=ehw-v2.0-l" />
-  <link rel="stylesheet" href="css/ehw.css?v=ehw-v2.0-l" />
+  <link rel="stylesheet" href="css/chrome.css?v=ehw-v2.0-n" />
+  <link rel="stylesheet" href="css/ehw.css?v=ehw-v2.0-n" />
 </head>
 <body class="ehw-page">
   <div class="load-gate" id="loadGate" role="status" aria-live="polite" aria-busy="true">
@@ -84,7 +84,32 @@
           fetchpriority="high"
         />
       </picture>
-      <div class="ehw-oval-mask" aria-hidden="true"></div>
+
+      <!-- Yellow veils hide baked-in cover portraits so HQ layers can float in cleanly -->
+      <div class="ehw-portrait-veil ehw-veil-dang" aria-hidden="true"></div>
+      <div class="ehw-portrait-veil ehw-veil-mas" aria-hidden="true"></div>
+      <div class="ehw-portrait-veil ehw-veil-ehw" aria-hidden="true"></div>
+
+      <!-- HQ portrait layers (landing motion; modals still use same assets) -->
+      <div class="ehw-portrait-layer ehw-pl-dang from-right" aria-hidden="true">
+        <picture>
+          <source type="image/webp" srcset="assets/ehw/portraits/01-dang-720w.webp 720w, assets/ehw/portraits/01-dang-1080w.webp 1080w, assets/ehw/portraits/01-dang-1600w.webp 1600w" sizes="(max-width: 720px) 30vw, 220px" />
+          <img src="assets/ehw/portraits/01-dang-1080w.jpg" srcset="assets/ehw/portraits/01-dang-720w.jpg 720w, assets/ehw/portraits/01-dang-1080w.jpg 1080w, assets/ehw/portraits/01-dang-1600w.jpg 1600w" sizes="(max-width: 720px) 30vw, 220px" width="720" height="1080" alt="" decoding="async" />
+        </picture>
+      </div>
+      <div class="ehw-portrait-layer ehw-pl-mas from-left" aria-hidden="true">
+        <picture>
+          <source type="image/webp" srcset="assets/ehw/portraits/02-main-antagonist-syndrome-720w.webp 720w, assets/ehw/portraits/02-main-antagonist-syndrome-1080w.webp 1080w, assets/ehw/portraits/02-main-antagonist-syndrome-1600w.webp 1600w" sizes="(max-width: 720px) 33vw, 240px" />
+          <img src="assets/ehw/portraits/02-main-antagonist-syndrome-1080w.jpg" srcset="assets/ehw/portraits/02-main-antagonist-syndrome-720w.jpg 720w, assets/ehw/portraits/02-main-antagonist-syndrome-1080w.jpg 1080w, assets/ehw/portraits/02-main-antagonist-syndrome-1600w.jpg 1600w" sizes="(max-width: 720px) 33vw, 240px" width="720" height="1080" alt="" decoding="async" />
+        </picture>
+      </div>
+      <div class="ehw-portrait-layer ehw-pl-ehw from-right" aria-hidden="true">
+        <picture>
+          <source type="image/webp" srcset="assets/ehw/portraits/03-everything-he-wanted-720w.webp 720w, assets/ehw/portraits/03-everything-he-wanted-1080w.webp 1080w, assets/ehw/portraits/03-everything-he-wanted-1600w.webp 1600w" sizes="(max-width: 720px) 35vw, 255px" />
+          <img src="assets/ehw/portraits/03-everything-he-wanted-1080w.jpg" srcset="assets/ehw/portraits/03-everything-he-wanted-720w.jpg 720w, assets/ehw/portraits/03-everything-he-wanted-1080w.jpg 1080w, assets/ehw/portraits/03-everything-he-wanted-1600w.jpg 1600w" sizes="(max-width: 720px) 35vw, 255px" width="720" height="1080" alt="" decoding="async" />
+        </picture>
+      </div>
+
       <div class="ehw-interact-cue" id="ehw-interact-cue" aria-hidden="true"></div>
 
       <button type="button" class="ehw-hotspot ehw-hs-dang" data-modal="dang" aria-label="Open Dang"></button>
@@ -125,7 +150,7 @@
     <p class="footer-links"><a href="privacy/">Privacy</a></p>
   </footer>
 
-  <script src="js/chrome.js?v=ehw-v2.0-l" defer></script>
-  <script src="js/ehw.js?v=ehw-v2.0-l" defer></script>
+  <script src="js/chrome.js?v=ehw-v2.0-n" defer></script>
+  <script src="js/ehw.js?v=ehw-v2.0-n" defer></script>
 </body>
 </html>

@@ -96,22 +96,60 @@
     );
   }
 
+  function prefersReducedMotion() {
+    return (
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    );
+  }
+
+  /* After gate: float-in → pill cue → breathe (Jy 2026-11-02 evening). */
+  function startLandingMotion() {
+    var stage = document.getElementById("ehw-stage");
+    var cue = document.getElementById("ehw-interact-cue");
+    if (!stage) return;
+    var reduced = prefersReducedMotion();
+    if (reduced) {
+      stage.classList.add("is-entered");
+      if (cue) {
+        cue.classList.add("is-on");
+        cue.setAttribute("aria-hidden", "false");
+      }
+      return;
+    }
+    requestAnimationFrame(function () {
+      stage.classList.add("is-entered");
+    });
+    /* float ~1.05s + last stagger 160ms */
+    setTimeout(function () {
+      if (cue) {
+        cue.classList.add("is-on");
+        cue.setAttribute("aria-hidden", "false");
+      }
+      stage.classList.add("is-breathing");
+    }, 1250);
+  }
+
+  var landingMotionStarted = false;
   function dismissLoadGate() {
     var gate = document.getElementById("loadGate");
-    if (!gate || gate.classList.contains("is-done")) return;
-    gate.classList.add("is-done");
-    gate.setAttribute("aria-busy", "false");
-    var remove = function () {
-      if (gate.parentNode) gate.parentNode.removeChild(gate);
-    };
-    gate.addEventListener("transitionend", remove, { once: true });
-    setTimeout(remove, 700);
+    if (gate && !gate.classList.contains("is-done")) {
+      gate.classList.add("is-done");
+      gate.setAttribute("aria-busy", "false");
+      var remove = function () {
+        if (gate.parentNode) gate.parentNode.removeChild(gate);
+      };
+      gate.addEventListener("transitionend", remove, { once: true });
+      setTimeout(remove, 700);
+    }
+    if (!landingMotionStarted) {
+      landingMotionStarted = true;
+      startLandingMotion();
+    }
   }
 
   async function runLoadGate() {
-    var reduced =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var reduced = prefersReducedMotion();
     var urls = [
       "assets/ehw/ehw-cover-4x5.webp",
       "assets/ehw/ehw-cover-4x5.jpg",
@@ -142,14 +180,12 @@
     dismissLoadGate();
   });
 
-  /* --- Interact cue (top-left oval slot; no finger) --- */
+  /* --- Interact cue (pill on cover art; shown after float-in) --- */
   function mountInteractCue() {
     var cue = document.getElementById("ehw-interact-cue");
     if (!cue) return;
     var TEXT = "TAP EACH ELEMENT TO INTERACT.";
-    var reduced =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var reduced = prefersReducedMotion();
     cue.innerHTML = "";
     var wrap = document.createElement("span");
     wrap.className = "chars";
@@ -173,6 +209,10 @@
       word.appendChild(ch);
     }
     cue.appendChild(wrap);
+    if (reduced) {
+      cue.classList.add("is-on");
+      cue.setAttribute("aria-hidden", "false");
+    }
   }
   mountInteractCue();
 
@@ -338,7 +378,7 @@
       backdrop.removeEventListener("transitionend", done);
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     };
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (prefersReducedMotion()) {
       done();
     } else {
       backdrop.addEventListener("transitionend", done);

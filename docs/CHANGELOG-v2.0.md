@@ -29,9 +29,24 @@ Mirror tip for P3–P5: `23c3cfa`.
 
 ## P0 EHW (mirror `/ehw/`)
 
-- On mirror with Druk, HQ portraits, interact cue, load gate. Apex has no EHW.
-- **Blocked on Jy:** final square cover (also brings Work tile into the 1.5× image-weight band) + reveal / ship-to-primary timing.
+- On mirror with Druk, HQ portrait **layers** (float-in + breathe), pill cue on cover, load gate, oval in cover art only. Apex has no EHW.
+- **Blocked on Jy:** final square cover (also brings Work tile into the 1.5× image-weight band) + reveal / ship-to-primary timing. Still on 4:5 placeholder cover.
 - Soft: mirror-history leave-vs-rewrite parked; registrar 2FA confirm still open (GitHub passkey done 2026-11-02).
+
+## 2026-11-02 evening — EHW landing motion (mirror only)
+
+Jy brief via Dex. Cache tip `ehw-v2.0-n`. **Primary untouched.**
+
+| # | Change | Notes |
+|---|---|---|
+| E1 | HQ portrait layers on `/ehw/` landing | Yellow veils hide baked cover photos; HQ `<picture>` for 01/02/03 at photo bounds; hotspots unchanged |
+| E2 | Float-in after load gate | 01 Dang + 03 EHW right→left; 02 MAS left→right; then pill cue; then breathe |
+| E3 | Pill interact cue on cover art | `TAP EACH ELEMENT TO INTERACT.` — pill border centered mid-upper on art (not oval slot) |
+| E4 | Oval chrome off landing | Removed `.ehw-oval-mask`; oval stays in cover art only |
+| E5 | EHW footer hairline off | `body.ehw-page .site-footer { border-top: none }` — other pages unchanged |
+| E6 | `prefers-reduced-motion` | Skip float + breathe; final positions + static pill cue |
+
+Still **blocked on Jy:** final square cover (4:5 placeholder / yellow field still in use).
 
 ## Sign-off (v2.0 Final — blank until ready)
 
