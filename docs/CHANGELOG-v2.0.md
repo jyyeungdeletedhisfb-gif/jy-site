@@ -65,7 +65,7 @@ Jy phone shots via Dex. Cache tip `ehw-v2.0-o`. **Primary untouched.** Final squ
 | L5 | Vertical rhythm | Keep `.ehw-main` pad 72px top+bottom so header↔01 ≈ 03↔partition |
 | L6 | Back home block | Shared chrome footer pad `56/24/72` — partition→Back home matches About/Work/Dysphoria |
 
-Oval remains cover-art only. Mirror tip: `d3913eb` (cache `ehw-v2.0-o`).
+Oval remains cover-art only. Mirror tip: `8b0d91f` (cache `ehw-v2.0-o`).
 
 ## Sign-off (v2.0 Final — blank until ready)
 
