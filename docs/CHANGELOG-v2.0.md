@@ -87,6 +87,22 @@ Measured gaps (box Chrome):
 
 Both gaps ≥12. Mirror tip: `d9e42b2` (cache `ehw-v2.0-p`).
 
+
+
+## 2026-11-04 — EHW logo brackets equal pad (mirror only)
+
+Jy phone shot via Dex. Cache tip `ehw-v2.0-q`. **Primary untouched.** Final square cover still pending.
+
+| # | Change | Notes |
+|---|---|---|
+| B1 | Title hotspot equal inset | `.ehw-hs-title` was `56.5/43.5/28.0/9.0` (bottom **52.5%**, bottom pad ~**2.06%** vs top ~**0.43%**). Now `56.4/43.5/27.8/7.4` (bottom **50.9%**, pad ~**0.45%** all sides). |
+| B2 | No overlap with image 03 | Title brackets bottom clear of `.ehw-hs-ehw` top **52.8%** (~1.9% / ≥4px @390 with −5px bracket inset). |
+| B3 | Prior Soft PASS held | Pill header→01; 03 fills brackets; full footer partition; 72=72; Back home chrome; tip-gaps ≥12 @≤412; Druk slot unchanged. |
+
+Standing space gate for Steve: **equal-bracket-pad** (title frame) @390/412/1280 — see `docs/uat-checklist.md`.
+
+Mirror tip: `TIP_SHA` (cache `ehw-v2.0-q`).
+
 ## Sign-off (v2.0 Final — blank until ready)
 
 | Role | Name | Result | Date | Notes |

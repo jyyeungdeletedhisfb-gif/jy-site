@@ -391,8 +391,8 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
    Title hugs type only (not photo 03). Photo 03 includes (03) at its top-left. */
 .ehw-hs-dang { left: 49.8%; top: 4.5%; width: 34.2%; height: 36.5%; }
 .ehw-hs-mas  { left: 6.4%; top: 29.9%; width: 37.2%; height: 40.5%; }
-/* Title type only (EVERYTHING he WANTED) — no bite into 03 (Jy 2026-11-04) */
-.ehw-hs-title{ left: 56.5%; top: 43.5%; width: 28.0%; height: 9.0%; }
+/* Title type only — equal bracket pad ~0.45% all sides; trim bottom (Jy 2026-11-04) */
+.ehw-hs-title{ left: 56.4%; top: 43.5%; width: 27.8%; height: 7.4%; } /* bottom 50.9%; clear of 03 @52.8% */
 /* Photo 03 + (03) label; fills outer bracket interior */
 .ehw-hs-ehw  { left: 52.5%; top: 52.8%; width: 40.5%; height: 43.2%; }
 
