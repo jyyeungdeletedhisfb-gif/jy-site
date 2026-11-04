@@ -67,6 +67,26 @@ Jy phone shots via Dex. Cache tip `ehw-v2.0-o`. **Primary untouched.** Final squ
 
 Oval remains cover-art only. Mirror tip: `8b0d91f` (cache `ehw-v2.0-o`).
 
+
+
+## 2026-11-04 — EHW phone tip soft (mirror only)
+
+Jy yes via Dex. Cache tip `ehw-v2.0-p`. **Primary untouched.** Final square cover still pending.
+
+| # | Change | Notes |
+|---|---|---|
+| T1 | Center tip only @≤412 | `font-size` 11→**9.5px**, `letter-spacing` 0.16→**0.04em**. Full string kept (`EVERYTHING HE WANTED`). Not the TAP pill. |
+| T2 | Druk / chrome tokens | Brand slot unchanged (14px Druk ~96.45px). pad 20 / top-h 52 / burger inset held. |
+
+Measured gaps (box Chrome):
+
+| vw | logo→tip | tip→burger |
+|---|---|---|
+| 390 | **14.27px** | **74.73px** |
+| 412 | **25.27px** | **85.73px** |
+
+Both gaps ≥12. Mirror tip SHA stamped in follow-up docs commit.
+
 ## Sign-off (v2.0 Final — blank until ready)
 
 | Role | Name | Result | Date | Notes |

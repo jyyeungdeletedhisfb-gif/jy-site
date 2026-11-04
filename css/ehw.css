@@ -137,6 +137,16 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   }
 }
 
+/* Phone ≤412: shrink center tip only so logo→tip and tip→burger ≥12px.
+   Druk brand slot / pad 20 / top-h 52 / burger inset unchanged (Jy 2026-11-04 via Dex). */
+@media (max-width: 412px) {
+  body.ehw-page .topbar .project-title,
+  body.ehw-page .topbar .site-page-tip {
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+  }
+}
+
 /* Landing stage */
 .ehw-main {
   /* flex-grow off: short landing must not stretch a yellow void above the footer
