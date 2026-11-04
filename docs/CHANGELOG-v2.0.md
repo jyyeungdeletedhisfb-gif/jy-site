@@ -101,7 +101,7 @@ Jy phone shot via Dex. Cache tip `ehw-v2.0-q`. **Primary untouched.** Final squa
 
 Standing space gate for Steve: **equal-bracket-pad** (title frame) @390/412/1280 — see `docs/uat-checklist.md`.
 
-Mirror tip: `TIP_SHA` (cache `ehw-v2.0-q`).
+Mirror tip: `259fd4e` (cache `ehw-v2.0-q`).
 
 ## Sign-off (v2.0 Final — blank until ready)
 
