@@ -85,7 +85,7 @@ Measured gaps (box Chrome):
 | 390 | **14.27px** | **74.73px** |
 | 412 | **25.27px** | **85.73px** |
 
-Both gaps ≥12. Mirror tip SHA stamped in follow-up docs commit.
+Both gaps ≥12. Mirror tip: `d9e42b2` (cache `ehw-v2.0-p`).
 
 ## Sign-off (v2.0 Final — blank until ready)
 
