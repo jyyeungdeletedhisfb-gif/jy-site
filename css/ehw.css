@@ -141,12 +141,13 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 .ehw-main {
   /* flex-grow off: short landing must not stretch a yellow void above the footer
      (other pages are tall enough that sticky-footer stretch never shows). */
+  position: relative; /* pill cue anchors into header↔stage gap */
   flex: 0 0 auto;
   min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* 72px stage↔header and stage↔footer (Jy 2026-11-02 night). Not footer pad. */
+  /* 72px stage↔header and stage↔footer — equals 03↔partition (Jy 2026-11-04). Not footer pad. */
   padding: calc(var(--top-h) + 72px) 12px 72px;
 }
 
@@ -185,8 +186,9 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 .ehw-pl-dang { left: 53.6%; top: 4.7%; width: 30.4%; height: 36.6%; }
 .ehw-veil-mas,
 .ehw-pl-mas  { left: 10.2%; top: 30.3%; width: 33.6%; height: 40.2%; }
+/* 03: re-detected photo+bracket interior (Jy 2026-11-04) — fill frame, clear of title */
 .ehw-veil-ehw,
-.ehw-pl-ehw  { left: 57.5%; top: 57.0%; width: 35.6%; height: 38.8%; }
+.ehw-pl-ehw  { left: 57.5%; top: 53.2%; width: 35.4%; height: 42.5%; }
 
 .ehw-portrait-layer {
   position: absolute;
@@ -233,13 +235,14 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   50% { transform: translateY(-4px); }
 }
 
-/* Pill interact cue — overlaid on cover art (not old oval top-left slot). */
+/* Pill interact cue — in header↔stage yellow band (Jy 2026-11-04). Not mid-stage. */
 .ehw-interact-cue {
   position: absolute;
   left: 50%;
-  top: 20%;
-  transform: translateX(-50%);
-  z-index: 4;
+  /* Vertically center inside the 72px gap below the topbar */
+  top: calc(var(--top-h) + 36px);
+  transform: translate(-50%, -50%);
+  z-index: 5;
   pointer-events: none;
   width: max-content;
   max-width: min(92%, 22em);
@@ -378,8 +381,10 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
    Title hugs type only (not photo 03). Photo 03 includes (03) at its top-left. */
 .ehw-hs-dang { left: 49.8%; top: 4.5%; width: 34.2%; height: 36.5%; }
 .ehw-hs-mas  { left: 6.4%; top: 29.9%; width: 37.2%; height: 40.5%; }
-.ehw-hs-title{ left: 57.0%; top: 49.2%; width: 33.5%; height: 8.5%; }
-.ehw-hs-ehw  { left: 52.5%; top: 58.2%; width: 40.5%; height: 38.0%; }
+/* Title type only (EVERYTHING he WANTED) — no bite into 03 (Jy 2026-11-04) */
+.ehw-hs-title{ left: 56.5%; top: 43.5%; width: 28.0%; height: 9.0%; }
+/* Photo 03 + (03) label; fills outer bracket interior */
+.ehw-hs-ehw  { left: 52.5%; top: 52.8%; width: 40.5%; height: 43.2%; }
 
 /* Modal */
 .ehw-backdrop {
@@ -522,7 +527,7 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
   /* phone brand size set at max-width 800 (14px) — taste, not About pixel match */
   .ehw-interact-cue {
     font-size: clamp(7.5px, 2.5vw, 10px);
-    top: 19%;
+    /* keep header↔stage band centering from base rule */
     padding: 0.5em 0.95em;
     max-width: 90%;
   }
@@ -531,6 +536,7 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 
 @media (orientation: landscape) and (max-height: 520px) {
   .ehw-main { padding: calc(var(--top-h) + 24px) 8px 24px; }
+  .ehw-interact-cue { top: calc(var(--top-h) + 12px); }
   .ehw-stage {
     width: min(48vw, calc((100vh - 64px) * 4 / 5));
   }
@@ -541,9 +547,22 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 body.ehw-page .site-footer {
   background: var(--ehw-yellow);
   color: var(--footer-muted, #666);
-  /* Jy 2026-11-02 evening: kill stage↔footer hairline on EHW only */
-  border-top: none;
-  /* Internal pad stays shared chrome 56/24/72 — gap above footer is .ehw-main pad-bottom */
+  /* Full-width partition — match About/Work/Dysphoria (Jy 2026-11-04) */
+  border-top: 1px solid rgba(53, 99, 101, 0.35);
+  /* Internal pad stays shared chrome 56/24/72 — partition→Back home matches other pages */
+}
+
+/* Kill short teal hairline baked into cover bottom edge (1px row on 4×5 art) */
+.ehw-cover-bottom-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0.22%;
+  min-height: 2px;
+  background: var(--ehw-yellow);
+  z-index: 1;
+  pointer-events: none;
 }
 
 body.ehw-page .footer-home {

@@ -50,6 +50,23 @@ Mirror tip: `d200881` (cache `ehw-v2.0-n`).
 
 Still **blocked on Jy:** final square cover (4:5 placeholder / yellow field still in use).
 
+
+
+## 2026-11-04 — EHW layout polish (mirror only)
+
+Jy phone shots via Dex. Cache tip `ehw-v2.0-o`. **Primary untouched.** Final square cover still pending (4:5 placeholder).
+
+| # | Change | Notes |
+|---|---|---|
+| L1 | Pill cue into header↔image-01 gap | Moved `#ehw-interact-cue` out of stage; absolute-centered in the 72px yellow band — no mid-stage overlap of oval/01 |
+| L2 | Image 03 fills outer brackets | Re-detected photo bounds; veil+HQ layer `top 53.2% / height 42.5%` — no yellow gap inside bracket frame |
+| L3 | Title / logo frame clear of 03 | Title hotspot retightened to type only (`43.5%+9%`); no title-bracket bite into 03 |
+| L4 | Full-width footer partition | Restored `border-top: 1px solid rgba(53,99,101,0.35)`; yellow mask kills short teal hairline baked into cover bottom edge |
+| L5 | Vertical rhythm | Keep `.ehw-main` pad 72px top+bottom so header↔01 ≈ 03↔partition |
+| L6 | Back home block | Shared chrome footer pad `56/24/72` — partition→Back home matches About/Work/Dysphoria |
+
+Oval remains cover-art only. Mirror tip: `d3913eb` (cache `ehw-v2.0-o`).
+
 ## Sign-off (v2.0 Final — blank until ready)
 
 | Role | Name | Result | Date | Notes |

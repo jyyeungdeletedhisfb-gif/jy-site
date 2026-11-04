@@ -103,7 +103,7 @@
     );
   }
 
-  /* After gate: float-in → pill cue → breathe (Jy 2026-11-02 evening). */
+  /* After gate: float-in → pill cue (header gap) → breathe (Jy 2026-11-04 layout). */
   function startLandingMotion() {
     var stage = document.getElementById("ehw-stage");
     var cue = document.getElementById("ehw-interact-cue");
@@ -180,7 +180,7 @@
     dismissLoadGate();
   });
 
-  /* --- Interact cue (pill on cover art; shown after float-in) --- */
+  /* --- Interact cue (pill in header↔stage gap; shown after float-in) --- */
   function mountInteractCue() {
     var cue = document.getElementById("ehw-interact-cue");
     if (!cue) return;
