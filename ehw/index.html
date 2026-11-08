@@ -27,13 +27,14 @@
   <link rel="preconnect" href="https://embed.music.apple.com" crossorigin />
   <link rel="preconnect" href="https://music.apple.com" crossorigin />
   <link rel="stylesheet" href="css/chrome.css?v=ehw-v2.0-q" />
-  <link rel="stylesheet" href="css/ehw.css?v=ehw-v2.0-q" />
+  <link rel="stylesheet" href="css/ehw.css?v=ehw-win2000-20261108-r1" />
 </head>
 <body class="ehw-page">
   <div class="load-gate" id="loadGate" role="status" aria-live="polite" aria-busy="true">
     <div class="load-gate-inner">
       <span class="load-gate-mark" aria-hidden="true"></span>
       <span class="load-gate-label">EVERYTHING HE WANTED</span>
+      <span class="load-gate-tip">Tip: view on desktop for an optimized experience</span>
     </div>
   </div>
 
@@ -80,7 +81,7 @@
           src="assets/ehw/ehw-cover-4x5.jpg"
           width="1080"
           height="1350"
-          alt="everything he wanted cover art"
+          alt="everything he wanted — existing 4:5 cover placeholder; final square cover pending"
           decoding="async"
           fetchpriority="high"
         />
@@ -119,15 +120,6 @@
     </div>
   </main>
 
-  <div class="ehw-backdrop" id="ehw-backdrop" hidden>
-    <div class="ehw-modal" id="ehw-modal" role="dialog" aria-modal="true" aria-labelledby="ehw-modal-title" tabindex="-1">
-      <button type="button" class="ehw-close" id="ehw-modal-close" aria-label="Close">&times;</button>
-      <h2 id="ehw-modal-title"></h2>
-      <div class="ehw-modal-body" id="ehw-modal-body"></div>
-      <div class="ehw-modal-embed" id="ehw-modal-embed" hidden></div>
-    </div>
-  </div>
-
   <footer class="site-footer" id="footer">
     <a class="footer-home" href="./">Back home</a>
     <div class="footer-icons">
@@ -151,6 +143,6 @@
   </footer>
 
   <script src="js/chrome.js?v=ehw-v2.0-q" defer></script>
-  <script src="js/ehw.js?v=ehw-v2.0-q" defer></script>
+  <script src="js/ehw.js?v=ehw-win2000-20261108-r1" defer></script>
 </body>
 </html>

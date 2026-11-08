@@ -103,6 +103,22 @@ Standing space gate for Steve: **equal-bracket-pad** (title frame) @390/412/1280
 
 Mirror tip: `259fd4e` (cache `ehw-v2.0-q`).
 
+## 2026-11-08 — approved Win2000 mirror checkpoint
+
+Owner requested mirror checkpoint at 15:49 HKT. Cache tip `ehw-win2000-20261108-r1`. **Mirror only; primary untouched, no CNAME.** Supersedes discussion-only hold, not the v2.0 primary Final gate.
+
+| # | Change | Notes |
+|---|---|---|
+| W1 | Approved v12–v16 windows | Instant open/close; real classic scrollbar/native suppressed; desktop drag clamps under header, taskbar/minimise/restore/Shut Down; local live h:mm AM/PM clock, no date/geolocation |
+| W2 | Trilogy content/music | Bold-underlined titles, regular quoted body including Dang’s “pretty lost at making a corporate slide deck.”; left dual photos/8px gap, ~211px phone height; Apple/Spotify song embeds both 175px, MAS playlist 450px / Spotify · SOON |
+| W3 | Self-hosted carousels | Real optimised deck copies: DANG 17 at 16:9, MAS/EHW 9 each at 4:5; cover fill, centred zero-padded counter, prev/next only, retro steps; Instagram links retained |
+| W4 | Locked rhythm + logo | Title/body/LISTEN 10px; LISTEN/embed = VIEW/carousel 16px; labels 15px. Druk 12.6px/−0.04em phone = desktop, no nudge; tip 9.5px/.04em and ≥12px gap |
+| W5 | Phone footer + docs | Existing shared footer/56-24-72-24 pads; ≥801px taskbar/Credits exception. Footer invariant and standing About-width header-logo QA gate recorded |
+
+Known holds: existing 4:5 landing cover is a placeholder for the final square cover; About and Special Thanks/Credits copy stays visibly marked [PLACEHOLDER]. No invented copy/assets; MAS Spotify remains SOON. Contact stays removed/mailto; Privacy and other page layouts preserved. Headless Apple Music may paint a grey placeholder; PNGs do not certify playback.
+
+Build evidence: `/workspace/qa/ehw-mirror-checkpoint-2026-11-08/REPORT.md` (local/deployed 390/412/1280). Steve deployed-mirror QA and Jy taste remain separate from this build verification; no Final sign-off filled.
+
 ## Sign-off (v2.0 Final — blank until ready)
 
 | Role | Name | Result | Date | Notes |
