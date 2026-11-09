@@ -578,7 +578,8 @@ body.ehw-w2k-pop  .ehw-interact-cue.rect{visibility:hidden}
 
 #wlayer{position:fixed;left:0;right:0;top:0;bottom:0;pointer-events:none;z-index:250}
 body.ehw-w2k-desk #wlayer{bottom:var(--tb-h)}
-#wlayer .dim{position:absolute;inset:0;background:rgba(0,0,0,.45);pointer-events:auto}
+#wlayer .dim{position:absolute;inset:0;background:rgba(0,0,0,.45);pointer-events:auto;touch-action:none;overscroll-behavior:contain}
+#wlayer .content{overscroll-behavior:contain}
 .win{position:absolute;pointer-events:auto;background:var(--w-face);border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:1px 1px 0 #000;display:flex;flex-direction:column;padding:2px;font-family:"VT323",monospace;-webkit-font-smoothing:none}
 .win.min{display:none}
 .tb{flex:0 0 26px;display:flex;align-items:center;gap:6px;padding:0 3px 0 6px;color:#fff;cursor:default;user-select:none;touch-action:none}

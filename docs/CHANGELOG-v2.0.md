@@ -138,6 +138,10 @@ Jy approved at 15:39 HKT (“Ok fix it” + notes). Cache tip `ehw-win2000-20261
 
 Build evidence: `/workspace/qa/ehw-mirror-pass2-2026-11-09/REPORT.md`. No Final sign-off filled.
 
+## 2026-11-09 PM — EHW pass 3 (Steve QA fixes, local; push pending Jy)
+
+Cache tip `ehw-win2000-20261109-r3`. Fixes Steve’s independent QA of `f88ac0b`: phone popup locks background scroll and restores the exact position on Close/Esc/dim tap; interact cue stays in the header band when it can’t fit beside the stage (no sideways scroll 320–1440, incl. 801–999/834); desktop windows always end above the taskbar (heights fit; stagger slides left on narrow desktops instead of collapsing); drag keeps ≥80px of title-bar grab area on screen, top under header, bottom above taskbar. Evidence: `/workspace/qa/ehw-mirror-pass3-2026-11-09/REPORT.md`.
+
 ## Sign-off (v2.0 Final — blank until ready)
 
 | Role | Name | Result | Date | Notes |

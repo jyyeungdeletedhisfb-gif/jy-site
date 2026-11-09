@@ -49,16 +49,21 @@ const cue=document.getElementById('ehw-interact-cue');
 cue.textContent='Tap each element to interact';
 cue.classList.add('rect','is-on');
 function placeBalloon(){
+  // Reset to the CSS default (centred in the header→stage band, as on phone).
+  cue.style.left=cue.style.right=cue.style.top=cue.style.transform='';
   if(!desk) return;
   const st=document.getElementById('ehw-stage').getBoundingClientRect();
   const m=document.querySelector('.ehw-main').getBoundingClientRect();
+  // Beside the stage only when the gap really fits it; otherwise (≈801–999px) keep the band
+  // placement so the cue never pushes the page wider than the viewport.
+  if(innerWidth-st.right < cue.offsetWidth+2*12) return;
   cue.style.right='auto';
   cue.style.left=((st.right+innerWidth)/2 - m.left)+'px';
   cue.style.transform='translate(-50%,-50%)';
   cue.style.top=(st.top+st.height/2 - m.top)+'px';
 }
 placeBalloon();
-addEventListener('resize',placeBalloon);
+addEventListener('resize',()=>{placeBalloon();if(desk)L.querySelectorAll('.win').forEach(fitDesk);});
 
 const L=document.createElement('div');L.id='wlayer';B.appendChild(L);
 let Z=10,tabs,clockEl;
@@ -131,9 +136,23 @@ function sync(){if(!tabs)return;L.querySelectorAll('.win').forEach(w=>{const t=t
 function focus(el){L.querySelectorAll('.win').forEach(w=>w.classList.add('inactive'));el.classList.remove('inactive','min');el.style.zIndex=++Z;sync();}
 function minimise(id){const w=win(id);if(!w)return;const hadFocus=w.contains(document.activeElement);w.classList.add('min','inactive');if(hadFocus&&tab(id))tab(id).focus({preventScroll:true});const vis=[...L.querySelectorAll('.win:not(.min)')].sort((a,b)=>(+b.style.zIndex||0)-(+a.style.zIndex||0));if(vis[0])focus(vis[0]);else sync();}
 function dispose(w){w._phoneDualObserver?.disconnect();w._scrollObserver?.disconnect();w._scrollTimers?.forEach(clearTimeout);}
+// Phone modal: freeze the page behind the window and put it back exactly where it was.
+let lockY=null;
+const LOCK_PROPS=['position','top','left','right','width'];
+function lockScroll(){
+  if(lockY!==null) return;
+  lockY=scrollY;
+  Object.assign(B.style,{position:'fixed',top:(-lockY)+'px',left:'0',right:'0',width:'100%'});
+}
+function unlockScroll(){
+  if(lockY===null) return;
+  const y=lockY; lockY=null;
+  LOCK_PROPS.forEach(k=>B.style.removeProperty(k));
+  scrollTo(0,y);
+}
 function restore(t){if(t&&t.isConnected&&t!==document.body)t.focus({preventScroll:true});}
-function close(id){const w=win(id);if(!w)return;const trigger=w._trigger;dispose(w);w.remove();if(tab(id))tab(id).remove();if(!desk){L.innerHTML='';B.classList.remove('ehw-w2k-pop');}sync();restore(trigger);}
-function closePhone(){const w=L.querySelector('.win');if(w)close(w.dataset.id);else{L.innerHTML='';B.classList.remove('ehw-w2k-pop');}}
+function close(id){const w=win(id);if(!w)return;const trigger=w._trigger;dispose(w);w.remove();if(tab(id))tab(id).remove();if(!desk){L.innerHTML='';B.classList.remove('ehw-w2k-pop');unlockScroll();}sync();restore(trigger);}
+function closePhone(){const w=L.querySelector('.win');if(w)close(w.dataset.id);else{L.innerHTML='';B.classList.remove('ehw-w2k-pop');unlockScroll();}}
 
 function dualHTML(d){
   if(!d.cover||!d.stage) return '';
@@ -358,11 +377,29 @@ const SONG_W_DESK=400, SONG_W_PHONE=366;
 const DB={dang:[540,56,SONG_W_DESK,720],mas:[660,56,SONG_W_DESK,740],ehw:[800,56,SONG_W_DESK,720],about:[480,360,360,260],credits:[720,80,380,520]};
 const PB={dang:[null,48,SONG_W_PHONE,780],mas:[null,48,SONG_W_PHONE,780],ehw:[null,48,SONG_W_PHONE,780],about:[null,110,342,560],credits:[null,90,358,640]};
 const EDGE=12;
+// Desktop: keep every window above the taskbar and ≥EDGE inside the viewport. When the viewport is
+// narrower than the stagger (rightmost window ends at 1200), slide the whole stagger left so its
+// spacing survives; heights shrink to fit between header and taskbar.
+const STAGGER_RIGHT=Math.max(...Object.values(DB).map(b=>b[0]+b[2])), TB_GAP=4, GRAB=80;
+function deskBounds(){ return {top:headerBottom(), bottom:L.clientHeight-TB_GAP, right:L.clientWidth}; }
+function clampXY(el,x,y){
+  const k=deskBounds(), r=el.getBoundingClientRect(), btns=el.querySelector('.tb .btns').getBoundingClientRect();
+  const rightChrome=r.right-btns.left;               // close/min/max cluster + frame on the right
+  x=Math.min(Math.max(x, GRAB+rightChrome-el.offsetWidth), k.right-GRAB-8); // ≥80px of grab area visible
+  y=Math.min(Math.max(y, k.top), Math.max(k.top, k.bottom-el.offsetHeight)); // under header, above taskbar
+  return [x,y];
+}
+function fitDesk(el){
+  const k=deskBounds(), top=Math.max(el.offsetTop,k.top);
+  el.style.height=Math.max(120,Math.min(el._h, k.bottom-top))+'px';
+  const [x,y]=clampXY(el,el.offsetLeft,top);
+  el.style.left=x+'px'; el.style.top=y+'px';
+}
 
 function open(id){
   if(!W[id])return;
   const trigger=document.activeElement;
-  if(!desk){L.querySelectorAll('.win').forEach(w=>dispose(w));L.innerHTML='<div class="dim"></div>';B.classList.add('ehw-w2k-pop');L.firstChild.onclick=closePhone;}
+  if(!desk){lockScroll();L.querySelectorAll('.win').forEach(w=>dispose(w));L.innerHTML='<div class="dim"></div>';B.classList.add('ehw-w2k-pop');L.firstChild.onclick=closePhone;}
   else if(win(id)){focus(win(id));return;}
   const d=W[id],b=(desk?DB:PB)[id],el=document.createElement('div');
   el.className='win '+id;el.dataset.id=id;el.setAttribute('role','dialog');el.setAttribute('aria-label',d.t);if(!desk)el.setAttribute('aria-modal','true');
@@ -371,10 +408,15 @@ function open(id){
   const body=dualHTML(d)+d.body+listenHTML(d)+embedHTML(d)+slideshowLabel(d)+carouselHTML(d)+igHTML(d.ig);
   el.innerHTML=`<div class="tb"><span class="t">${d.t}</span><span class="btns">${btns}</span></div><div class="client"><div class="content">${body}</div><div class="sb" aria-hidden="true"><div class="a up" role="button" aria-label="Scroll up"></div><div class="tr"><div class="th"></div></div><div class="a dn" role="button" aria-label="Scroll down"></div></div></div>`;
   el._trigger=trigger;
-  let top=b[1], w=Math.min(b[2], innerWidth-2*EDGE), left;
-  if(desk){ top=Math.max(top, headerBottom()); left=Math.max(EDGE, Math.min(b[0], innerWidth-w-EDGE)); }
+  let top=b[1], w=Math.min(b[2], innerWidth-2*EDGE), h=b[3], left;
+  el._h=b[3];
+  if(desk){
+    const k=deskBounds(), shift=Math.max(0, STAGGER_RIGHT-(innerWidth-EDGE));
+    top=Math.max(top, k.top); h=Math.min(h, k.bottom-top);
+    left=Math.max(EDGE, Math.min(b[0]-shift, innerWidth-w-EDGE));
+  }
   else left=Math.round((innerWidth-w)/2);
-  Object.assign(el.style,{left:left+'px',top:top+'px',width:w+'px',height:b[3]+'px'});
+  Object.assign(el.style,{left:left+'px',top:top+'px',width:w+'px',height:h+'px'});
   L.appendChild(el);
   wirePhoneDual(el);
   wireToggle(el);
@@ -399,11 +441,8 @@ function drag(el){
     tb.setPointerCapture(e.pointerId);
     const sx=e.clientX-el.offsetLeft,sy=e.clientY-el.offsetTop;
     const mv=ev=>{
-      let x=ev.clientX-sx,y=ev.clientY-sy;
-      const hb=headerBottom();
-      x=Math.min(Math.max(x,60-el.offsetWidth),L.clientWidth-60);
-      // Header is a restricted zone — never let window top enter the site header
-      y=Math.min(Math.max(y,hb),L.clientHeight-30);
+      // Header is a restricted zone; taskbar too. Keep ≥80px of title-bar grab area on screen.
+      const [x,y]=clampXY(el,ev.clientX-sx,ev.clientY-sy);
       el.style.left=x+'px';el.style.top=y+'px';
     };
     const up=()=>{tb.removeEventListener('pointermove',mv);tb.removeEventListener('pointerup',up);};
