@@ -142,6 +142,8 @@ Build evidence: `/workspace/qa/ehw-mirror-pass2-2026-11-09/REPORT.md`. No Final 
 
 Cache tip `ehw-win2000-20261109-r3`. Fixes Steve’s independent QA of `f88ac0b`: phone popup locks background scroll and restores the exact position on Close/Esc/dim tap; interact cue stays in the header band when it can’t fit beside the stage (no sideways scroll 320–1440, incl. 801–999/834); desktop windows always end above the taskbar (heights fit; stagger slides left on narrow desktops instead of collapsing); drag keeps ≥80px of title-bar grab area on screen, top under header, bottom above taskbar. Evidence: `/workspace/qa/ehw-mirror-pass3-2026-11-09/REPORT.md`.
 
+Work (Jy pick 17:15 HKT, folded into r3): Coming soon tiles get a milky white 35% veil + `saturate(.75)` (frame keeps .92 opacity / 55% border); Work’s `chrome.css` token → `work-soon-milky35-20261109-r3` (rule only matches Work tiles; other pages keep their tokens). Evidence: `/workspace/qa/ehw-mirror-pass3-2026-11-09/work-overlay/`.
+
 ## Sign-off (v2.0 Final — blank until ready)
 
 | Role | Name | Result | Date | Notes |
