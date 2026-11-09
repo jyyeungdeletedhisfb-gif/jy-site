@@ -293,3 +293,12 @@ On EHW/Work/Dysphoria/Privacy, Back home→icons = **28px**, icons→copyright =
 **Any change to shared footer padding, spacing, alignment, typography, link treatment, borders, icon dimensions or responsive visibility requires explicit Jy sign-off plus Steve's QA gate.** Do not casually hide/move the phone footer into Credits again. Palette exceptions also require approval to change.
 
 Steve gate: measure Home/Work/About I + He/Dysphoria/Privacy/EHW at 390 and 412, then tablet portrait/landscape and desktop; verify full-width hairline, 24px side pads, 56/72 internal pads, centered icon cluster, text links underlined, icon box-sizing accounted for, no sideways overflow and normal footer access after popup close. Verify EHW desktop taskbar/Credits and scroll-lock exception remain intact. Existing About box-sizing/color discrepancies must be explicitly accepted or separately approved, not silently “fixed”. Screenshots are emulation, not Android-glass taste approval.
+
+## Shared no-overlap invariant (header / footer)
+
+**No element may ever sit on top of the site header or footer, on any page or width (balloons, popups, cues, windows included). Permanent QA gate (Jy, 2026-11-09).**
+
+- On EHW desktop (≥801px) the Win2000 taskbar is the footer: windows and the Tip balloon must end above it; windows also start below the 52px header.
+- EHW Tip balloon (r4): in normal flow directly below image (03), stem up at (03), above the footer/taskbar; it never moves over the header, footer or taskbar at 320–1440.
+- QA: assert at 390, 412, 1280 (and the 320–1440 sweep where relevant) that no rect of a balloon, cue, popup or window intersects the header or footer/taskbar rect.
+

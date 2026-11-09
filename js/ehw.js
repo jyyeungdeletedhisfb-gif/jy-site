@@ -45,26 +45,62 @@ if(desk) B.classList.add('ehw-w2k-desk');
 B.classList.add('ehw-w2k-align-left');
 document.getElementById('ehw-stage').classList.add('is-entered');
 
+// Interaction hint: Win2000 tray-style balloon (Jy pick 2026-11-09, variant A: "Tip" + info icon,
+// one-line text, no X). Sits in normal flow directly below image (03), stem up at (03), above the
+// footer (phone) / taskbar (desktop); never over header, footer or taskbar. Dismissed by a tap/click
+// on it or after 10s (Win2000 uTimeout floor). Replaces the old rectangular cue.
 const cue=document.getElementById('ehw-interact-cue');
-cue.textContent='Tap each element to interact';
-cue.classList.add('rect','is-on');
-function placeBalloon(){
-  // Reset to the CSS default (centred in the header→stage band, as on phone).
-  cue.style.left=cue.style.right=cue.style.top=cue.style.transform='';
-  if(!desk) return;
-  const st=document.getElementById('ehw-stage').getBoundingClientRect();
-  const m=document.querySelector('.ehw-main').getBoundingClientRect();
-  // Beside the stage only when the gap really fits it; otherwise (≈801–999px) keep the band
-  // placement so the cue never pushes the page wider than the viewport.
-  if(innerWidth-st.right < cue.offsetWidth+2*12) return;
-  cue.style.right='auto';
-  cue.style.left=((st.right+innerWidth)/2 - m.left)+'px';
-  cue.style.transform='translate(-50%,-50%)';
-  cue.style.top=(st.top+st.height/2 - m.top)+'px';
+cue.hidden=true;
+const BLN_TIMEOUT=10000, BLN_GAP=3, BLN_STEM=12, BLN_CLEAR=8, BLN_EDGE=12;
+const main=document.querySelector('.ehw-main');
+const bln=document.createElement('div');
+bln.className='ehw-balloon';bln.setAttribute('role','status');bln.hidden=true;
+bln.innerHTML='<svg class="stem" aria-hidden="true" width="15" height="15" viewBox="0 0 15 15"><path d="M0.5 13.5 L0.5 0.5 L14.5 13.5" fill="#FFFFE1" stroke="#000" stroke-width="1"/><rect x="1" y="13" width="13" height="2" fill="#FFFFE1"/></svg>'+
+  '<div class="bln-h"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#fff" stroke="#00007f"/><circle cx="8" cy="8" r="6" fill="#0a3ccf"/><rect x="7" y="7" width="2" height="5" fill="#fff"/><rect x="7" y="4" width="2" height="2" fill="#fff"/></svg><b>Tip</b></div>'+
+  '<div class="bln-b">Tap each element to interact</div>';
+main.appendChild(bln);
+let blnTimer=0, blnDone=false;
+function blnLimit(){ // page-y of the first thing the balloon must stay above: footer (phone) / taskbar (desktop)
+  const tb=document.getElementById('taskbar');
+  if(tb) return tb.getBoundingClientRect().top+scrollY;
+  const f=document.querySelector('.site-footer');
+  return f?f.getBoundingClientRect().top+scrollY:document.documentElement.scrollHeight;
 }
-placeBalloon();
+function blnReserve(px){ // grow the band under the stage only when the balloon would not fit
+  const st=document.getElementById('ehw-stage');
+  main.style.removeProperty('padding-bottom');st.style.removeProperty('height');
+  if(px<=0) return;
+  const pb=parseFloat(getComputedStyle(main).paddingBottom)||0;
+  if(innerWidth>=1000){ const h=st.getBoundingClientRect().height; st.style.setProperty('height',(h-px)+'px','important'); }
+  main.style.setProperty('padding-bottom',(pb+px)+'px','important');
+}
+function placeBalloon(){
+  blnReserve(0);
+  if(blnDone||bln.hidden) return;
+  let reserve=0;
+  for(let pass=0;pass<4;pass++){
+    const img=document.querySelector('.ehw-hs-ehw').getBoundingClientRect();
+    const short=(BLN_GAP+BLN_STEM+bln.offsetHeight+BLN_CLEAR)-(blnLimit()-(img.bottom+scrollY));
+    if(short>0.5&&pass<3){ reserve+=Math.ceil(short); blnReserve(reserve); continue; }
+    const m=main.getBoundingClientRect(), w=bln.offsetWidth, cx=img.left+img.width/2;
+    const left=Math.max(BLN_EDGE,Math.min(innerWidth-BLN_EDGE-w,cx-w/2));
+    bln.style.left=(left-m.left)+'px';
+    bln.style.top=(img.bottom-m.top+BLN_GAP+BLN_STEM)+'px';
+    // stem: vertical edge on the (03) centre line, kept clear of the rounded corners
+    bln.querySelector('.stem').style.left=(Math.max(10,Math.min(w-25,cx-left))-1.5)+'px'; // svg x .5 on cx (1px border)
+    break;
+  }
+}
+if(document.fonts) document.fonts.ready.then(()=>placeBalloon());
+function dismissBalloon(){ if(blnDone) return; blnDone=true; clearTimeout(blnTimer); bln.hidden=true; blnReserve(0); }
+function showBalloon(){
+  if(blnDone||!bln.hidden) return;
+  bln.hidden=false; placeBalloon();
+  blnTimer=setTimeout(dismissBalloon,BLN_TIMEOUT);
+}
+bln.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();dismissBalloon();});
+window.__ehwBalloon={show:showBalloon,dismiss:dismissBalloon,timeout:BLN_TIMEOUT};
 addEventListener('resize',()=>{placeBalloon();if(desk)L.querySelectorAll('.win').forEach(fitDesk);});
-
 const L=document.createElement('div');L.id='wlayer';B.appendChild(L);
 let Z=10,tabs,clockEl;
 
@@ -415,7 +451,11 @@ function open(id){
     top=Math.max(top, k.top); h=Math.min(h, k.bottom-top);
     left=Math.max(EDGE, Math.min(b[0]-shift, innerWidth-w-EDGE));
   }
-  else left=Math.round((innerWidth-w)/2);
+  else{
+    // No-overlap invariant (Jy 2026-11-09): phone windows start below the fixed header; bottom edge unchanged.
+    const t2=Math.max(top, Math.ceil(headerBottom())+4); h-=t2-top; top=t2;
+    left=Math.round((innerWidth-w)/2);
+  }
   Object.assign(el.style,{left:left+'px',top:top+'px',width:w+'px',height:h+'px'});
   L.appendChild(el);
   wirePhoneDual(el);
@@ -508,6 +548,7 @@ criticalLoaded.then(()=>Promise.all(soon.map(src=>preload(src,'high')))).then(()
 window.__ehwPreload={critical:critical.length,soon:soon.length,later:later.length,done:criticalLoaded.then(()=>performance.now())};
 // Preserve the established first-open load gate; never wait on third-party embeds.
 const gate=document.getElementById('loadGate');
+if(!gate) showBalloon();
 if(gate){
   const started=performance.now();
   const reduced=RM.matches;
@@ -518,7 +559,7 @@ if(gate){
   const ready=Promise.all([loaded,criticalLoaded,tipFont]);
   Promise.race([ready,new Promise(resolve=>setTimeout(resolve,2200))]).then(()=>{
     const min=(!desk&&gate.querySelector('.load-gate-tip'))?TIP_MS:(reduced?0:320);
-    setTimeout(()=>{gate.classList.add('is-done');gate.setAttribute('aria-busy','false');setTimeout(()=>gate.remove(),700);},Math.max(0,min-(performance.now()-started)));
+    setTimeout(()=>{gate.classList.add('is-done');gate.setAttribute('aria-busy','false');showBalloon();setTimeout(()=>gate.remove(),700);},Math.max(0,min-(performance.now()-started)));
   });
 }
 })();

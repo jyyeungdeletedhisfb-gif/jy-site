@@ -144,6 +144,10 @@ Cache tip `ehw-win2000-20261109-r3`. Fixes Steve’s independent QA of `f88ac0b`
 
 Work (Jy pick 17:15 HKT, folded into r3): Coming soon tiles get a milky white 35% veil + `saturate(.75)` (frame keeps .92 opacity / 55% border); Work’s `chrome.css` token → `work-soon-milky35-20261109-r3` (rule only matches Work tiles; other pages keep their tokens). Evidence: `/workspace/qa/ehw-mirror-pass3-2026-11-09/work-overlay/`.
 
+## 2026-11-09 evening — EHW r4: Tip balloon (local; push pending)
+
+Cache tip `ehw-win2000-20261109-r4`. Jy pick 19:54 HKT (“no x, with tip”): the rect “Tap each element to interact” cue is replaced by the Win2000 tray balloon (variant A — bold “Tip” + info icon, one-line text, no X). It sits in normal flow directly below image (03), stem pointing up at (03), above the footer (phone) / taskbar (desktop) at every width 320–1440; shown when the loader clears, dismissed by tap/click or after 10s; hidden while a phone window is open. Where the band under (03) is a few px short (≥1000px desktops), the stage gives up that space only while the balloon shows. New permanent no-overlap invariant (design-taste + UAT); phone windows now start below the header (top 56, bottom unchanged). Evidence: `/workspace/qa/ehw-mirror-r4-2026-11-09/REPORT.md`.
+
 ## Sign-off (v2.0 Final — blank until ready)
 
 | Role | Name | Result | Date | Notes |

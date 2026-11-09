@@ -33,6 +33,7 @@ Prefer `jy-site` URLs with `?v=…` after a ship. Custom domain unreliable.
 - [ ] No horizontal overflow (measured): at each test width, scroll to the bottom (so float-ins have run), then run `[document.documentElement.scrollWidth, document.documentElement.clientWidth]` in the console. The two numbers must match. Repeat after rotating on iPad. If a page fails, log the culprit element.
 - [ ] Touch on real glass, not only mouse drag in device mode: swipe all 15 plates both ways, tap side Prev/Next at both ends, hamburger, I/He toggle, Apple Music embed. The page must not scroll sideways during a plate swipe. Android Chrome and iPad Chrome.
 
+- [ ] **Standing no-overlap gate (Jy 2026-11-09):** No element may ever sit on top of the site header or footer, on any page or width (balloons, popups, cues, windows included). Permanent QA gate (Jy, 2026-11-09). On EHW desktop the Win2000 taskbar counts as the footer. Assert rect non-intersection at 390, 412 and 1280 (EHW balloon: sweep 320–1440).
 - [ ] **Standing header-logo gate (Jy 2026-11-08):** on every new or changed page, measure the header JY YEÜNG painted glyph-ink width, not its CSS line box. Match About’s ~85.5px ink width within ~1px, and align its ink start with About (~20.73px; account for font side-bearing, no casual nudge). Assert at **390, 412 and 1280**; EHW v16 target ~85.84px, Druk 12.6px/−0.04em, no nudge. Retain 52px header / 20px side pads and ≥12px phone logo→tip gap. Home has no header logo (N/A). Existing other-page type is not authorization to restyle it.
 
 ## Test widths
