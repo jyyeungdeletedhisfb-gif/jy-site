@@ -119,6 +119,25 @@ Known holds: existing 4:5 landing cover is a placeholder for the final square co
 
 Build evidence: `/workspace/qa/ehw-mirror-checkpoint-2026-11-08/REPORT.md` (local/deployed 390/412/1280). Steve deployed-mirror QA and Jy taste remain separate from this build verification; no Final sign-off filled.
 
+## 2026-11-09 — EHW Win2000 mirror pass 2 (Jy notes)
+
+Jy approved at 15:39 HKT (“Ok fix it” + notes). Cache tip `ehw-win2000-20261109-r2` (`css/ehw.css`, `js/ehw.js`; chrome stays `ehw-v2.0-q`). **Mirror only; primary untouched, no CNAME.**
+
+| # | Change | Notes |
+|---|---|---|
+| P1 | Popup focus trap | Tab/Shift+Tab cycle inside the window holding focus (phone: the modal window; desktop windows stay non-modal); focus goes to Close on open and back to the trigger on Close/Esc/phone dim; minimise moves focus to its taskbar tab; Shut Down dialog traps too. Esc unchanged |
+| P2 | Reduced motion | `prefers-reduced-motion: reduce` makes carousel slides jump (no 0.22s steps); open/close/minimise/restore were already instant |
+| P3 | Window image preload | During the loader: each song window’s two dual images + slide 1 (high priority, decoded, bounded by the existing 2.2s cap), then slides 2–3 high, rest low priority. VT323 preloaded for the tip |
+| P4 | Link mapping | Header JY YEÜNG → home (no more Credits override); cover-art JY YEÜNG oval → Special Thanks / Credits (new hotspot) |
+| P5 | Carousels don’t loop | Previous disabled on slide 1, Next on the last; greyed Win2000 disabled text (#808080 + 1px white emboss), `aria-disabled` |
+| P6 | Window width/centring | DANG/MAS/EHW one width per tier (phone 366, desktop 400 — MAS was 440); phone windows centred; desktop lefts clamped ≥12px inside the viewport |
+| P7 | Song titles | **Supersedes W2 “bold-underlined”**: titles stay bold, underline removed, About’s dotted partition line (`border-bottom:1px dotted #000`) beneath |
+| P8 | Bottom padding | 26px after “View on Instagram” + 10px content pad = 36px ≈ two 18px line-heights |
+| P9 | Phone loader tip | Original copy “Tip: view on desktop for an optimized experience” (v3 mocks → `c96070c`) now paints: font preloaded + awaited, phone loader shows ≥1.2s |
+| P10 | Shut Down “Yes” | Returns to the same-site page the visitor came from (Back when the previous entry is that page, else navigate to it); direct/cross-site visit → home |
+
+Build evidence: `/workspace/qa/ehw-mirror-pass2-2026-11-09/REPORT.md`. No Final sign-off filled.
+
 ## Sign-off (v2.0 Final — blank until ready)
 
 | Role | Name | Result | Date | Notes |

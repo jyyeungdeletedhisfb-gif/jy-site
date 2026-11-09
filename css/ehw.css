@@ -392,6 +392,7 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 .ehw-hs-dang { left: 49.8%; top: 4.5%; width: 34.2%; height: 36.5%; }
 .ehw-hs-mas  { left: 6.4%; top: 29.9%; width: 37.2%; height: 40.5%; }
 /* Title type only — equal bracket pad ~0.45% all sides; trim bottom (Jy 2026-11-04) */
+.ehw-hs-oval { left: 12.7%; top: 13.2%; width: 26.7%; height: 5.3%; } /* JY YEÜNG oval → Special Thanks (art px 143–420 × 185–243 of 1080×1350) */
 .ehw-hs-title{ left: 56.4%; top: 43.5%; width: 27.8%; height: 7.4%; } /* bottom 50.9%; clear of 03 @52.8% */
 /* Photo 03 + (03) label; fills outer bracket interior */
 .ehw-hs-ehw  { left: 52.5%; top: 52.8%; width: 40.5%; height: 43.2%; }
@@ -627,7 +628,7 @@ body.ehw-w2k-align-left .dual .cell img{object-position:left center}
 .embed-slot iframe.apple-frame.song{height:175px}
 .embed-slot iframe.apple-frame.playlist{height:450px}
 .embed-slot iframe.spot-frame{height:175px}
-.ig-link{display:inline-flex;align-items:center;gap:8px;margin-top:4px;color:#096C71;text-decoration:none;font-size:15px;letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
+.ig-link{display:inline-flex;align-items:center;gap:8px;margin-top:4px;margin-bottom:26px;color:#096C71;text-decoration:none;font-size:15px;letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
 .ig-link svg{flex:none;width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6}
 .ig-link span{border-bottom:1px solid rgba(9,108,113,.45);padding-bottom:1px}
 
@@ -641,6 +642,7 @@ body.ehw-w2k-align-left .dual .cell img{object-position:left center}
 .car-slide img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none;-webkit-user-drag:none}
 .car-nav{flex:0 0 22px;height:36px;appearance:none;-webkit-appearance:none;background:var(--w-face,#D4D0C8);border:2px solid;border-color:#fff #404040 #404040 #fff;font:22px/1 "VT323",monospace;color:#000;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
 .car-nav:active{border-color:#404040 #fff #fff #404040}
+.car-nav.is-disabled,.car-nav.is-disabled:active{color:#808080;text-shadow:1px 1px 0 #fff;cursor:default;border-color:#fff #404040 #404040 #fff}
 .car-meta{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;font:16px/1 "VT323",monospace;letter-spacing:.06em;color:#000}
 .car-idx{color:#000;letter-spacing:.08em;flex:0 0 auto;text-align:center}
 
@@ -724,10 +726,8 @@ body.ehw-w2k-align-left .dual .cell img{object-position:left center}
 .content h3.song-title {
   font: 700 22px/1.15 "VT323", monospace;
   margin: 0;
-  border-bottom: none;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
+  border-bottom: 1px dotted #000; /* About window's partition line (.content h3), Jy 2026-11-09 */
+  text-decoration: none;
   color: #000;
   letter-spacing: .02em;
 }
@@ -762,4 +762,10 @@ body.ehw-w2k-align-left .dual .cell img{object-position:left center}
     font-size:12.6px!important;
     letter-spacing:-0.04em!important;
   }
+}
+
+/* Pass 2 (Jy 2026-11-09). */
+/* Reduced motion: carousel slides jump; minimise/restore and open/close are already instant. */
+@media (prefers-reduced-motion: reduce){
+  .car-track{transition:none!important}
 }
