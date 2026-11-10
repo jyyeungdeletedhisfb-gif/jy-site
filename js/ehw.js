@@ -100,7 +100,7 @@ function showBalloon(){
 }
 bln.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();dismissBalloon();});
 window.__ehwBalloon={show:showBalloon,dismiss:dismissBalloon,timeout:BLN_TIMEOUT};
-addEventListener('resize',()=>{placeBalloon();if(desk)L.querySelectorAll('.win').forEach(fitDesk);});
+addEventListener('resize',()=>{placeBalloon();if(desk)L.querySelectorAll('.win').forEach(fitDesk);else L.querySelectorAll('.win').forEach(fitPhone);});
 const L=document.createElement('div');L.id='wlayer';B.appendChild(L);
 let Z=10,tabs,clockEl;
 
@@ -425,6 +425,26 @@ function clampXY(el,x,y){
   y=Math.min(Math.max(y, k.top), Math.max(k.top, k.bottom-el.offsetHeight)); // under header, above taskbar
   return [x,y];
 }
+function phoneSize(top,h){
+  // No-overlap (Jy 2026-11-09 / 2026-11-10): start below the header; end above the footer
+  // with a 4px gap (same as the r4 header offset and desktop TB_GAP). 320×640 keeps the
+  // r4 height — that short viewport is waiting on Jy, as is the dim layer.
+  const t2=Math.max(top, Math.ceil(headerBottom())+4); h-=t2-top; top=t2;
+  if(!(innerWidth===320&&innerHeight===640)){
+    const f=document.querySelector('.site-footer');
+    if(f){
+      const maxH=Math.floor(f.getBoundingClientRect().top-top-4);
+      if(maxH<h) h=Math.max(120,maxH);
+    }
+  }
+  return [top,h];
+}
+function fitPhone(el){
+  const b=PB[el.dataset.id]; if(!b) return;
+  const [top,h]=phoneSize(b[1],b[3]);
+  el.style.top=top+'px'; el.style.height=h+'px';
+  if(el._syncScroll) el._syncScroll();
+}
 function fitDesk(el){
   const k=deskBounds(), top=Math.max(el.offsetTop,k.top);
   el.style.height=Math.max(120,Math.min(el._h, k.bottom-top))+'px';
@@ -452,8 +472,7 @@ function open(id){
     left=Math.max(EDGE, Math.min(b[0]-shift, innerWidth-w-EDGE));
   }
   else{
-    // No-overlap invariant (Jy 2026-11-09): phone windows start below the fixed header; bottom edge unchanged.
-    const t2=Math.max(top, Math.ceil(headerBottom())+4); h-=t2-top; top=t2;
+    [top,h]=phoneSize(top,h);
     left=Math.round((innerWidth-w)/2);
   }
   Object.assign(el.style,{left:left+'px',top:top+'px',width:w+'px',height:h+'px'});

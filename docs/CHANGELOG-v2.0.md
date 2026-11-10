@@ -148,6 +148,10 @@ Work (Jy pick 17:15 HKT, folded into r3): Coming soon tiles get a milky white 35
 
 Cache tip `ehw-win2000-20261109-r4`. Jy pick 19:54 HKT (“no x, with tip”): the rect “Tap each element to interact” cue is replaced by the Win2000 tray balloon (variant A — bold “Tip” + info icon, one-line text, no X). It sits in normal flow directly below image (03), stem pointing up at (03), above the footer (phone) / taskbar (desktop) at every width 320–1440; shown when the loader clears, dismissed by tap/click or after 10s; hidden while a phone window is open. Where the band under (03) is a few px short (≥1000px desktops), the stage gives up that space only while the balloon shows. New permanent no-overlap invariant (design-taste + UAT); phone windows now start below the header (top 56, bottom unchanged). Evidence: `/workspace/qa/ehw-mirror-r4-2026-11-09/REPORT.md`.
 
+## 2026-11-10 — EHW r4b: phone windows clear the footer (local; push pending)
+
+Cache tip `ehw-win2000-20261110-r4b`. Follow-up to r4: every phone popup (DANG, MAS, EHW, About, Credits) now ends 4px above the in-flow footer as well as 4px below the header, so the window box no longer covers the footer at 390 / 393 / 412 (scrolled to the top or the bottom). Content that no longer fits uses the existing Win2000 scrollbar. The dimmed backdrop is unchanged (still full-viewport, pending Jy). The 320×640 window height is also left as r4 (pending Jy). Desktop layout and behaviour are untouched. Evidence: `/workspace/qa/ehw-mirror-r4-2026-11-09/REPORT.md` (r4b appendix).
+
 ## Sign-off (v2.0 Final — blank until ready)
 
 | Role | Name | Result | Date | Notes |
