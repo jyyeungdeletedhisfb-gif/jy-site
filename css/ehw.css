@@ -771,13 +771,13 @@ body.ehw-w2k-align-left .dual .cell img{object-position:left center}
   .car-track{transition:none!important}
 }
 
-/* r4 (Jy 2026-11-09): Win2000 tray balloon replaces the rect cue. In normal flow under image (03),
-   stem up; JS keeps it above the footer/taskbar and never over the header. No motion at all. */
-.ehw-balloon{position:absolute;z-index:5;width:max-content;max-width:calc(100vw - 24px);box-sizing:border-box;background:#FFFFE1;color:#000;border:1px solid #000;border-radius:7px;padding:4px 8px 5px;font-family:"VT323",monospace;white-space:nowrap;-webkit-font-smoothing:none;cursor:default;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+/* r5 (Jy 2026-11-12, balloon v8): Win2000 tray balloon at S3 70% size, centred under the whole collage,
+   8.4px 12 o'clock tail; JS centres it between collage and footer divider / taskbar. No fade. */
+.ehw-balloon{--bln-s:0.7;position:absolute;z-index:5;overflow:visible;width:max-content;max-width:calc(100vw - 24px);box-sizing:border-box;background:#FFFFE1;color:#000;border:1px solid #000;border-radius:calc(7px * var(--bln-s));padding:calc(4px * var(--bln-s)) calc(8px * var(--bln-s)) calc(5px * var(--bln-s));font-family:"VT323",monospace;white-space:nowrap;-webkit-font-smoothing:none;cursor:default;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
 .ehw-balloon[hidden]{display:none}
-.ehw-balloon .stem{position:absolute;top:-14px;overflow:visible;pointer-events:none}
-.ehw-balloon .bln-h{display:flex;align-items:center;gap:5px;font-weight:700;font-size:18px;line-height:1;letter-spacing:.02em;margin-bottom:3px}
-.ehw-balloon .bln-h .ico{flex:0 0 14px;width:14px;height:14px}
-.ehw-balloon .bln-b{font-size:18px;line-height:1.05;letter-spacing:.02em}
+.ehw-balloon .stem{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+.ehw-balloon .bln-h{display:flex;align-items:center;gap:calc(5px * var(--bln-s));font-weight:700;font-size:calc(18px * var(--bln-s));line-height:1;letter-spacing:.02em;margin-bottom:calc(3px * var(--bln-s))}
+.ehw-balloon .bln-h .ico{flex:0 0 calc(14px * var(--bln-s));width:calc(14px * var(--bln-s));height:calc(14px * var(--bln-s))}
+.ehw-balloon .bln-b{font-size:calc(18px * var(--bln-s));line-height:1.05;letter-spacing:.02em}
 body.ehw-w2k-pop .ehw-balloon{visibility:hidden}
 

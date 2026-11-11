@@ -18,7 +18,7 @@ const CRED_FOOT=
 
 const W={
  dang:{t:'DANG',c:'#597C86',cover:'cover-lilies-blue.jpg',stage:'stage-01-dang.jpg',carRatio:'16-9',
-  body:'<h3 class="song-title">Dang</h3><p class="song-quote">"I wanted to explore the duality where I\'m good at making things look designed, while being pretty lost at making a corporate slide deck."</p>',
+  body:'<h3 class="song-title">Dang</h3><p class="song-quote">"I wanted to explore the duality of being great at making things look designed, while simultaneously overwhelmed by building a corporate slide deck."</p>',
   slides:["01-dang/SELF INTRO_20261105_172740_0000.webp", "01-dang/SELF INTRO_20261105_172740_0001.webp", "01-dang/SELF INTRO_20261105_172740_0002.webp", "01-dang/SELF INTRO_20261105_172740_0003.webp", "01-dang/SELF INTRO_20261105_172740_0004.webp", "01-dang/SELF INTRO_20261105_172740_0005.webp", "01-dang/SELF INTRO_20261105_172740_0006.webp", "01-dang/SELF INTRO_20261105_172740_0007.webp", "01-dang/SELF INTRO_20261105_172740_0008.webp", "01-dang/SELF INTRO_20261105_172740_0009.webp", "01-dang/SELF INTRO_20261105_172740_0010.webp", "01-dang/SELF INTRO_20261105_172740_0011.webp", "01-dang/SELF INTRO_20261105_172740_0012.webp", "01-dang/SELF INTRO_20261105_172740_0013.webp", "01-dang/SELF INTRO_20261105_172740_0014.webp", "01-dang/SELF INTRO_20261105_172740_0015.webp", "01-dang/SELF INTRO_20261105_172740_0016.webp"],
   ig:'https://www.instagram.com/p/DbvWOeOEgox/?exln=eWRhMmNxYjVnMmU=',
   apple:{src:'https://embed.music.apple.com/us/song/1712185273',listen:'https://music.apple.com/us/album/dang-single/1712185258?i=1712185273',title:'Caroline Polachek – Dang',kind:'song'},
@@ -35,7 +35,7 @@ const W={
   ig:'https://www.instagram.com/p/Deo-DPsnztj/?psln=MTYweXJsd290eDR5MA==',
   apple:{src:'https://embed.music.apple.com/us/song/1490336500',listen:'https://music.apple.com/us/album/in-the-afternoon/1490336497?i=1490336500',title:'MGMT – In the Afternoon',kind:'song'},
   spot:{src:'https://open.spotify.com/embed/track/3d9aUOk1b0muVMSt8eXeiV?utm_source=generator',listen:'https://open.spotify.com/track/3d9aUOk1b0muVMSt8eXeiV',title:'In the Afternoon on Spotify'}},
- about:{t:'ABOUT',c:'#0A246A',body:'<h3>everything he wanted</h3><p class="ph">[PLACEHOLDER] Art description — Jy copy coming next pass. Mustard field, three untidy portraits, stacked title. Full credit and process notes TBD.</p>'},
+ about:{t:'ABOUT',c:'#0A246A',body:'<p class="about-p">everything he wanted turns a three-part photoshoot into a high-concept triptych, laid out like a magazine editorial. Where Dysphoria stayed inside the struggle, this one plays in color and doesn\'t apologize for creating from a childlike perspective.</p><p class="about-p">Each part is a different person, on purpose. "I like to become someone unrecognizable in every project."</p><p class="about-p">The first, "Dang," is a deadpan corporate deck. An office persona grows, one slide at a time, into something unseriously confident.</p><p class="about-p">The second, "Main Antagonist Syndrome," trades the office for leather and a threatening red, and comes with its own soundtrack playlist. "There\'s a thin line between an antagonist and a villain. I lean toward the former."</p><p class="about-p">The third brings every idea together and gives the project its title. The "he" comes into focus as an inner child, a crystallized daydream kept quiet for years. Older and younger self end up in matching suits. That part wasn\'t planned.</p><p class="about-p">This website was rebuilt from memory, the Windows 2000 an inner child would have wished for.</p><p class="about-p">"I don\'t see these personas as far-fetched. They\'re rooted in an inner desire to create and to push my own limits. If \'he\' could see it, I\'m certain he would be proud."</p>'},
  credits:{t:'SPECIAL THANKS / CREDITS',c:'#0A246A',body:'<h3>CREDITS</h3><p class="ph">[PLACEHOLDER] Photography — Name here</p><p class="ph">[PLACEHOLDER] Styling — Name here</p><p class="ph">[PLACEHOLDER] Mix / Master — Name here</p><p class="ph">[PLACEHOLDER] Website — JY YEÜNG</p><h3>SPECIAL THANKS</h3><p class="ph">[PLACEHOLDER] Text here — Jy copy coming next pass</p><p class="ph">[PLACEHOLDER] Text here</p>'+CRED_FOOT}
 };
 
@@ -45,13 +45,18 @@ if(desk) B.classList.add('ehw-w2k-desk');
 B.classList.add('ehw-w2k-align-left');
 document.getElementById('ehw-stage').classList.add('is-entered');
 
-// Interaction hint: Win2000 tray-style balloon (Jy pick 2026-11-09, variant A: "Tip" + info icon,
-// one-line text, no X). Sits in normal flow directly below image (03), stem up at (03), above the
-// footer (phone) / taskbar (desktop); never over header, footer or taskbar. Dismissed by a tap/click
-// on it or after 10s (Win2000 uTimeout floor). Replaces the old rectangular cue.
+// Interaction hint: Win2000 tray-style balloon ("Tip" + info icon, one-line text, no X).
+// r5 (Jy 2026-11-12, balloon v8): S3 70% size, horizontally centred on the whole collage block
+// (oval, 01, 02, title, 03), box vertically centred in the band collage bottom -> footer divider
+// (phone) / taskbar top (desktop) so gap (a) = gap (b). Tail keeps the v6 length (12*0.7 = 8.4px,
+// 12 o'clock), so its tip stops short of the collage. Entrance A: 500ms after the loader, no fade
+// (reduced motion: shown at once). Dismissed on the first window open, a tap, or after 10s.
+// Never over header, footer or taskbar. Replaces the r4 placement under (03).
 const cue=document.getElementById('ehw-interact-cue');
 cue.hidden=true;
-const BLN_TIMEOUT=10000, BLN_GAP=3, BLN_STEM=12, BLN_CLEAR=8, BLN_EDGE=12;
+const BLN_TIMEOUT=10000, BLN_CLEAR=8, BLN_EDGE=12;
+const BLN_SCALE=0.7, BLN_GAP=1, BLN_STEM=12*BLN_SCALE;
+
 const main=document.querySelector('.ehw-main');
 const bln=document.createElement('div');
 bln.className='ehw-balloon';bln.setAttribute('role','status');bln.hidden=true;
@@ -59,6 +64,7 @@ bln.innerHTML='<svg class="stem" aria-hidden="true" width="15" height="15" viewB
   '<div class="bln-h"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#fff" stroke="#00007f"/><circle cx="8" cy="8" r="6" fill="#0a3ccf"/><rect x="7" y="7" width="2" height="5" fill="#fff"/><rect x="7" y="4" width="2" height="2" fill="#fff"/></svg><b>Tip</b></div>'+
   '<div class="bln-b">Tap each element to interact</div>';
 main.appendChild(bln);
+bln.style.setProperty('--bln-s', String(BLN_SCALE));
 let blnTimer=0, blnDone=false;
 function blnLimit(){ // page-y of the first thing the balloon must stay above: footer (phone) / taskbar (desktop)
   const tb=document.getElementById('taskbar');
@@ -74,29 +80,60 @@ function blnReserve(px){ // grow the band under the stage only when the balloon 
   if(innerWidth>=1000){ const h=st.getBoundingClientRect().height; st.style.setProperty('height',(h-px)+'px','important'); }
   main.style.setProperty('padding-bottom',(pb+px)+'px','important');
 }
+function drawStem(baseX,baseY,tipX,tipY,half){
+  const svg=bln.querySelector('.stem');
+  const nx=tipX-baseX, ny=tipY-baseY, len=Math.hypot(nx,ny)||1;
+  const px=-ny/len*half, py=nx/len*half;
+  const b1=[baseX+px,baseY+py], b2=[baseX-px,baseY-py];
+  svg.setAttribute('viewBox','0 0 '+bln.offsetWidth+' '+bln.offsetHeight);
+  svg.setAttribute('width',bln.offsetWidth); svg.setAttribute('height',bln.offsetHeight);
+  svg.style.left='0'; svg.style.top='0'; svg.style.width='100%'; svg.style.height='100%';
+  svg.innerHTML='<path d="M'+b1[0].toFixed(1)+' '+b1[1].toFixed(1)+' L'+tipX.toFixed(1)+' '+tipY.toFixed(1)+' L'+b2[0].toFixed(1)+' '+b2[1].toFixed(1)+'" fill="#FFFFE1" stroke="#000" stroke-width="1" stroke-linejoin="miter"/>'+
+    '<line x1="'+b1[0].toFixed(1)+'" y1="'+b1[1].toFixed(1)+'" x2="'+b2[0].toFixed(1)+'" y2="'+b2[1].toFixed(1)+'" stroke="#FFFFE1" stroke-width="2"/>';
+}
+const BLN_COLLAGE=['.ehw-hs-oval','.ehw-hs-dang','.ehw-hs-mas','.ehw-hs-title','.ehw-hs-ehw'];
+function collageBox(){ // union of the oval, 01, 02, title and 03 (viewport coords)
+  let l=1e9,t=1e9,r=-1e9,bt=-1e9;
+  for(const sel of BLN_COLLAGE){const e=document.querySelector(sel); if(!e) continue; const x=e.getBoundingClientRect();
+    l=Math.min(l,x.left); t=Math.min(t,x.top); r=Math.max(r,x.right); bt=Math.max(bt,x.bottom);}
+  return {left:l,top:t,right:r,bottom:bt,width:r-l,height:bt-t,cx:(l+r)/2};
+}
 function placeBalloon(){
   blnReserve(0);
   if(blnDone||bln.hidden) return;
   let reserve=0;
   for(let pass=0;pass<4;pass++){
-    const img=document.querySelector('.ehw-hs-ehw').getBoundingClientRect();
-    const short=(BLN_GAP+BLN_STEM+bln.offsetHeight+BLN_CLEAR)-(blnLimit()-(img.bottom+scrollY));
+    const c=collageBox();
+    const m=main.getBoundingClientRect(), w=bln.offsetWidth, h=bln.offsetHeight;
+    const short=(BLN_GAP+BLN_STEM+h+BLN_CLEAR)-(blnLimit()-(c.bottom+scrollY));
     if(short>0.5&&pass<3){ reserve+=Math.ceil(short); blnReserve(reserve); continue; }
-    const m=main.getBoundingClientRect(), w=bln.offsetWidth, cx=img.left+img.width/2;
-    const left=Math.max(BLN_EDGE,Math.min(innerWidth-BLN_EDGE-w,cx-w/2));
+    // centred on the collage block; box clamped at a 12px edge, tail stays on the centre line
+    const left=Math.max(BLN_EDGE,Math.min(innerWidth-BLN_EDGE-w, c.cx-w/2));
+    const inset=Math.max(8, 7*BLN_SCALE);
+    const tipX=c.cx-left;
+    const baseX=Math.max(inset, Math.min(w-inset, tipX));
     bln.style.left=(left-m.left)+'px';
-    bln.style.top=(img.bottom-m.top+BLN_GAP+BLN_STEM)+'px';
-    // stem: vertical edge on the (03) centre line, kept clear of the rounded corners
-    bln.querySelector('.stem').style.left=(Math.max(10,Math.min(w-25,cx-left))-1.5)+'px'; // svg x .5 on cx (1px border)
+    // (a) collage bottom -> box top = (b) box bottom -> footer divider / taskbar top
+    const hb=bln.getBoundingClientRect().height;
+    const band=(blnLimit()-scrollY)-c.bottom;
+    const a=Math.max(BLN_GAP+BLN_STEM,(band-hb)/2);
+    bln.style.top=(c.bottom+a-m.top)+'px';
+    drawStem(baseX,0,tipX,-BLN_STEM,7*BLN_SCALE); // 12 o'clock, v6 length
     break;
   }
 }
 if(document.fonts) document.fonts.ready.then(()=>placeBalloon());
 function dismissBalloon(){ if(blnDone) return; blnDone=true; clearTimeout(blnTimer); bln.hidden=true; blnReserve(0); }
+function armTimeout(){ clearTimeout(blnTimer); blnTimer=setTimeout(dismissBalloon,BLN_TIMEOUT); }
+function revealBalloon(){
+  if(blnDone) return;
+  bln.hidden=false; bln.style.visibility=''; placeBalloon(); armTimeout();
+}
 function showBalloon(){
   if(blnDone||!bln.hidden) return;
-  bln.hidden=false; placeBalloon();
-  blnTimer=setTimeout(dismissBalloon,BLN_TIMEOUT);
+  // Entrance A: 500ms after the loader, then instant pop (no fade). Reduced motion: just show it.
+  if(RM.matches){ revealBalloon(); return; }
+  setTimeout(()=>{ if(!blnDone) revealBalloon(); }, 500);
 }
 bln.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();dismissBalloon();});
 window.__ehwBalloon={show:showBalloon,dismiss:dismissBalloon,timeout:BLN_TIMEOUT};
@@ -454,6 +491,7 @@ function fitDesk(el){
 
 function open(id){
   if(!W[id])return;
+  dismissBalloon(); // locked: hide the moment the first element/window opens
   const trigger=document.activeElement;
   if(!desk){lockScroll();L.querySelectorAll('.win').forEach(w=>dispose(w));L.innerHTML='<div class="dim"></div>';B.classList.add('ehw-w2k-pop');L.firstChild.onclick=closePhone;}
   else if(win(id)){focus(win(id));return;}
