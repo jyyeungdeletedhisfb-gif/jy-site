@@ -464,15 +464,13 @@ function clampXY(el,x,y){
 }
 function phoneSize(top,h){
   // No-overlap (Jy 2026-11-09 / 2026-11-10): start below the header; end above the footer
-  // with a 4px gap (same as the r4 header offset and desktop TB_GAP). 320×640 keeps the
-  // r4 height — that short viewport is waiting on Jy, as is the dim layer.
+  // with a 4px gap (same as the r4 header offset and desktop TB_GAP). r5b (Jy 2026-11-12 "Fix it"):
+  // 320×640 gets the same footer clamp as every other phone size; content scrolls inside.
   const t2=Math.max(top, Math.ceil(headerBottom())+4); h-=t2-top; top=t2;
-  if(!(innerWidth===320&&innerHeight===640)){
-    const f=document.querySelector('.site-footer');
-    if(f){
-      const maxH=Math.floor(f.getBoundingClientRect().top-top-4);
-      if(maxH<h) h=Math.max(120,maxH);
-    }
+  const f=document.querySelector('.site-footer');
+  if(f){
+    const maxH=Math.floor(f.getBoundingClientRect().top-top-4);
+    if(maxH<h) h=Math.max(120,maxH);
   }
   return [top,h];
 }
