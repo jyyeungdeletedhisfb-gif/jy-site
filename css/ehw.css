@@ -164,10 +164,8 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 .ehw-stage {
   position: relative;
   width: min(92vw, calc((100dvh - 210px) * 4 / 5), 720px);
-  width: min(92vw, calc((100vh - 210px) * 4 / 5), 720px);
   aspect-ratio: 4 / 5;
   max-height: calc(100dvh - 210px);
-  max-height: calc(100vh - 210px);
 }
 
 .ehw-cover {
@@ -559,7 +557,9 @@ body.ehw-w2k-pop  .ehw-interact-cue.rect{visibility:hidden}
 @media (min-width:801px){body.ehw-page .site-footer{display:none!important}}
 
 @media (min-width:1000px){
-  html,body.ehw-page{overflow:hidden!important;height:100%;max-height:100vh}
+  /* r7 (Jy 2026-11-13 iPad): size to the visible viewport (100dvh), not the iOS large 100vh
+     (toolbar-hidden height). When 100dvh==100vh (desktop / lab) this matches r6. */
+  html,body.ehw-page{overflow:hidden!important;height:100%;max-height:100dvh}
   body.ehw-page{display:flex;flex-direction:column}
   body.ehw-page .ehw-main{
     flex:1 1 auto;min-height:0;
@@ -569,7 +569,7 @@ body.ehw-w2k-pop  .ehw-interact-cue.rect{visibility:hidden}
   }
   body.ehw-page .ehw-stage{
     width:auto!important;
-    height:calc(100vh - var(--top-h) - var(--tb-h) - 24px)!important;
+    height:calc(100dvh - var(--top-h) - var(--tb-h) - 24px)!important;
     max-height:none!important;
     max-width:none!important;
     aspect-ratio:4/5;

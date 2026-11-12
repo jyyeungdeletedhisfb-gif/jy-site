@@ -66,16 +66,28 @@ bln.innerHTML='<svg class="stem" aria-hidden="true" width="15" height="15" viewB
 main.appendChild(bln);
 bln.style.setProperty('--bln-s', String(BLN_SCALE));
 let blnTimer=0, blnDone=false;
+function visH(){ return Math.round((window.visualViewport&&visualViewport.height)||innerHeight); }
 function blnLimit(){ // page-y of the first thing the balloon must stay above: footer (phone) / taskbar (desktop)
   const tb=document.getElementById('taskbar');
   if(tb) return tb.getBoundingClientRect().top+scrollY;
   const f=document.querySelector('.site-footer');
   return f?f.getBoundingClientRect().top+scrollY:document.documentElement.scrollHeight;
 }
-function blnReserve(px){ // grow the band under the stage only when the balloon would not fit
+// Size the desktop stage to the *visible* height (visualViewport / 100dvh), not iOS 100vh.
+// When visH==100vh this is a no-op vs r6. The height is kept after the tip hides so
+// nothing jumps. blnReserve is a last-resort shrink and is never released on dismiss.
+function fitStage(){
+  if(innerWidth<1000) return;
   const st=document.getElementById('ehw-stage');
-  main.style.removeProperty('padding-bottom');st.style.removeProperty('height');
+  if(!st) return;
+  const tb=document.getElementById('taskbar');
+  const tbH=tb?tb.getBoundingClientRect().height:30;
+  const h=visH()-headerBottom()-tbH-24;
+  if(h>=120) st.style.setProperty('height',Math.round(h)+'px','important');
+}
+function blnReserve(px){ // last resort only; do not reset fitStage() height when px==0
   if(px<=0) return;
+  const st=document.getElementById('ehw-stage');
   const pb=parseFloat(getComputedStyle(main).paddingBottom)||0;
   if(innerWidth>=1000){ const h=st.getBoundingClientRect().height; st.style.setProperty('height',(h-px)+'px','important'); }
   main.style.setProperty('padding-bottom',(pb+px)+'px','important');
@@ -99,7 +111,7 @@ function collageBox(){ // union of the oval, 01, 02, title and 03 (viewport coor
   return {left:l,top:t,right:r,bottom:bt,width:r-l,height:bt-t,cx:(l+r)/2};
 }
 function placeBalloon(){
-  blnReserve(0);
+  fitStage();
   if(blnDone||bln.hidden) return;
   let reserve=0;
   for(let pass=0;pass<4;pass++){
@@ -122,8 +134,8 @@ function placeBalloon(){
     break;
   }
 }
-if(document.fonts) document.fonts.ready.then(()=>placeBalloon());
-function dismissBalloon(){ if(blnDone) return; blnDone=true; clearTimeout(blnTimer); bln.hidden=true; blnReserve(0); }
+if(document.fonts) document.fonts.ready.then(()=>{fitStage();placeBalloon();}); else {fitStage();}
+function dismissBalloon(){ if(blnDone) return; blnDone=true; clearTimeout(blnTimer); bln.hidden=true; bln.style.visibility='hidden'; /* keep reserved / fitStage height — no jump */ }
 function armTimeout(){ clearTimeout(blnTimer); blnTimer=setTimeout(dismissBalloon,BLN_TIMEOUT); }
 function revealBalloon(){
   if(blnDone) return;
@@ -164,6 +176,7 @@ if(desk){
   const tb=document.createElement('div');tb.id='taskbar';
   tb.innerHTML='<button class="tbtn power" title="Shut Down">'+PWR_GLYPH_BLACK+'Shut Down</button><span class="sep"></span><div class="tabs"></div><div class="clock" aria-live="off"></div>';
   B.appendChild(tb);tabs=tb.querySelector('.tabs');clockEl=tb.querySelector('.clock');
+  fitStage();
   tickClock(); setInterval(tickClock, 60*1000);
   tb.querySelector('.power').onclick=()=>showPower();
 }
