@@ -66,7 +66,13 @@ bln.innerHTML='<svg class="stem" aria-hidden="true" width="15" height="15" viewB
 main.appendChild(bln);
 bln.style.setProperty('--bln-s', String(BLN_SCALE));
 let blnTimer=0, blnDone=false;
-function visH(){ return Math.round((window.visualViewport&&visualViewport.height)||innerHeight); }
+let lastVisH=0;
+function visH(){ // visible height; ignore visualViewport while pinch-zoomed (r7b) so zoom never shrinks the stage
+  const vv=window.visualViewport;
+  if(vv&&vv.scale>1.001) return lastVisH||innerHeight;
+  lastVisH=Math.round((vv&&vv.height)||innerHeight);
+  return lastVisH;
+}
 function blnLimit(){ // page-y of the first thing the balloon must stay above: footer (phone) / taskbar (desktop)
   const tb=document.getElementById('taskbar');
   if(tb) return tb.getBoundingClientRect().top+scrollY;
@@ -75,19 +81,21 @@ function blnLimit(){ // page-y of the first thing the balloon must stay above: f
 }
 // Size the desktop stage to the *visible* height (visualViewport / 100dvh), not iOS 100vh.
 // When visH==100vh this is a no-op vs r6. The height is kept after the tip hides so
-// nothing jumps. blnReserve is a last-resort shrink and is never released on dismiss.
+// nothing jumps. blnReserve is a last-resort shrink; dismiss never releases it (a later resize re-lays out, as r6).
 function fitStage(){
-  if(innerWidth<1000) return;
   const st=document.getElementById('ehw-stage');
   if(!st) return;
+  if(innerWidth<1000){ st.style.removeProperty('height'); return; } // r7b: <1000 stage is exactly r6 (CSS only)
   const tb=document.getElementById('taskbar');
   const tbH=tb?tb.getBoundingClientRect().height:30;
   const h=visH()-headerBottom()-tbH-24;
   if(h>=120) st.style.setProperty('height',Math.round(h)+'px','important');
 }
-function blnReserve(px){ // last resort only; do not reset fitStage() height when px==0
-  if(px<=0) return;
+function blnReserve(px){ // r7b: always reset to the CSS padding + fitted stage first, then reserve px once (never cumulative)
   const st=document.getElementById('ehw-stage');
+  main.style.removeProperty('padding-bottom'); if(st) st.style.removeProperty('height');
+  fitStage();
+  if(px<=0||!st) return;
   const pb=parseFloat(getComputedStyle(main).paddingBottom)||0;
   if(innerWidth>=1000){ const h=st.getBoundingClientRect().height; st.style.setProperty('height',(h-px)+'px','important'); }
   main.style.setProperty('padding-bottom',(pb+px)+'px','important');
@@ -111,7 +119,7 @@ function collageBox(){ // union of the oval, 01, 02, title and 03 (viewport coor
   return {left:l,top:t,right:r,bottom:bt,width:r-l,height:bt-t,cx:(l+r)/2};
 }
 function placeBalloon(){
-  fitStage();
+  blnReserve(0); // reset inline padding/height to CSS + fitStage(); dismiss itself never calls this
   if(blnDone||bln.hidden) return;
   let reserve=0;
   for(let pass=0;pass<4;pass++){

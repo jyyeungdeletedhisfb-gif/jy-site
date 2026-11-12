@@ -164,8 +164,10 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 .ehw-stage {
   position: relative;
   width: min(92vw, calc((100dvh - 210px) * 4 / 5), 720px);
+  width: min(92vw, calc((100vh - 210px) * 4 / 5), 720px);
   aspect-ratio: 4 / 5;
   max-height: calc(100dvh - 210px);
+  max-height: calc(100vh - 210px);
 }
 
 .ehw-cover {
