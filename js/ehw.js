@@ -447,14 +447,19 @@ function wireScrollbar(el){
 // Desktop defaults: top already >= header (~52). Phone untouched.
 // [left, top, width, height]. DANG/MAS/EHW share one width per tier (Jy 2026-11-09).
 const SONG_W_DESK=400, SONG_W_PHONE=366;
-const DB={dang:[540,56,SONG_W_DESK,720],mas:[660,56,SONG_W_DESK,740],ehw:[800,56,SONG_W_DESK,720],about:[480,360,360,260],credits:[720,80,380,520]};
-const PB={dang:[null,48,SONG_W_PHONE,780],mas:[null,48,SONG_W_PHONE,780],ehw:[null,48,SONG_W_PHONE,780],about:[null,110,342,560],credits:[null,90,358,640]};
+// r6 (Jy 2026-11-12 11:39): About + Special Thanks/Credits open in the 3-piece slot and size.
+// Phone: identical to DANG/MAS/EHW. Desktop: 400 wide, staircase +24/+48 below the 3-piece top (STAIR).
+const DB={dang:[540,56,SONG_W_DESK,720],mas:[660,56,SONG_W_DESK,740],ehw:[800,56,SONG_W_DESK,720],about:[480,56,SONG_W_DESK,720],credits:[720,56,SONG_W_DESK,720]};
+const PB={dang:[null,48,SONG_W_PHONE,780],mas:[null,48,SONG_W_PHONE,780],ehw:[null,48,SONG_W_PHONE,780],about:[null,48,SONG_W_PHONE,780],credits:[null,48,SONG_W_PHONE,780]};
+const STAIR={about:24,credits:48};
 const EDGE=12;
 // Desktop: keep every window above the taskbar and ≥EDGE inside the viewport. When the viewport is
 // narrower than the stagger (rightmost window ends at 1200), slide the whole stagger left so its
 // spacing survives; heights shrink to fit between header and taskbar.
-const STAGGER_RIGHT=Math.max(...Object.values(DB).map(b=>b[0]+b[2])), TB_GAP=4, GRAB=80;
-function deskBounds(){ return {top:headerBottom(), bottom:L.clientHeight-TB_GAP, right:L.clientWidth}; }
+// r6 (Jy 2026-11-12): one 8px minimum gap under the header and over the footer divider / taskbar.
+const WIN_GAP=8;
+const STAGGER_RIGHT=Math.max(...Object.values(DB).map(b=>b[0]+b[2])), TB_GAP=WIN_GAP, GRAB=80;
+function deskBounds(){ return {top:headerBottom()+WIN_GAP, bottom:L.clientHeight-TB_GAP, right:L.clientWidth}; }
 function clampXY(el,x,y){
   const k=deskBounds(), r=el.getBoundingClientRect(), btns=el.querySelector('.tb .btns').getBoundingClientRect();
   const rightChrome=r.right-btns.left;               // close/min/max cluster + frame on the right
@@ -464,12 +469,12 @@ function clampXY(el,x,y){
 }
 function phoneSize(top,h){
   // No-overlap (Jy 2026-11-09 / 2026-11-10): start below the header; end above the footer
-  // with a 4px gap (same as the r4 header offset and desktop TB_GAP). r5b (Jy 2026-11-12 "Fix it"):
-  // 320×640 gets the same footer clamp as every other phone size; content scrolls inside.
-  const t2=Math.max(top, Math.ceil(headerBottom())+4); h-=t2-top; top=t2;
+  // with a WIN_GAP (8px) gap (r6, Jy 2026-11-12). r5b ("Fix it"): every phone size, 320×640 included,
+  // gets the same footer clamp; content scrolls inside. Every window opens WIN_GAP under the header.
+  top=Math.ceil(headerBottom())+WIN_GAP;
   const f=document.querySelector('.site-footer');
   if(f){
-    const maxH=Math.floor(f.getBoundingClientRect().top-top-4);
+    const maxH=Math.floor(f.getBoundingClientRect().top-top-WIN_GAP);
     if(maxH<h) h=Math.max(120,maxH);
   }
   return [top,h];
@@ -504,7 +509,7 @@ function open(id){
   el._h=b[3];
   if(desk){
     const k=deskBounds(), shift=Math.max(0, STAGGER_RIGHT-(innerWidth-EDGE));
-    top=Math.max(top, k.top); h=Math.min(h, k.bottom-top);
+    top=Math.max(top, k.top)+(STAIR[id]||0); h=Math.min(h, k.bottom-top); // r6 staircase for About/Credits
     left=Math.max(EDGE, Math.min(b[0]-shift, innerWidth-w-EDGE));
   }
   else{

@@ -781,3 +781,17 @@ body.ehw-w2k-align-left .dual .cell img{object-position:left center}
 .ehw-balloon .bln-b{font-size:calc(18px * var(--bln-s));line-height:1.05;letter-spacing:.02em}
 body.ehw-w2k-pop .ehw-balloon{visibility:hidden}
 
+
+/* r6 (Jy 2026-11-12 11:39), small-phone title fix C: on ≤366px the Druk logo scales down linearly
+   so the centred one-line tip (9.5px / 0.04em, ~128.5px) clears it by ≥12px. Same scale as the
+   site-wide rule in chrome.css (About / Dysphoria / Work / Privacy 17px marks), so EHW ink stays
+   matched to About at every width. 367px and up: unchanged 12.6px.
+   Logo box ≈ 6.8865 × font-size; centred tip left = 50vw − 64.27; target gap 12.25
+   → font-size = (50vw − 96.52px) / 6.8865 = 7.2606vw − 14.016px. */
+@media (max-width: 366px) {
+  body.ehw-page .topbar .brand,
+  body.ehw-page .topbar .brand.site-name,
+  body.ehw-page .topbar a.site-name.brand {
+    font-size: min(12.6px, calc(7.2606vw - 14.016px)) !important;
+  }
+}

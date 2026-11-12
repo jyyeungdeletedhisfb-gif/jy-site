@@ -1017,3 +1017,15 @@ a.work-tile:focus-visible {
   body.home-dummy .home-dummy__links a { font-size: var(--fs-heading); }
   .work-tile__title { font-size: var(--fs-heading); }
 }
+
+/* r6 (Jy 2026-11-12 11:39): small-phone logo shrink, site-wide. ≤366px only: the 17px header mark
+   (Geist on About / Work / Privacy, Clarendon on Dysphoria) scales by the same factor as the EHW
+   Druk mark (ehw.css), so the painted logo matches across pages at every width. 367px+: unchanged.
+   17/12.6 × (7.2606vw − 14.016px) = 9.7960vw − 18.911px. EHW's own !important rule wins there. */
+@media (max-width: 366px) {
+  .site-topbar .site-name,
+  .topbar .brand.site-name,
+  .topbar a.site-name.brand {
+    font-size: min(17px, calc(9.7960vw - 18.911px)) !important;
+  }
+}
