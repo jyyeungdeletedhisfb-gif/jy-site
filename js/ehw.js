@@ -35,7 +35,7 @@ const W={
   ig:'https://www.instagram.com/p/Deo-DPsnztj/?psln=MTYweXJsd290eDR5MA==',
   apple:{src:'https://embed.music.apple.com/us/song/1490336500',listen:'https://music.apple.com/us/album/in-the-afternoon/1490336497?i=1490336500',title:'MGMT – In the Afternoon',kind:'song'},
   spot:{src:'https://open.spotify.com/embed/track/3d9aUOk1b0muVMSt8eXeiV?utm_source=generator',listen:'https://open.spotify.com/track/3d9aUOk1b0muVMSt8eXeiV',title:'In the Afternoon on Spotify'}},
- about:{t:'ABOUT',c:'#0A246A',body:'<p class="about-p">everything he wanted turns a three-part photoshoot into a high-concept triptych, laid out like a magazine editorial. Where Dysphoria stayed inside the struggle, this one plays in color and doesn\'t apologize for creating from a childlike perspective.</p><p class="about-p">Each part is a different person, on purpose. "I like to become someone unrecognizable in every project."</p><p class="about-p">The first, "Dang," is a deadpan corporate deck. An office persona grows, one slide at a time, into something unseriously confident.</p><p class="about-p">The second, "Main Antagonist Syndrome," trades the office for leather and a threatening red, and comes with its own soundtrack playlist. "There\'s a thin line between an antagonist and a villain. I lean toward the former."</p><p class="about-p">The third brings every idea together and gives the project its title. The "he" comes into focus as an inner child, a crystallized daydream kept quiet for years. Older and younger self end up in matching suits. That part wasn\'t planned.</p><p class="about-p">This website was rebuilt from memory, the Windows 2000 an inner child would have wished for.</p><p class="about-p">"I don\'t see these personas as far-fetched. They\'re rooted in an inner desire to create and to push my own limits. If \'he\' could see it, I\'m certain he would be proud."</p>'},
+ about:{t:'ABOUT',c:'#0A246A',body:'<p class="about-p">everything he wanted turns a three-part photoshoot into a high-concept triptych, laid out like a magazine editorial. Where Dysphoria stayed inside the struggle, this one plays in color and doesn\'t apologize for creating from a childlike perspective.</p><p class="about-p">Each part is a different person, on purpose. "I like to become someone unrecognizable in every project."</p><p class="about-p"><span class="about-gif r is-still" role="img" aria-label="Dang — brown and green persona loop"><img src="assets/ehw/about-personas/dang-poster.webp" alt="" width="288" height="512"><video data-src="assets/ehw/about-personas/dang.mp4" poster="assets/ehw/about-personas/dang-poster.webp" width="288" height="512" muted autoplay loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></span>The first, "Dang," is a deadpan corporate deck. An office persona grows, one slide at a time, into something unseriously confident. The persona draws inspiration from Caroline Polachek’s performance of ‘Dang’.</p><p class="about-p"><span class="about-gif l is-still" role="img" aria-label="Main Antagonist Syndrome — red persona loop"><img src="assets/ehw/about-personas/mas-poster.webp" alt="" width="288" height="512"><video data-src="assets/ehw/about-personas/mas.mp4" poster="assets/ehw/about-personas/mas-poster.webp" width="288" height="512" muted autoplay loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></span>The second, "Main Antagonist Syndrome," trades the office for leather and a threatening red, and comes with its own soundtrack playlist. "There\'s a thin line between an antagonist and a villain. I lean toward the former."</p><p class="about-p"><span class="about-gif r is-still" role="img" aria-label="Everything He Wanted — blue persona loop"><img src="assets/ehw/about-personas/ehw-poster.webp" alt="" width="288" height="512"><video data-src="assets/ehw/about-personas/ehw.mp4" poster="assets/ehw/about-personas/ehw-poster.webp" width="288" height="512" muted autoplay loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></span>The third brings every idea together and gives the project its title. The "he" comes into focus as an inner child, a crystallized daydream kept quiet for years. Older and younger self end up in matching suits. That part wasn\'t planned.</p><p class="about-p">This website was rebuilt from memory, the Windows 2000 an inner child would have wished for.</p><p class="about-p">"I don\'t see these personas as far-fetched. They\'re rooted in an inner desire to create and to push my own limits. If \'he\' could see it, I\'m certain he would be proud."</p>'},
  credits:{t:'SPECIAL THANKS / CREDITS',c:'#0A246A',body:'<h3>CREDITS</h3><p class="ph">[PLACEHOLDER] Photography — Name here</p><p class="ph">[PLACEHOLDER] Styling — Name here</p><p class="ph">[PLACEHOLDER] Mix / Master — Name here</p><p class="ph">[PLACEHOLDER] Website — JY YEÜNG</p><h3>SPECIAL THANKS</h3><p class="ph">[PLACEHOLDER] Text here — Jy copy coming next pass</p><p class="ph">[PLACEHOLDER] Text here</p>'+CRED_FOOT}
 };
 
@@ -229,7 +229,7 @@ const tab=id=>tabs&&tabs.querySelector('[data-id="'+id+'"]');
 function sync(){if(!tabs)return;L.querySelectorAll('.win').forEach(w=>{const t=tab(w.dataset.id);if(t)t.classList.toggle('on',!w.classList.contains('inactive')&&!w.classList.contains('min'));});}
 function focus(el){L.querySelectorAll('.win').forEach(w=>w.classList.add('inactive'));el.classList.remove('inactive','min');el.style.zIndex=++Z;sync();}
 function minimise(id){const w=win(id);if(!w)return;const hadFocus=w.contains(document.activeElement);w.classList.add('min','inactive');if(hadFocus&&tab(id))tab(id).focus({preventScroll:true});const vis=[...L.querySelectorAll('.win:not(.min)')].sort((a,b)=>(+b.style.zIndex||0)-(+a.style.zIndex||0));if(vis[0])focus(vis[0]);else sync();}
-function dispose(w){w._phoneDualObserver?.disconnect();w._scrollObserver?.disconnect();w._scrollTimers?.forEach(clearTimeout);}
+function dispose(w){w._aboutVideoDispose?.();w._phoneDualObserver?.disconnect();w._scrollObserver?.disconnect();w._scrollTimers?.forEach(clearTimeout);}
 // Phone modal: freeze the page behind the window and put it back exactly where it was.
 let lockY=null;
 const LOCK_PROPS=['position','top','left','right','width'];
@@ -513,6 +513,26 @@ function fitDesk(el){
   el.style.left=x+'px'; el.style.top=y+'px';
 }
 
+// About-only lifecycle: no decoding offscreen/minimised, in hidden tabs or under reduced motion.
+function wireAboutVideos(el){
+  const videos=[...el.querySelectorAll('.about-gif video')];if(!videos.length)return;
+  const mq=matchMedia('(prefers-reduced-motion: reduce)'),visible=new Set();let disposed=false;
+  function update(){
+    videos.forEach(v=>{
+      const reduced=mq.matches,run=!disposed&&!reduced&&!document.hidden&&!el.classList.contains('min')&&visible.has(v);
+      v.parentElement.classList.toggle('is-still',reduced||!v.currentSrc);
+      if(run){if(!v.hasAttribute('src'))v.src=v.dataset.src;v.play().then(()=>{if(!disposed&&!mq.matches)v.parentElement.classList.remove('is-still');}).catch(()=>{});}
+      else v.pause();
+    });
+  }
+  const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)visible.add(e.target);else visible.delete(e.target);});update();},{root:el.querySelector('.content'),threshold:0});
+  videos.forEach(v=>{v.muted=true;io.observe(v);});
+  const mo=new MutationObserver(update);mo.observe(el,{attributes:true,attributeFilter:['class']});
+  mq.addEventListener('change',update);document.addEventListener('visibilitychange',update);
+  el._aboutVideoDispose=()=>{disposed=true;io.disconnect();mo.disconnect();mq.removeEventListener('change',update);document.removeEventListener('visibilitychange',update);videos.forEach(v=>{v.pause();v.removeAttribute('src');v.load();});};
+  update();
+}
+
 function open(id){
   if(!W[id])return;
   dismissBalloon(); // locked: hide the moment the first element/window opens
@@ -539,6 +559,7 @@ function open(id){
   }
   Object.assign(el.style,{left:left+'px',top:top+'px',width:w+'px',height:h+'px'});
   L.appendChild(el);
+  wireAboutVideos(el);
   wirePhoneDual(el);
   wireToggle(el);
   wireCarousel(el);

@@ -797,3 +797,17 @@ body.ehw-w2k-pop .ehw-balloon{visibility:hidden}
     font-size: min(12.6px, calc(7.2606vw - 14.016px)) !important;
   }
 }
+
+/* About persona trio: approved 9:16 R/L/R wrapping layout. Block flow avoids forced paragraph gaps. */
+.win.about .content{display:block;container-type:inline-size}
+.win.about .content p.about-p{margin:0 0 10px}
+.win.about .content p.about-p:last-child{margin-bottom:0}
+/* Approved persona trio: GIF-like silent loops, unchanged source edits. */
+.about-gif{float:right;clear:both;box-sizing:border-box;width:96px;aspect-ratio:9/16;margin:3px 0 6px 12px;display:block;position:relative;overflow:hidden;background:#d4d0c8}
+.about-gif.l{float:left;margin:3px 12px 6px 0}
+.about-gif img,.about-gif video{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.about-gif.is-still video{visibility:hidden}
+/* Keep a >=160px text column. At current phone geometry these switch at 340 and 316 viewport px. */
+@container (max-width:267px){.about-gif{width:72px}}
+@container (max-width:243px){.about-gif,.about-gif.l{float:none;width:96px;margin:0 auto 10px}}
+@media (prefers-reduced-motion:reduce){.about-gif video{visibility:hidden}}
