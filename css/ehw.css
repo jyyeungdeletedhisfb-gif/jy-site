@@ -392,7 +392,7 @@ body.ehw-page:not(.on-dark) .topbar .site-nav.is-open .nav-burger span {
 .ehw-hs-dang { left: 49.8%; top: 4.5%; width: 34.2%; height: 36.5%; }
 .ehw-hs-mas  { left: 6.4%; top: 29.9%; width: 37.2%; height: 40.5%; }
 /* Title type only — equal bracket pad ~0.45% all sides; trim bottom (Jy 2026-11-04) */
-.ehw-hs-oval { left: 12.7%; top: 13.2%; width: 26.7%; height: 5.3%; } /* JY YEÜNG oval → Special Thanks (art px 143–420 × 185–243 of 1080×1350) */
+.ehw-hs-oval { left: 12.7%; top: 13.2%; width: 26.7%; height: 5.3%; } /* JY YEÜNG oval → Credits (art px 143–420 × 185–243 of 1080×1350) */
 .ehw-hs-title{ left: 56.4%; top: 43.5%; width: 27.8%; height: 7.4%; } /* bottom 50.9%; clear of 03 @52.8% */
 /* Photo 03 + (03) label; fills outer bracket interior */
 .ehw-hs-ehw  { left: 52.5%; top: 52.8%; width: 40.5%; height: 43.2%; }
@@ -586,12 +586,15 @@ body.ehw-w2k-desk #wlayer{bottom:var(--tb-h)}
 .win.min{display:none}
 .tb{flex:0 0 26px;display:flex;align-items:center;gap:6px;padding:0 3px 0 6px;color:#fff;cursor:default;user-select:none;touch-action:none}
 .tb .t{flex:1;min-width:0;font-size:21px;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1}
-.tb .btns{display:flex;gap:2px;flex:0 0 auto}
-.wb{width:20px;height:18px;background:var(--w-face);border:2px solid;border-color:#fff #404040 #404040 #fff;color:#000;font:18px/12px "VT323",monospace;display:flex;align-items:center;justify-content:center;padding:0}
-.wb.x{margin-left:2px}
-.wb.mn:after{content:"";width:7px;border-top:2px solid #000;margin-top:7px}
-.wb.mx:after{content:"";width:8px;height:6px;border:1px solid #808080;border-top-width:2px;box-shadow:1px 1px 0 #fff}
-.wb.mx{cursor:not-allowed}
+/* r8 (Jy 2026-11-14): minimise / maximise / close are one identical button: 20x18 box, same 2px bevel,
+   one 8x8 pixel glyph cell centred in the 16x14 face, 2px glyph strokes, 2px between all three. */
+.tb .btns{display:flex;align-items:center;gap:2px;flex:0 0 auto}
+.wb{box-sizing:border-box;width:20px;height:18px;flex:0 0 20px;background:var(--w-face) no-repeat center/8px 8px;border:2px solid;border-color:#fff #404040 #404040 #fff;color:transparent;font-size:0;line-height:0;display:block;padding:0;margin:0;overflow:hidden}
+.wb.mn{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Crect x='0' y='6' width='8' height='2' fill='%23000'/%3E%3C/svg%3E")}
+.wb.mx{cursor:not-allowed;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h8v8H0z M2 2v4h4V2z' fill='%23808080' fill-rule='evenodd'/%3E%3C/svg%3E")}
+.wb.x{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1H0z M6 0h2v1H6z M1 1h2v1H1z M5 1h2v1H5z M2 2h4v1H2z M3 3h2v2H3z M2 5h4v1H2z M1 6h2v1H1z M5 6h2v1H5z M0 7h2v1H0z M6 7h2v1H6z' fill='%23000'/%3E%3C/svg%3E")}
+.wb:focus{outline:none}
+.wb:focus-visible{outline:1px dotted #000;outline-offset:-4px}
 .dang .tb{background:#597C86}.mas .tb{background:#B9270E}.ehw .tb{background:#096C71}.about .tb,.credits .tb{background:#0A246A}
 .win.inactive .tb{filter:saturate(.35) brightness(1.15);color:#E8E6E0}
 .client{flex:1;min-height:0;display:flex;background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080;margin-top:2px}
@@ -649,8 +652,11 @@ body.ehw-w2k-align-left .dual .cell img{object-position:left center}
 .car-meta{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;font:16px/1 "VT323",monospace;letter-spacing:.06em;color:#000}
 .car-idx{color:#000;letter-spacing:.08em;flex:0 0 auto;text-align:center}
 
-.cred-foot{margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,0,0,.2);display:flex;flex-direction:column;gap:10px;align-items:flex-start}
-.cred-foot .icons{display:flex;gap:10px}
+/* Credits window footer centred like the site footer on home/Work/About/Dysphoria/Privacy (Jy 2026-11-13) */
+.cred-foot{margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,0,0,.2);display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}
+.cred-foot .icons{display:flex;gap:10px;justify-content:center}
+.content p.cred-line{overflow-wrap:break-word}
+.content p.cred-line .cred-v{white-space:nowrap} /* keep a name/studio on one line when the row wraps */
 .cred-foot .icons a{width:28px;height:28px;border:1px solid rgba(102,102,102,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--footer-muted);text-decoration:none}
 .cred-foot .icons svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.6}
 .cred-foot .copy,.cred-foot .credit{margin:0;font-size:14px;letter-spacing:.04em;color:var(--footer-muted);text-transform:uppercase;line-height:1.3}

@@ -36,7 +36,7 @@ const W={
   apple:{src:'https://embed.music.apple.com/us/song/1490336500',listen:'https://music.apple.com/us/album/in-the-afternoon/1490336497?i=1490336500',title:'MGMT – In the Afternoon',kind:'song'},
   spot:{src:'https://open.spotify.com/embed/track/3d9aUOk1b0muVMSt8eXeiV?utm_source=generator',listen:'https://open.spotify.com/track/3d9aUOk1b0muVMSt8eXeiV',title:'In the Afternoon on Spotify'}},
  about:{t:'ABOUT',c:'#0A246A',body:'<p class="about-p">everything he wanted turns a three-part photoshoot into a high-concept triptych, laid out like a magazine editorial. Where Dysphoria stayed inside the struggle, this one plays in color and doesn\'t apologize for creating from a childlike perspective.</p><p class="about-p">Each part is a different person, on purpose. "I like to become someone unrecognizable in every project."</p><p class="about-p"><span class="about-gif r is-still" role="img" aria-label="Dang — brown and green persona loop"><img src="assets/ehw/about-personas/dang-poster.webp" alt="" width="288" height="512"><video data-src="assets/ehw/about-personas/dang.mp4" poster="assets/ehw/about-personas/dang-poster.webp" width="288" height="512" muted autoplay loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></span>The first, "Dang," is a deadpan corporate deck. An office persona grows, one slide at a time, into something unseriously confident. The persona draws inspiration from Caroline Polachek’s performance of ‘Dang’.</p><p class="about-p"><span class="about-gif l is-still" role="img" aria-label="Main Antagonist Syndrome — red persona loop"><img src="assets/ehw/about-personas/mas-poster.webp" alt="" width="288" height="512"><video data-src="assets/ehw/about-personas/mas.mp4" poster="assets/ehw/about-personas/mas-poster.webp" width="288" height="512" muted autoplay loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></span>The second, "Main Antagonist Syndrome," trades the office for leather and a threatening red, and comes with its own soundtrack playlist. "There\'s a thin line between an antagonist and a villain. I lean toward the former."</p><p class="about-p"><span class="about-gif r is-still" role="img" aria-label="Everything He Wanted — blue persona loop"><img src="assets/ehw/about-personas/ehw-poster.webp" alt="" width="288" height="512"><video data-src="assets/ehw/about-personas/ehw.mp4" poster="assets/ehw/about-personas/ehw-poster.webp" width="288" height="512" muted autoplay loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></span>The third brings every idea together and gives the project its title. The "he" comes into focus as an inner child, a crystallized daydream kept quiet for years. Older and younger self end up in matching suits. That part wasn\'t planned.</p><p class="about-p">This website was rebuilt from memory, the Windows 2000 an inner child would have wished for.</p><p class="about-p">"I don\'t see these personas as far-fetched. They\'re rooted in an inner desire to create and to push my own limits. If \'he\' could see it, I\'m certain he would be proud."</p>'},
- credits:{t:'SPECIAL THANKS / CREDITS',c:'#0A246A',body:'<h3>CREDITS</h3><p class="ph">[PLACEHOLDER] Photography — Name here</p><p class="ph">[PLACEHOLDER] Styling — Name here</p><p class="ph">[PLACEHOLDER] Mix / Master — Name here</p><p class="ph">[PLACEHOLDER] Website — JY YEÜNG</p><h3>SPECIAL THANKS</h3><p class="ph">[PLACEHOLDER] Text here — Jy copy coming next pass</p><p class="ph">[PLACEHOLDER] Text here</p>'+CRED_FOOT}
+ credits:{t:'CREDITS',c:'#0A246A',body:'<p class="cred-line"><span class="cred-k">Concept and creative direction:</span> <span class="cred-v">Jy Yeüng</span></p><p class="cred-line"><span class="cred-k">Photography:</span> <span class="cred-v">DLW Studio</span></p><p class="cred-line"><span class="cred-k">Hair and makeup:</span> <span class="cred-v">DLW Studio</span></p><p class="cred-line"><span class="cred-k">Retouching:</span> <span class="cred-v">DLW Studio</span></p><p class="cred-line"><span class="cred-k">Additional retouching, curation and editorial layout:</span> <span class="cred-v">Jy Yeüng</span></p>'+CRED_FOOT}
 };
 
 const desk=innerWidth>800, B=document.body;
@@ -468,7 +468,7 @@ function wireScrollbar(el){
 // Desktop defaults: top already >= header (~52). Phone untouched.
 // [left, top, width, height]. DANG/MAS/EHW share one width per tier (Jy 2026-11-09).
 const SONG_W_DESK=400, SONG_W_PHONE=366;
-// r6 (Jy 2026-11-12 11:39): About + Special Thanks/Credits open in the 3-piece slot and size.
+// r6 (Jy 2026-11-12 11:39): About + Credits open in the 3-piece slot and size.
 // Phone: identical to DANG/MAS/EHW. Desktop: 400 wide, staircase +24/+48 below the 3-piece top (STAIR).
 const DB={dang:[540,56,SONG_W_DESK,720],mas:[660,56,SONG_W_DESK,740],ehw:[800,56,SONG_W_DESK,720],about:[480,56,SONG_W_DESK,720],credits:[720,56,SONG_W_DESK,720]};
 const PB={dang:[null,48,SONG_W_PHONE,780],mas:[null,48,SONG_W_PHONE,780],ehw:[null,48,SONG_W_PHONE,780],about:[null,48,SONG_W_PHONE,780],credits:[null,48,SONG_W_PHONE,780]};
@@ -500,9 +500,24 @@ function phoneSize(top,h){
   }
   return [top,h];
 }
+// r8 (Jy 2026-11-14): Credits is as tall as its content (no white space below) and is centred
+// vertically in its slot (the box it would have filled). Equal 10px content padding top and bottom.
+function contentH(el){
+  const ct=el.querySelector('.content'); if(!ct||!ct.lastElementChild) return 0;
+  const cr=ct.getBoundingClientRect(), lr=ct.lastElementChild.getBoundingClientRect(), cs=getComputedStyle(ct);
+  const chrome=el.getBoundingClientRect().height-cr.height;
+  // exact (fractional) height so the bottom padding equals the top padding; the top stays on a whole px
+  return Math.round((chrome+(lr.bottom+(parseFloat(getComputedStyle(ct.lastElementChild).marginBottom)||0)-cr.top)+(parseFloat(cs.paddingBottom)||0))*100)/100;
+}
+function slotFit(el,top,h){ // [top,h] of the slot -> [top,h] of the fitted, centred window
+  if(el.dataset.id!=='credits') return [top,h];
+  const nat=el._natH||(el._natH=contentH(el));
+  if(!nat||nat>=h) return [top,h];
+  return [top+Math.floor((h-nat)/2), nat];
+}
 function fitPhone(el){
   const b=PB[el.dataset.id]; if(!b) return;
-  const [top,h]=phoneSize(b[1],b[3]);
+  const [top,h]=slotFit(el,...phoneSize(b[1],b[3]));
   el.style.top=top+'px'; el.style.height=h+'px';
   if(el._syncScroll) el._syncScroll();
 }
@@ -559,6 +574,7 @@ function open(id){
   }
   Object.assign(el.style,{left:left+'px',top:top+'px',width:w+'px',height:h+'px'});
   L.appendChild(el);
+  if(id==='credits'){ const [t2,h2]=slotFit(el,top,h); el.style.top=t2+'px'; el.style.height=h2+'px'; if(desk) el._h=h2; }
   wireAboutVideos(el);
   wirePhoneDual(el);
   wireToggle(el);
