@@ -85,7 +85,7 @@ function blnLimit(){ // page-y of the first thing the balloon must stay above: f
 function fitStage(){
   const st=document.getElementById('ehw-stage');
   if(!st) return;
-  if(innerWidth<1000){ st.style.removeProperty('height'); return; } // r7b: <1000 stage is exactly r6 (CSS only)
+  if(innerWidth<1000){ st.style.removeProperty('height'); return; } // r7b: CSS below 1000; blnReserve handles a fixed-taskbar shortfall
   const tb=document.getElementById('taskbar');
   const tbH=tb?tb.getBoundingClientRect().height:30;
   const h=visH()-headerBottom()-tbH-24;
@@ -93,11 +93,16 @@ function fitStage(){
 }
 function blnReserve(px){ // r7b: always reset to the CSS padding + fitted stage first, then reserve px once (never cumulative)
   const st=document.getElementById('ehw-stage');
-  main.style.removeProperty('padding-bottom'); if(st) st.style.removeProperty('height');
+  main.style.removeProperty('padding-bottom'); if(st){ st.style.removeProperty('height'); st.style.removeProperty('width'); }
   fitStage();
   if(px<=0||!st) return;
   const pb=parseFloat(getComputedStyle(main).paddingBottom)||0;
   if(innerWidth>=1000){ const h=st.getBoundingClientRect().height; st.style.setProperty('height',(h-px)+'px','important'); }
+  else if(innerWidth>800&&document.getElementById('taskbar')){
+    // The scrollable desktop tier has a fixed taskbar too: padding alone cannot shorten its stage.
+    const r=st.getBoundingClientRect(), h=r.height-px;
+    st.style.setProperty('height',h+'px','important');st.style.setProperty('width',(r.width*h/r.height)+'px','important');
+  }
   main.style.setProperty('padding-bottom',(pb+px)+'px','important');
 }
 function drawStem(baseX,baseY,tipX,tipY,half){
@@ -124,9 +129,10 @@ function placeBalloon(){
   let reserve=0;
   for(let pass=0;pass<4;pass++){
     const c=collageBox();
-    const m=main.getBoundingClientRect(), w=bln.offsetWidth, h=bln.offsetHeight;
-    const short=(BLN_GAP+BLN_STEM+h+BLN_CLEAR)-(blnLimit()-(c.bottom+scrollY));
-    if(short>0.5&&pass<3){ reserve+=Math.ceil(short); blnReserve(reserve); continue; }
+    const m=main.getBoundingClientRect(), w=bln.offsetWidth, h=bln.getBoundingClientRect().height;
+    // Equal gaps must each accommodate the tail+gap AND the lower clearance.
+    const short=(2*Math.max(BLN_GAP+BLN_STEM,BLN_CLEAR)+h)-(blnLimit()-(c.bottom+scrollY));
+    if(short>0.01&&pass<3){ reserve+=Math.ceil(short); blnReserve(reserve); continue; }
     // centred on the collage block; box clamped at a 12px edge, tail stays on the centre line
     const left=Math.max(BLN_EDGE,Math.min(innerWidth-BLN_EDGE-w, c.cx-w/2));
     const inset=Math.max(8, 7*BLN_SCALE);
