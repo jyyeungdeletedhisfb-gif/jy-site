@@ -124,6 +124,10 @@ function collageBox(){ // union of the oval, 01, 02, title and 03 (viewport coor
   return {left:l,top:t,right:r,bottom:bt,width:r-l,height:bt-t,cx:(l+r)/2};
 }
 function placeBalloon(){
+  const st=document.getElementById('ehw-stage'), viewport=innerWidth+'x'+innerHeight;
+  // Keep the tablet fallback static after dismissal on same-layout-size resize notifications.
+  if(blnDone&&st&&st.style.width&&placeBalloon.lastViewport===viewport) return;
+  placeBalloon.lastViewport=viewport;
   blnReserve(0); // reset inline padding/height to CSS + fitStage(); dismiss itself never calls this
   if(blnDone||bln.hidden) return;
   let reserve=0;
