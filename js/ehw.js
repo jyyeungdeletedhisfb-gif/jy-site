@@ -519,7 +519,7 @@ function wireAboutVideos(el){
   const mq=matchMedia('(prefers-reduced-motion: reduce)'),visible=new Set();let disposed=false;
   function update(){
     videos.forEach(v=>{
-      const reduced=mq.matches,run=!disposed&&!reduced&&!document.hidden&&!el.classList.contains('min')&&visible.has(v);
+      const reduced=mq.matches,run=!disposed&&!reduced&&!document.hidden&&!el.classList.contains('min')&&!el.classList.contains('inactive')&&visible.has(v);
       v.parentElement.classList.toggle('is-still',reduced||!v.currentSrc);
       if(run){if(!v.hasAttribute('src'))v.src=v.dataset.src;v.play().then(()=>{if(!disposed&&!mq.matches)v.parentElement.classList.remove('is-still');}).catch(()=>{});}
       else v.pause();
