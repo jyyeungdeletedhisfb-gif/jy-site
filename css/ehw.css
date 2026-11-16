@@ -550,7 +550,7 @@ body.ehw-page .load-gate-mark {
 /* Approved Win2000 checkpoint (v12–v16): normal phone footer, desktop taskbar. */
 @font-face{font-family:"VT323";src:url("../assets/fonts/VT323.woff2") format("woff2");}
 :root{--w-face:#D4D0C8;--tb-h:30px;--footer-muted:#666}
-body.ehw-page .load-gate-tip{display:block;margin:22px auto 0;max-width:240px;font-family:"VT323",monospace;font-size:17px;letter-spacing:.02em;text-transform:none;line-height:1.15;color:var(--ehw-teal)}
+body.ehw-page .load-gate-tip{display:block;margin:22px auto 0;max-width:240px;font-family:"VT323",monospace;font-size:17px;letter-spacing:.02em;text-transform:none;line-height:1.15;color:inherit}
 .ehw-stage .ehw-portrait-layer{transform:none!important;opacity:1!important}
  .ehw-interact-cue.rect{border:1px solid #000;border-radius:0;background:#FFFFE1;color:#000;font-family:"VT323",monospace;font-size:18px;letter-spacing:.02em;text-transform:none;padding:4px 9px 5px;opacity:1;visibility:visible;box-shadow:2px 2px 0 rgba(0,0,0,.25);max-width:none}
 
