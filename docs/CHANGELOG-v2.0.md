@@ -152,6 +152,62 @@ Cache tip `ehw-win2000-20261109-r4`. Jy pick 19:54 HKT (“no x, with tip”): t
 
 Cache tip `ehw-win2000-20261110-r4b`. Follow-up to r4: every phone popup (DANG, MAS, EHW, About, Credits) now ends 4px above the in-flow footer as well as 4px below the header, so the window box no longer covers the footer at 390 / 393 / 412 (scrolled to the top or the bottom). Content that no longer fits uses the existing Win2000 scrollbar. The dimmed backdrop is unchanged (still full-viewport, pending Jy). The 320×640 window height is also left as r4 (pending Jy). Desktop layout and behaviour are untouched. Evidence: `/workspace/qa/ehw-mirror-r4-2026-11-09/REPORT.md` (r4b appendix).
 
+
+## 2026-11-12 — EHW r5 / r5b / r6 (mirror only)
+
+Jy picks across 11–12 Nov. Cache tips `ehw-win2000-20261112-r5` → `r5b` → `r6` (+ chrome `logo-s-20261112-r6`). **Primary untouched.**
+
+| # | Change | Mirror SHA |
+|---|---|---|
+| R5 | Balloon v8 (centred under collage, equal gaps, 8.4px tail, entrance A); DANG quote; About copy | `c26ef57` |
+| R5b | 320×640 gets the same phone footer clamp as every other phone width (Jy: "Fix it") | `82d5a00` |
+| R6 | Small-phone logo scale site-wide (≤366); 8px window gap under header; About + Credits open in the 3-piece slot; desktop staircase | `6c59f5a` |
+
+Steve live smoke PASS on r6 `6c59f5a` (2026-11-12). Soft parks unchanged (phone popup dim; desktop Shut Down scrim).
+
+## 2026-11-13 — EHW r7 / r7b (mirror only)
+
+Jy approved smaller iPad collage with reserved tip space (no downward jump on dismiss). Cache tips `ehw-win2000-20261113-r7` / `r7b`. **Primary untouched.**
+
+| # | Change | Mirror SHA |
+|---|---|---|
+| R7 | At ≥1000px, stage uses 100dvh + visualViewport; tip reserve held on dismiss | `538b7f5` |
+| R7b | Fixes Steve pre-push QA rotation/resize regressions from r7 | `70b95bb` |
+
+Steve morning smoke PASS on `70b95bb` (2026-11-13). Real-iPad confirmation remains with Jy.
+
+## 2026-11-15 — About persona trio + Polachek line (mirror only)
+
+Jy locked BTS persona colours (DANG brown/green, MAS leather/red, EHW black/blue Option D), zigzag About layout, and Caroline Polachek Dang inspiration sentence. **Primary untouched.**
+
+| # | Change | Mirror SHA |
+|---|---|---|
+| A1 | Approved About persona trio + DANG inspiration sentence | `5eab310` |
+| A2 | Pause persona loops while another window has focus | `41d2fb4` |
+
+Live checks PASS under Chromium emulation (2026-11-15 ~18:20 KST).
+
+## 2026-11-15 evening — EHW r8 Credits + titlebar (mirror only)
+
+Jy authorised the approved Credits fit (Concept / DLW Studio / Additional retouching lines; centre footer) and matched min/max/close title-bar controls. Cache tip CSS `ehw-win2000-20261115-r8`. **Primary untouched.**
+
+| # | Change | Mirror SHA |
+|---|---|---|
+| R8 | Integrate fitted Credits + matched titlebar with live persona trio | `9a58bf3` |
+
+## 2026-11-16 — Tip-clearance v1/v2 (mirror tip)
+
+Tablet balloon stays equally clear of the fixed taskbar; reserve held on same-size dismissed resize. Cache tip JS `ehw-win2000-20261116-tip-clearance-v2` (CSS still r8). **Primary untouched at `ed1b71e`.**
+
+| # | Change | Mirror SHA |
+|---|---|---|
+| TC1 | Reserve equal tip gaps above fixed tablet taskbar | `726a6f3` |
+| TC2 | Retain tablet tip reservation on same-size dismissed resize | `ac50a7f` |
+
+Pages run 43752510863 live at 2026-11-16 04:27 KST. Steve morning live smoke **PASS** on tip `ac50a7f` (evidence `/workspace/qa/morning-2026-11-16/`; clears prior balloon-vs-taskbar overlap). Soft parks unchanged. Weekly security scorecard 2026-11-16: 95/100, both repos clean.
+
+**Still blocked on Jy for v2.0 Final:** final square EHW cover + reveal / ship-to-primary timing.
+
 ## Sign-off (v2.0 Final — blank until ready)
 
 | Role | Name | Result | Date | Notes |
